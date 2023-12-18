@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout_unknown.cshtml";
+}
+<form>
+    <div class="form-field">
+        <input type="text" placeholder="Email / Username" required />
+    </div>
+
+    <div class="form-field">
+        <input type="password" placeholder="Password" required />
+    </div>
+
+    <div class="form-field">
+        <button class="btn-reg"><a asp-controller="User" asp-action="Registration">Registration</a></button>
+        <button class="btn" type="submit">Log in</button>
+    </div>
+</form>
