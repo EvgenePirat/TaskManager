@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout_unknown.cshtml";
+}
+<link href="~/CSS/StyleEnter.css" rel="stylesheet" />
+
+
+<form>
+    <div>
+        <h1>Login</h1>
+    </div>
+
+    <div class="form-field">
+        <input type="text" placeholder="Username" required />
+    </div>
+
+    <div class="form-field">
+        <input type="password" placeholder="Password" required />
+    </div>
+
+    <div class="form-field">
+        <button class="btn-reg"><a asp-controller="User" asp-action="Registration">Registration</a></button>
+        <button class="btn" type="submit">Log in</button>
+    </div>
+</form>

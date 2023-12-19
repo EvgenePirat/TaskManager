@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Registration";
+    Layout = "~/Views/Shared/_Layout_unknown.cshtml";
+}
+<link href="~/CSS/StyleRegistration.css" rel="stylesheet" />
+
+<form>
+
+    <div>
+        <h1>Registration</h1>
+    </div>
+
+    <div class="form-field">
+        <input type="text" placeholder="Name" required />
+    </div>
+
+    <div class="form-field">
+        <input type="text" placeholder="Username" required />
+    </div>
+
+    <div class="form-field">
+        <input type="email" placeholder="Email" required />
+    </div>
+
+    <div class="form-field">
+        <input type="password" placeholder="Password" required />
+    </div>
+
+    <div class="form-field">
+        <input type="date" placeholder="Date Of Birth" required />
+    </div>
+
+    <div class="form-field">
+        <button class="btn-reg"><a asp-controller="User" asp-action="Enter">Login</a></button>
+        <button class="btn" type="submit">Registration</button>
+    </div>
+</form>
