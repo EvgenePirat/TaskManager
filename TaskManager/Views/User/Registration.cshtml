@@ -1,4 +1,5 @@
-﻿@{
+﻿@model UserAddRequest
+@{
     ViewBag.Title = "Registration";
     Layout = "~/Views/Shared/_Layout_unknown.cshtml";
 }
@@ -28,6 +29,12 @@
 
     <div class="form-field">
         <input type="date" placeholder="Date Of Birth" required />
+    </div>
+
+    <div class="form-field">
+        <select asp-for="RoleId" asp-items="@ViewBag.Roles">
+            <option value="">Please select role</option>
+        </select>
     </div>
 
     <div class="form-field">
