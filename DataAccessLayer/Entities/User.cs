@@ -15,15 +15,19 @@ namespace DataAccessLayer.Entities
         public Guid Id { get; set; }
 
         [StringLength(50)]
+        [Required]
         public string? Name { get; set; }
 
         [StringLength(30)]
+        [Required]
         public string? UserName { get; set; }
 
         [StringLength(50)]
+        [Required]
         public string? Password { get; set; }
 
         [StringLength(50)]
+        [Required]
         public string? Email { get; set; }
 
         public DateTime DateOfBirth { get; set; }
