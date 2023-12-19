@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Entities
 {
+    /// <summary>
+    /// Role domain model class for hold data from user
+    /// </summary>
     public class Role
     {
         [Key]
