@@ -1,4 +1,8 @@
+using BusinessLayer.ServiceContract;
+using BusinessLayer.ServiceImpl;
 using DataAccessLayer;
+using DataAccessLayer.RepositoryContract;
+using DataAccessLayer.RepositoryImpl;
 using Microsoft.EntityFrameworkCore;
 
 namespace TaskManager
@@ -8,6 +12,8 @@ namespace TaskManager
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddScoped<IRoleService, RoleService>();
+            builder.Services.AddScoped<IRoleRepository, RoleRepository>();
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddDbContext<ApplicationDbContext>(option =>
