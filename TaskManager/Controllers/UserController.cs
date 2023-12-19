@@ -1,4 +1,5 @@
-﻿using BusinessLayer.DTO.Response;
+﻿using BusinessLayer.DTO.Request;
+using BusinessLayer.DTO.Response;
 using BusinessLayer.ServiceContract;
 using DataAccessLayer.RepositoryImpl;
 using Microsoft.AspNetCore.Mvc;
@@ -36,16 +37,25 @@ namespace TaskManager.Controllers
         {
             List<RoleResponse> rolesList = await _roleService.GetAllRoles();
 
-            IEnumerable<SelectListItem> selectListItems = rolesList
-                .Select(role => new SelectListItem
-                {
-                    Value = role.Id.ToString(),
-                    Text = role.Name
-                });
-
-            ViewBag.Roles = selectListItems;
+            ViewBag.Roles = rolesList.Select(role => new SelectListItem { Value = role.Id.ToString(), Text = role.Name });
 
             return View();
+        }
+
+        [HttpPost("[action]/save")]
+        public async Task<IActionResult> RegistrationPost(UserAddRequest userAddRequest)
+        {
+            if( !ModelState.IsValid )
+            {
+                List<RoleResponse> rolesList = await _roleService.GetAllRoles();
+                ViewBag.Roles = rolesList.Select(role => new SelectListItem { Value = role.Id.ToString(), Text = role.Name });
+                List<string> errorMessages = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
+
+                ViewBag.Errors = errorMessages;
+                return View("Registration");
+            }
+
+            return RedirectToAction("Enter");
         }
     }
 }
