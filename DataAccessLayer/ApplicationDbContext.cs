@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer
@@ -28,6 +29,13 @@ namespace DataAccessLayer
                 .HasOne(u => u.Role)
                 .WithMany(u => u.Users)
                 .HasForeignKey(u => u.RoleId);
+
+            //Seed date
+            string rolesJson = File.ReadAllText("roles.json");
+            List<Role> roles = JsonSerializer.Deserialize<List<Role>>(rolesJson);
+
+            foreach(var role in roles)
+                modelBuilder.Entity<Role>().HasData(role);
         }
     }
 }
