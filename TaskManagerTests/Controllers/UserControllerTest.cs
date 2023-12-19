@@ -29,7 +29,7 @@ namespace TaskManagerTests.Controllers
         #region
 
         [Fact(DisplayName = "Test registration controller")]
-        public void Registration_ShouldReturnRegistrationView()
+        public async Task Registration_ShouldReturnRegistrationView()
         {
             //arrange
             UserController userController = new UserController();

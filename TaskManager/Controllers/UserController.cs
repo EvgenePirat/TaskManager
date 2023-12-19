@@ -29,9 +29,9 @@ namespace TaskManager.Controllers
         /// </summary>
         /// <returns>return html css page for registration</returns>
         [HttpGet("[action]")]
-        public IActionResult Registration()
+        public async Task<IActionResult> Registration()
         {
-            ViewBag.Roles = _roleService.GetAllRoles();
+            ViewBag.Roles = await _roleService.GetAllRoles();
             return View();
         }
     }
