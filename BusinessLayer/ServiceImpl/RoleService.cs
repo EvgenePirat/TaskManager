@@ -28,7 +28,7 @@ namespace BusinessLayer.ServiceImpl
         /// <returns>returned all roles</returns>
         public async Task<List<RoleResponse>> GetAllRoles()
         {
-            return _roleRepository.GetAllRoles().Select(role => RoleMapper.RoleToRoleResponse(role)).ToList();
+            return (await _roleRepository.GetAllRoles()).Select(role => RoleMapper.RoleToRoleResponse(role)).ToList();
         }
     }
 }
