@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLayer.DTO
+namespace BusinessLayer.DTO.Request
 {
     /// <summary>
     /// DTO for interesting a new user
