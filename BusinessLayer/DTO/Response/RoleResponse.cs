@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.DTO.Response
 {
+    /// <summary>
+    /// DTO for response role entity
+    /// </summary>
     public class RoleResponse
     {
         public Guid Id { get; set; }
