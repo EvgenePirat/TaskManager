@@ -1,5 +1,8 @@
-﻿using BusinessLayer.ServiceContract;
+﻿using BusinessLayer.DTO.Response;
+using BusinessLayer.ServiceContract;
+using DataAccessLayer.RepositoryImpl;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace TaskManager.Controllers
 {
@@ -31,7 +34,17 @@ namespace TaskManager.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> Registration()
         {
-            ViewBag.Roles = await _roleService.GetAllRoles();
+            List<RoleResponse> rolesList = await _roleService.GetAllRoles();
+
+            IEnumerable<SelectListItem> selectListItems = rolesList
+                .Select(role => new SelectListItem
+                {
+                    Value = role.Id.ToString(),
+                    Text = role.Name
+                });
+
+            ViewBag.Roles = selectListItems;
+
             return View();
         }
     }
