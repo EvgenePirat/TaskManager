@@ -1,3 +1,6 @@
+using DataAccessLayer;
+using Microsoft.EntityFrameworkCore;
+
 namespace TaskManager
 {
     public class Program
@@ -6,6 +9,12 @@ namespace TaskManager
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<ApplicationDbContext>(option =>
+            {
+                option.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"].ToString());
+            });
+
             var app = builder.Build();
 
             app.UseStaticFiles();
