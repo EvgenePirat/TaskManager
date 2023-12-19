@@ -14,6 +14,7 @@ namespace TaskManager
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddScoped<IRoleService, RoleService>();
             builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddDbContext<ApplicationDbContext>(option =>
