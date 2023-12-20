@@ -31,7 +31,7 @@ namespace BusinessLayer.Mapper
         /// <returns>returned user with data from useraddrequest</returns>
         public static User UserRequestAddToUser(UserAddRequest addRequest)
         {
-            return new User() { Email = addRequest.Email, Name = addRequest.Name, UserName = addRequest.Name, RoleId = addRequest.RoleId, Password = addRequest.Password, DateOfBirth = addRequest.DateOfBirth };
+            return new User() { Email = addRequest.Email, Name = addRequest.Name, UserName = addRequest.UserName, RoleId = addRequest.RoleId, Password = addRequest.Password, DateOfBirth = addRequest.DateOfBirth };
         }
     }
 }

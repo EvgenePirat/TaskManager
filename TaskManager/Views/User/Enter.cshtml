@@ -1,21 +1,22 @@
-﻿@{
+﻿@model UserEnterRequest
+@{
     ViewBag.Title = "Login";
     Layout = "~/Views/Shared/_Layout_unknown.cshtml";
 }
 <link href="~/CSS/StyleEnter.css" rel="stylesheet" />
 
 
-<form>
+<form asp-controller="User" asp-action="Enter" method="post">
     <div>
         <h1>Login</h1>
     </div>
 
     <div class="form-field">
-        <input type="text" placeholder="Username" required />
+        <input asp-for="UserName" type="text" placeholder="Username" required />
     </div>
 
     <div class="form-field">
-        <input type="password" placeholder="Password" required />
+        <input asp-for="Password" type="password" placeholder="Password" required />
     </div>
 
     <div class="form-field">

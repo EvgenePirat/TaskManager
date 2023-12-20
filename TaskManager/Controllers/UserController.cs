@@ -10,11 +10,13 @@ namespace TaskManager.Controllers
     [Route("[controller]")]
     public class UserController : Controller
     {
-        private IRoleService _roleService;
+        private readonly IRoleService _roleService;
+        private readonly IUserService _userService;
 
-        public UserController(IRoleService roleService)
+        public UserController(IRoleService roleService, IUserService userService)
         {
             _roleService = roleService;
+            _userService = userService;
         }
 
         /// <summary>
@@ -42,6 +44,11 @@ namespace TaskManager.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userAddRequest"></param>
+        /// <returns></returns>
         [HttpPost("[action]/save")]
         public async Task<IActionResult> RegistrationPost(UserAddRequest userAddRequest)
         {
@@ -55,6 +62,7 @@ namespace TaskManager.Controllers
                 return View("Registration");
             }
 
+            UserResponse userResponse = await _userService.AddUser(userAddRequest);
             return RedirectToAction("Enter");
         }
     }

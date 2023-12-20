@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Entities;
 using DataAccessLayer.RepositoryContract;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,12 @@ namespace DataAccessLayer.RepositoryImpl
             _context = dbContext;
         }
 
-        public async Task<User> AddUser(User user)
+        public async Task<User?> AddUser(User user)
         {
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return user;
+            return await _context.Users.Include("Role").FirstOrDefaultAsync(temp => temp.Id == user.Id);
         }
     }
 }
