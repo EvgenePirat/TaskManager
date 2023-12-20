@@ -10,4 +10,8 @@
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.Security.Cryptography.Encoding" Version="4.3.0" />
+  </ItemGroup>
+
 </Project>

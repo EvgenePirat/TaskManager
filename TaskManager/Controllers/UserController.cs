@@ -33,9 +33,15 @@ namespace TaskManager.Controllers
             return View();
         }
 
+        /// <summary>
+        /// method for post request for enter in system
+        /// </summary>
+        /// <param name="userEnterRequest">data for enter from user<</param>
+        /// <returns>returned redirect or view with error</returns>
         [HttpPost("[action]/enter")]
         public IActionResult EnterPost(UserEnterRequest userEnterRequest)
         {
+
             return View();
         }
 
@@ -57,8 +63,8 @@ namespace TaskManager.Controllers
         /// <summary>
         /// method for post request for registration new user in system
         /// </summary>
-        /// <param name="userAddRequest"></param>
-        /// <returns></returns>
+        /// <param name="userAddRequest">data for registration from user</param>
+        /// <returns>returned redirect or view with error</returns>
         [HttpPost("[action]/save")]
         public async Task<IActionResult> RegistrationPost(UserAddRequest userAddRequest)
         {
