@@ -40,16 +40,16 @@ namespace BusinessLayer.ServiceImpl
                 User? userAfterSearch = await _userRepository.GetByUserName(userEnterRequest.UserName);
 
                 if (userAfterSearch == null)
-                    return null;
+                    return new UserResponse();
 
                 userEnterRequest.Password = Md5.HashPassword(userEnterRequest.Password);
 
                 if (userEnterRequest.Password == userAfterSearch.Password)
                     return UserMapper.UserToUserResponse(userAfterSearch);
                 else
-                    return null;
+                    return new UserResponse() {UserName=userAfterSearch.UserName };
             }
-            return null;
+            return new UserResponse();
         }
     }
 }

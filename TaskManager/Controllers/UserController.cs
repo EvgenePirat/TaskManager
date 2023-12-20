@@ -39,8 +39,35 @@ namespace TaskManager.Controllers
         /// <param name="userEnterRequest">data for enter from user<</param>
         /// <returns>returned redirect or view with error</returns>
         [HttpPost("[action]/enter")]
-        public IActionResult EnterPost(UserEnterRequest userEnterRequest)
+        public async Task<IActionResult> EnterPost(UserEnterRequest userEnterRequest)
         {
+            List<string> errorMessages = new List<string>();
+            if (!ModelState.IsValid)
+            {
+                errorMessages = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
+
+                ViewBag.Errors = errorMessages;
+                return View("Enter");
+            }
+
+            UserResponse? findUser = await _userService.EnterInSystem(userEnterRequest);
+
+            if(findUser.UserName == null)
+            {
+                errorMessages.Add("Error with username!");
+                ViewBag.Errors = errorMessages;
+                return View("Enter");
+            }   
+            else if(findUser.Password == null)
+            {
+                errorMessages.Add("Error with username!");
+                ViewBag.Errors = errorMessages;
+                return View("Enter");
+            }
+            else
+            {
+
+            }
             return View();
         }
 
