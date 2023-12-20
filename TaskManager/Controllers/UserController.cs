@@ -47,7 +47,7 @@ namespace TaskManager.Controllers
                 errorMessages = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
 
                 ViewBag.Errors = errorMessages;
-                return View("Enter");
+                return RedirectToAction("Enter");
             }
 
             UserResponse? findUser = await _userService.EnterInSystem(userEnterRequest);
@@ -62,13 +62,12 @@ namespace TaskManager.Controllers
             {
                 errorMessages.Add("Error with username!");
                 ViewBag.Errors = errorMessages;
-                return View("Enter");
+                return RedirectToAction("Enter");
             }
             else
             {
-
+                return RedirectToAction("Home", "Task");
             }
-            return View();
         }
 
 
@@ -101,7 +100,7 @@ namespace TaskManager.Controllers
                 List<string> errorMessages = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
 
                 ViewBag.Errors = errorMessages;
-                return View("Registration");
+                return RedirectToAction("Registration");
             }
 
             UserResponse userResponse = await _userService.AddUser(userAddRequest);

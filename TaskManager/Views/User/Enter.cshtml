@@ -22,5 +22,17 @@
     <div class="form-field">
         <button class="btn-reg"><a asp-controller="User" asp-action="Registration">Registration</a></button>
         <button class="btn" type="submit">Log in</button>
+
+        @if (ViewBag.Errors != null)
+        {
+            <div class="text-red">
+                <ul>
+                    @foreach (string error in ViewBag.Errors)
+                    {
+                        <li class="ml">@error</li>
+                    }
+                </ul>
+            </div>
+        }
     </div>
 </form>

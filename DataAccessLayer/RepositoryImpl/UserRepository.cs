@@ -31,7 +31,7 @@ namespace DataAccessLayer.RepositoryImpl
 
         public async Task<User?> GetByUserName(string userName)
         {
-            return await _context.Users.FirstOrDefaultAsync(temp => temp.UserName == userName);
+            return await _context.Users.Include("Role").FirstOrDefaultAsync(temp => temp.UserName == userName);
         }
     }
 }
