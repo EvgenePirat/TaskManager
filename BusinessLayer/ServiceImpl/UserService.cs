@@ -33,9 +33,23 @@ namespace BusinessLayer.ServiceImpl
             return UserMapper.UserToUserResponse(userAfterSave);
         }
 
-        public Task<UserResponse?> EnterInSystem(UserEnterRequest userEnterRequest)
+        public async Task<UserResponse?> EnterInSystem(UserEnterRequest userEnterRequest)
         {
-            throw new NotImplementedException();
+            if(userEnterRequest != null)
+            {
+                User? userAfterSearch = await _userRepository.GetByUserName(userEnterRequest.UserName);
+
+                if (userAfterSearch == null)
+                    return null;
+
+                userEnterRequest.Password = Md5.HashPassword(userEnterRequest.Password);
+
+                if (userEnterRequest.Password == userAfterSearch.Password)
+                    return UserMapper.UserToUserResponse(userAfterSearch);
+                else
+                    return null;
+            }
+            return null;
         }
     }
 }

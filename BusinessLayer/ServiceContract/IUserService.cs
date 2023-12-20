@@ -21,10 +21,10 @@ namespace BusinessLayer.ServiceContract
         public Task<UserResponse> AddUser(UserAddRequest userRequest);
 
         /// <summary>
-        /// Method for check data for enter in system and returned null or false enter in system or userresponse if true enter in system
+        /// Method for check data for enter in system and returned null if false enter in system or userresponse if true enter in system
         /// </summary>
         /// <param name="userEnterRequest">data from user for enter</param>
-        /// <returns>returned null or false enter in system or userresponse if true enter in system</returns>
+        /// <returns>returned null if false enter in system or userresponse if true enter in system</returns>
         public Task<UserResponse?> EnterInSystem(UserEnterRequest userEnterRequest);
     }
 }

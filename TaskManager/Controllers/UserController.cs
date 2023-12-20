@@ -41,7 +41,6 @@ namespace TaskManager.Controllers
         [HttpPost("[action]/enter")]
         public IActionResult EnterPost(UserEnterRequest userEnterRequest)
         {
-
             return View();
         }
 
