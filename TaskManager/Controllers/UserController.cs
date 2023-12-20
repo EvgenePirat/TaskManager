@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace TaskManager.Controllers
 {
+    /// <summary>
+    /// controller for working with user entites
+    /// </summary>
     [Route("[controller]")]
     public class UserController : Controller
     {
@@ -30,6 +33,13 @@ namespace TaskManager.Controllers
             return View();
         }
 
+        [HttpPost("[action]/enter")]
+        public IActionResult EnterPost(UserEnterRequest userEnterRequest)
+        {
+            return View();
+        }
+
+
         /// <summary>
         /// return html css page for registration in system for get request
         /// </summary>
@@ -45,7 +55,7 @@ namespace TaskManager.Controllers
         }
 
         /// <summary>
-        /// 
+        /// method for post request for registration new user in system
         /// </summary>
         /// <param name="userAddRequest"></param>
         /// <returns></returns>
