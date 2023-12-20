@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.RepositoryImpl
 {
+    /// <summary>
+    /// Implementation logic for user repository contract
+    /// </summary>
     public class UserRepository : IUserRepository
     {
         private readonly ApplicationDbContext _context;
@@ -24,6 +27,11 @@ namespace DataAccessLayer.RepositoryImpl
             await _context.SaveChangesAsync();
 
             return await _context.Users.Include("Role").FirstOrDefaultAsync(temp => temp.Id == user.Id);
+        }
+
+        public async Task<User?> GetByUserName(string userName)
+        {
+            return await _context.Users.FirstOrDefaultAsync(temp => temp.UserName == userName);
         }
     }
 }

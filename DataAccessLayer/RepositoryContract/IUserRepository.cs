@@ -18,5 +18,12 @@ namespace DataAccessLayer.RepositoryContract
         /// <param name="user">User for save to BD</param>
         /// <returns>returned user with id from db</returns>
         public Task<User> AddUser(User user);
+
+        /// <summary>
+        /// Get user from db with username
+        /// </summary>
+        /// <param name="userName">username for search user in bd</param>
+        /// <returns>returned user if find or null if not find</returns>
+        public Task<User?> GetByUserName(string userName);
     }
 }
