@@ -28,7 +28,8 @@ body {
 
 .app {
     background-image: url('/Pictures/background-reg.jpg');
-    width: 100%;
+    width: 95%;
+    margin-left:5%;
     min-height: 100vh;
 }
 

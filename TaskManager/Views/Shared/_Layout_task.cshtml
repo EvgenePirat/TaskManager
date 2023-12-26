@@ -5,8 +5,39 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     <link href="~/CSS/StyleTaskHome.css" rel="stylesheet" />
+    <link href="~/CSS/StyleNavBar.css" rel="stylesheet" />
 </head>
 <body>
-     @RenderBody()
+    <div>
+        <ul class="menu">
+
+            <li title="home"><a href="#" class="menu-button home">menu</a></li>
+
+            <li title="search"><a href="#" class="search">search</a></li>
+            <li title="add"><a href="#" class="pencil">add</a></li>
+            <li title="about"><a href="#" class="active about">about</a></li>
+            <li title="archive"><a href="#" class="archive">archive</a></li>
+            <li title="contact"><a href="#" class="contact">contact</a></li>
+        </ul>
+
+        <ul class="menu-bar">
+            <li><a href="#" class="menu-button">Menu</a></li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Add new Task</a></li>
+            <li><a href="#">Editorial</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
+    </div>
+    @RenderBody()
 </body>
 </html>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $(".menu-button").click(function () {
+            $(".menu-bar").toggleClass("open");
+        });
+    });
+</script>
