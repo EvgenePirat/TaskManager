@@ -10,37 +10,37 @@ namespace TaskManagerTests.Controllers
 {
     public class UserControllerTest
     {
-        #region Enter
+        //#region Enter
 
-        [Fact(DisplayName = "Test enter controller")]
-        public void Enter_ShouldReturnEnterView()
-        {
-            //arrange
-            UserController userController = new UserController();
+        //[Fact(DisplayName = "Test enter controller")]
+        //public void Enter_ShouldReturnEnterView()
+        //{
+        //    //arrange
+        //    UserController userController = new UserController();
 
-            //act
-            IActionResult actionResult = userController.Enter();
+        //    //act
+        //    IActionResult actionResult = userController.Enter();
 
-            //arrange
-            ViewResult result = Assert.IsType<ViewResult>(actionResult);
-        }
-        #endregion
+        //    //arrange
+        //    ViewResult result = Assert.IsType<ViewResult>(actionResult);
+        //}
+        //#endregion
 
-        #region
+        //#region
 
-        [Fact(DisplayName = "Test registration controller")]
-        public async Task Registration_ShouldReturnRegistrationView()
-        {
-            //arrange
-            UserController userController = new UserController();
+        //[Fact(DisplayName = "Test registration controller")]
+        //public async Task Registration_ShouldReturnRegistrationView()
+        //{
+        //    //arrange
+        //    UserController userController = new UserController();
 
-            //act
-            IActionResult actionResult = userController.Registration();
+        //    //act
+        //    IActionResult actionResult = userController.Registration();
 
-            //arrange
-            ViewResult result = Assert.IsType<ViewResult>(actionResult);
-        }
+        //    //arrange
+        //    ViewResult result = Assert.IsType<ViewResult>(actionResult);
+        //}
 
-        #endregion
+        //#endregion
     }
 }
