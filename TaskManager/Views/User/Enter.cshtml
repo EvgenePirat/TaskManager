@@ -19,10 +19,7 @@
         <input asp-for="Password" type="password" placeholder="Password" required />
     </div>
 
-    <div class="form-field">
-        <button class="btn-reg"><a asp-controller="User" asp-action="Registration">Registration</a></button>
-        <button class="btn" type="submit">Log in</button>
-
+    <div>
         @if (ViewBag.Errors != null)
         {
             <div class="text-red">
@@ -34,5 +31,10 @@
                 </ul>
             </div>
         }
+    </div>
+
+    <div class="form-field">
+        <button class="btn-reg"><a asp-controller="User" asp-action="Registration">Registration</a></button>
+        <button class="btn" type="submit">Log in</button>
     </div>
 </form>

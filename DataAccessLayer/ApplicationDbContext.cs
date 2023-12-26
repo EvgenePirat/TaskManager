@@ -34,7 +34,12 @@ namespace DataAccessLayer
             string rolesJson = File.ReadAllText("roles.json");
             List<Role> roles = JsonSerializer.Deserialize<List<Role>>(rolesJson);
 
-            foreach(var role in roles)
+            //Seed unique
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.UserName)
+                .IsUnique();
+
+            foreach (var role in roles)
                 modelBuilder.Entity<Role>().HasData(role);
         }
     }
