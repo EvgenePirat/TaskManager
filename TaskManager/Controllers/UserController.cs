@@ -47,27 +47,27 @@ namespace TaskManager.Controllers
                 errorMessages = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
 
                 ViewBag.Errors = errorMessages;
-                return RedirectToAction("Enter");
+                return View("Enter");
             }
 
-            UserResponse? findUser = await _userService.EnterInSystem(userEnterRequest);
-
-            if(findUser.UserName == null)
+            if (await _userService.CheckUserName(userEnterRequest.UserName))
             {
-                errorMessages.Add("Error with username!");
+                errorMessages.Add("UserName not found in system!");
                 ViewBag.Errors = errorMessages;
                 return View("Enter");
-            }   
-            else if(findUser.Password == null)
-            {
-                errorMessages.Add("Error with username!");
-                ViewBag.Errors = errorMessages;
-                return RedirectToAction("Enter");
             }
             else
             {
-                return RedirectToAction("Home", "Task");
+                UserResponse? findUser = await _userService.EnterInSystem(userEnterRequest);
+
+                if(findUser == null)
+                {
+                    errorMessages.Add("You wrote wrong password!");
+                    ViewBag.Errors = errorMessages;
+                    return View("Enter");
+                }
             }
+            return RedirectToAction("Home", "Task");
         }
 
 
@@ -93,17 +93,28 @@ namespace TaskManager.Controllers
         [HttpPost("[action]/save")]
         public async Task<IActionResult> RegistrationPost(UserAddRequest userAddRequest)
         {
-            if( !ModelState.IsValid )
+            List<string> errorMessages = new List<string>();
+            if ( !ModelState.IsValid )
             {
                 List<RoleResponse> rolesList = await _roleService.GetAllRoles();
                 ViewBag.Roles = rolesList.Select(role => new SelectListItem { Value = role.Id.ToString(), Text = role.Name });
-                List<string> errorMessages = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
+                errorMessages = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
 
                 ViewBag.Errors = errorMessages;
-                return RedirectToAction("Registration");
+                return View("Registration");
             }
 
-            UserResponse userResponse = await _userService.AddUser(userAddRequest);
+            if(await _userService.CheckUserName(userAddRequest.UserName))
+            {
+                UserResponse userResponse = await _userService.AddUser(userAddRequest);
+            }
+            else
+            {
+                errorMessages.Add("User with username already exist");
+                ViewBag.Errors = errorMessages;
+                return View("Registration");
+            }
+
             return RedirectToAction("Enter");
         }
     }
