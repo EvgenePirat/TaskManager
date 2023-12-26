@@ -18,5 +18,14 @@ namespace TaskManager.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Method for get page for add new task in system for user
+        /// </summary>
+        /// <returns>returned page for add task</returns>
+        public IActionResult AddNewTask()
+        {
+            return View("AddTask");
+        }
+
     }
 }

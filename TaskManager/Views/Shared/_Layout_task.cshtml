@@ -4,17 +4,16 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-    <link href="~/CSS/StyleTaskHome.css" rel="stylesheet" />
     <link href="~/CSS/StyleNavBar.css" rel="stylesheet" />
 </head>
 <body>
     <div>
         <ul class="menu">
 
-            <li title="home"><a href="#" class="menu-button home">menu</a></li>
+            <li title="home"><a class="menu-button home">menu</a></li>
 
             <li title="search"><a href="#" class="search">search</a></li>
-            <li title="add"><a href="#" class="pencil">add</a></li>
+            <li title="add"><a asp-controller="Task" asp-action="AddNewTask" class="pencil">add</a></li>
             <li title="about"><a href="#" class="active about">about</a></li>
             <li title="archive"><a href="#" class="archive">archive</a></li>
             <li title="contact"><a href="#" class="contact">contact</a></li>
@@ -22,9 +21,9 @@
 
         <ul class="menu-bar">
             <li><a href="#" class="menu-button">Menu</a></li>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Add new Task</a></li>
-            <li><a href="#">Editorial</a></li>
+            <li><a asp-controller="Task" asp-action="Home">Home</a></li>
+            <li><a asp-controller="Task" asp-action="AddNewTask">Add new Task</a></li>
+            <li><a href="#">Editorial</a></li> 
             <li><a href="#">About</a></li>
         </ul>
     </div>
