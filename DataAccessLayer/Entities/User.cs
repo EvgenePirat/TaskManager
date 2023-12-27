@@ -35,10 +35,13 @@ namespace DataAccessLayer.Entities
 
         public Guid RoleId { get; set; }
 
+        [Required]
         public Role? Role { get; set; }
 
         public int Age { get; set; }
 
         public DateTime CreateAccount { get; set; }
+
+        public List<Task> Tasks { get; set; }
     }
 }
