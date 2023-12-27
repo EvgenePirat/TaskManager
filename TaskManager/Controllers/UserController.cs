@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.DTO.Request;
 using BusinessLayer.DTO.Response;
 using BusinessLayer.ServiceContract;
+using DataAccessLayer.Entities;
 using DataAccessLayer.RepositoryImpl;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -56,17 +57,16 @@ namespace TaskManager.Controllers
                 ViewBag.Errors = errorMessages;
                 return View("Enter");
             }
-            else
-            {
-                UserResponse? findUser = await _userService.EnterInSystem(userEnterRequest);
+            UserResponse? findUser = await _userService.EnterInSystem(userEnterRequest);
 
-                if(findUser == null)
-                {
-                    errorMessages.Add("You wrote wrong password!");
-                    ViewBag.Errors = errorMessages;
-                    return View("Enter");
-                }
+            if(findUser == null)
+            {
+                errorMessages.Add("You wrote wrong password!");
+                ViewBag.Errors = errorMessages;
+                return View("Enter");
             }
+
+            HttpContext.Session.SetString("UserId", findUser.Id.ToString());
             return RedirectToAction("Home", "Task");
         }
 
