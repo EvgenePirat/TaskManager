@@ -56,6 +56,10 @@ form {
         position: relative;
     }
 
+    form h1 {
+        margin-bottom: 20px;
+    }
+
     form input {
         font-family: inherit;
         width: 100%;
