@@ -19,5 +19,12 @@ namespace DataAccessLayer.Entities
 
         [Required]
         public DateTime? CreatedDate { get; set; } = DateTime.Now;
+
+        public Guid UserId { get; set; }
+
+        [Required]
+        public User? User { get; set; }
+
+        public List<Task>? Tasks { get; set; }
     }
 }

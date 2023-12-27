@@ -27,11 +27,25 @@ namespace DataAccessLayer
         /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //set linl one to many between user and role
+            //set link one to many between user and role
             modelBuilder.Entity<User>()
                 .HasOne(u => u.Role)
                 .WithMany(u => u.Users)
                 .HasForeignKey(u => u.RoleId);
+
+            //set link beetwen user and categories and category and task
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Categories)
+                .WithOne(c => c.User)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            //set link beetwen category and task
+            modelBuilder.Entity<Category>()
+                .HasMany(c => c.Tasks)
+                .WithOne(t => t.Category)
+                .HasForeignKey(t => t.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             //Seed date
             string rolesJson = File.ReadAllText("roles.json");

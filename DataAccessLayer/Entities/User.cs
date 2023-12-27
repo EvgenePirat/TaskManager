@@ -42,6 +42,6 @@ namespace DataAccessLayer.Entities
 
         public DateTime CreateAccount { get; set; }
 
-        public List<Task> Tasks { get; set; }
+        public List<Category>? Categories { get; set; }
     }
 }

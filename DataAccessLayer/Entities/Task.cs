@@ -27,12 +27,8 @@ namespace DataAccessLayer.Entities
         public DateTime Created { get; set; } = DateTime.Now;
 
         public Guid CategoryId { get; set; }
-        
-        public Category? Category { get; set; }
-
-        public Guid UserId { get; set; }
 
         [Required]
-        public User? User { get; set; }
+        public Category? Category { get; set; }
     }
 }
