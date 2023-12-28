@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.RepositoryImpl
 {
+    /// <summary>
+    /// Implementation logic for category repository contract
+    /// </summary>
     public class CategoryRepository : ICategoryRepository
     {
         private readonly ApplicationDbContext _context;

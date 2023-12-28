@@ -15,7 +15,7 @@ namespace DataAccessLayer.RepositoryContract
         /// <summary>
         /// Method for save new category in bd
         /// </summary>
-        /// <param name="category">fata category from user</param>
+        /// <param name="category">data category from user</param>
         /// <returns>returned category with id after save</returns>
         public Task<Category> AddCategory(Category category);
 

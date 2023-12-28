@@ -20,9 +20,7 @@ namespace TaskManager
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-            builder.Services.AddScoped<ICategoryService, CategoryService>();
-
-            //set use controllers
+            builder.Services.AddScoped<ITaskRepository, TaskRepository>();
             builder.Services.AddControllersWithViews();
 
             //set string path for dbcontext
