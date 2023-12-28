@@ -25,5 +25,12 @@ namespace DataAccessLayer.RepositoryContract
         /// <param name="userName">username for search user in bd</param>
         /// <returns>returned user if find or null if not find</returns>
         public Task<User?> GetByUserName(string userName);
+
+        /// <summary>
+        /// Get user from db with id
+        /// </summary>
+        /// <param name="userId">guid id for search user in bd</param>
+        /// <returns>returned user if find or null if not find</returns>
+        public Task<User?> GetByUserId(Guid userId);
     }
 }

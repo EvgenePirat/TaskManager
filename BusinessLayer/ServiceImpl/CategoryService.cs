@@ -43,9 +43,13 @@ namespace BusinessLayer.ServiceImpl
             return null;
         }
 
-        public Task<List<CategoryResponse>> GetCategoriesForUser(Guid userId)
+        public async Task<List<CategoryResponse>?> GetCategoriesForUser(Guid userId)
         {
-            throw new NotImplementedException();
+            if((await _userRepository.GetByUserId(userId)) != null)
+            {
+                return (await _categoryRepository.GetAllCategories(userId)).Select(temp => CategoryMapper.CategoryToCategoryResponse(temp)).ToList();
+            }
+            return null;
         }
     }
 }

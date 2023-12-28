@@ -95,3 +95,18 @@ form {
         text-decoration: none;
         color: inherit;
     }
+
+    form select {
+        font-family: inherit;
+        width: 100%;
+        outline: none;
+        background-color: #fff;
+        border-radius: 4px;
+        border: none;
+        display: block;
+        padding: 0.9rem 0.7rem;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+        font-size: 17px;
+        color: #4A4A4A;
+        text-indent: 5px;
+    }

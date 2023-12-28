@@ -29,6 +29,11 @@ namespace DataAccessLayer.RepositoryImpl
             return await _context.Users.Include("Role").FirstOrDefaultAsync(temp => temp.Id == user.Id);
         }
 
+        public async Task<User?> GetByUserId(Guid userId)
+        {
+            return await _context.Users.Include("Categories").FirstOrDefaultAsync(temp => temp.Id == userId);
+        }
+
         public async Task<User?> GetByUserName(string userName)
         {
             return await _context.Users.Include("Role").FirstOrDefaultAsync(temp => temp.UserName == userName);

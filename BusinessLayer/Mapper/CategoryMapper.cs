@@ -31,7 +31,7 @@ namespace BusinessLayer.Mapper
         /// <returns>returned categoryResponse with data from category</returns>
         public static CategoryResponse CategoryToCategoryResponse(Category category)
         {
-            return new CategoryResponse() { Id = category.Id, Name = category.Name, CreatedDate = category.CreatedDate };
+            return new CategoryResponse() { Id = category.Id, Name = category.Name, CreatedDate = category.CreatedDate, Tasks = category.Tasks?.Select(task => TaskMapper.TaskToTaskResponse(task)).ToList() };
         }
     }
 }

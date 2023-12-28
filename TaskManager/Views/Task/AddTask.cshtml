@@ -1,4 +1,5 @@
-﻿@{
+﻿@model TaskAddRequest
+@{
     ViewBag.Title = "Add Task";
     Layout = "~/Views/Shared/_Layout_task.cshtml";
 }
@@ -12,24 +13,24 @@
             </div>
 
             <div class="form-field">
-                <input type="text" placeholder="Name" required />
+                <input asp-for="Title" type="text" placeholder="Title" required />
             </div>
 
             <div class="form-field">
-                <input type="text" placeholder="Username" required />
+                <textarea asp-for="Description" placeholder="Description" required></textarea>
             </div>
 
             <div class="form-field">
-                <input type="email" placeholder="Email" required />
+                <input asp-for="FinishTime" type="date" placeholder="Date Of Birth" required />
             </div>
 
             <div class="form-field">
-                <input type="password" placeholder="Password" required />
+                <select asp-for="CategoryId" asp-items="@ViewBag.Categories">
+                    <option value="">Please select Category</option>
+                </select>
             </div>
 
-            <div class="form-field">
-                <input type="date" placeholder="Date Of Birth" required />
-            </div>
+            <input asp-for="Status" type="hidden" value="@Status.Active" required />
 
             <div>
                 @if (ViewBag.Errors != null)
@@ -46,10 +47,9 @@
             </div>
 
             <div class="form-field">
-                <button class="btn-reg"><a asp-controller="User" asp-action="Enter">Login</a></button>
-                <button class="btn" type="submit">Registration</button>
+                <button class="btn-reg"><a asp-controller="Task" asp-action="Home">Home</a></button>
+                <button class="btn" type="submit">Add</button>
             </div>
-
 
         </form>
     </div>

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BusinessLayer.DTO.Response;
+using BusinessLayer.ServiceContract;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace TaskManager.Controllers
 {
@@ -8,6 +11,13 @@ namespace TaskManager.Controllers
     [Route("[controller]")]
     public class TaskController : Controller
     {
+        private readonly ICategoryService _categoryService;
+
+        public TaskController(ICategoryService categoryService)
+        {
+            _categoryService = categoryService;
+        }
+
         /// <summary>
         /// Method for get home page for manager task
         /// </summary>
@@ -22,8 +32,11 @@ namespace TaskManager.Controllers
         /// Method for get page for add new task in system for user
         /// </summary>
         /// <returns>returned page for add task</returns>
-        public IActionResult AddNewTask()
+        public async Task<IActionResult> AddNewTask()
         {
+            Guid userId = Guid.Parse(HttpContext.Session.GetString("UserId"));
+            List<CategoryResponse> categories = await _categoryService.GetCategoriesForUser(userId);
+            ViewBag.Categories = categories.Select(temp => new SelectListItem() { Text = temp.Name, Value = temp.Id.ToString() });
             return View("AddTask");
         }
 

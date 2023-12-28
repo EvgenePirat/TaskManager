@@ -17,5 +17,7 @@ namespace BusinessLayer.DTO.Response
         public string? Name { get; set; }
 
         public DateTime? CreatedDate { get; set; }
+
+        public List<TaskResponse>? Tasks { get; set; }
     }
 }
