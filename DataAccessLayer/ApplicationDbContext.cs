@@ -56,11 +56,6 @@ namespace DataAccessLayer
                 .HasIndex(u => u.UserName)
                 .IsUnique();
 
-            //seed unique name for category
-            modelBuilder.Entity<Category>()
-                .HasIndex(u => u.Name)
-                .IsUnique();
-
             //seed unique name for role
             modelBuilder.Entity<Role>()
                 .HasIndex(u => u.Name)

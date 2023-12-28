@@ -25,5 +25,12 @@ namespace DataAccessLayer.RepositoryContract
         /// <param name="UserId">user id for filtered categories</param>
         /// <returns>returned all categories for user</returns>
         public Task<List<Category>> GetAllCategories(Guid UserId);
+
+        /// <summary>
+        /// Method for find and get category with category name
+        /// </summary>
+        /// <param name="categoryName">string name for search category</param>
+        /// <returns>returned category if find or null if not find</returns>
+        public Task<Category?> GetCategoryByName(string categoryName);
     }
 }

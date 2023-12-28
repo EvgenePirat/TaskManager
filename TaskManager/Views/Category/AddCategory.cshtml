@@ -6,7 +6,7 @@
 <link href="~/CSS/StyleAddTask.css" rel="stylesheet" />
 <div class="app">
     <div class="body-add">
-        <form method="post">
+        <form asp-controller="Category" asp-action="AddNewCategoryPost" method="post">
 
             <div>
                 <h1>Add new Category</h1>
@@ -15,6 +15,8 @@
             <div class="form-field">
                 <input asp-for="Name" type="text" placeholder="Name" required />
             </div>
+
+            <input type="hidden" asp-for="UserId" value="@ViewBag.UserId" />
 
             <div>
                 @if (ViewBag.Errors != null)

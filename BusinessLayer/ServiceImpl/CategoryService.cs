@@ -24,11 +24,20 @@ namespace BusinessLayer.ServiceImpl
             _userRepository = userRepository;
         }
 
-        public async Task<CategoryResponse> AddNewCategory(CategoryAddRequest categoryAddRequest)
+        public async Task<CategoryResponse?> AddNewCategory(CategoryAddRequest categoryAddRequest)
         {
-            Category category = CategoryMapper.CategoryAddRequestToCategory(categoryAddRequest);
-            category = await _categoryRepository.AddCategory(category);
-            return CategoryMapper.CategoryToCategoryResponse(category);
+            if(categoryAddRequest != null)
+            {
+                Category? category = await _categoryRepository.GetCategoryByName(categoryAddRequest.Name);
+
+                if(category == null)
+                {
+                    category = CategoryMapper.CategoryAddRequestToCategory(categoryAddRequest);
+                    category = await _categoryRepository.AddCategory(category);
+                    return CategoryMapper.CategoryToCategoryResponse(category);
+                }
+            }
+            return null;
         }
 
         public Task<List<CategoryResponse>> GetCategoriesForUser(Guid userId)
