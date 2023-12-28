@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.RepositoryImpl
 {
+    /// <summary>
+    /// Implementation logic for role repository contract
+    /// </summary>
     public class RoleRepository : IRoleRepository
     {
         private readonly ApplicationDbContext _context;
