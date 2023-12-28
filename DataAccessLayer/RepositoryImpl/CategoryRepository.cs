@@ -34,6 +34,11 @@ namespace DataAccessLayer.RepositoryImpl
             return await _context.Categories.Include("Tasks").Where(temp => temp.UserId == UserId).ToListAsync();
         }
 
+        public async Task<Category?> GetCategoryById(Guid Id)
+        {
+            return await _context.Categories.FirstOrDefaultAsync(temp => temp.Id == Id);
+        }
+
         public async Task<Category?> GetCategoryByName(string categoryName)
         {
             return await _context.Categories.FirstOrDefaultAsync(temp => temp.Name == categoryName);

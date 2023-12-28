@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.ServiceImpl
 {
+    /// <summary>
+    /// Class for implementation methods for User Service
+    /// </summary>
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;

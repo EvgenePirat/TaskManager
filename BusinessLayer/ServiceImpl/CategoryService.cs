@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.ServiceImpl
 {
+    /// <summary>
+    /// Class for implementation methods for Category Service
+    /// </summary>
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;

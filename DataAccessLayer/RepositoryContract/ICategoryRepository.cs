@@ -32,5 +32,12 @@ namespace DataAccessLayer.RepositoryContract
         /// <param name="categoryName">string name for search category</param>
         /// <returns>returned category if find or null if not find</returns>
         public Task<Category?> GetCategoryByName(string categoryName);
+
+        /// <summary>
+        /// Method for find and get category with category id
+        /// </summary>
+        /// <param name="Id">guid id for search category</param>
+        /// <returns>returned category if find or null if not find</returns>
+        public Task<Category?> GetCategoryById(Guid Id);
     }
 }
