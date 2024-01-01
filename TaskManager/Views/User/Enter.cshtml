@@ -22,12 +22,20 @@
     <div>
         @if (ViewBag.Errors != null)
         {
-            <div class="text-red">
+            <div>
                 <ul>
                     @foreach (string error in ViewBag.Errors)
                     {
                         <li class="ml">@error</li>
                     }
+                </ul>
+            </div>
+        }
+        @if (ViewBag.Message != null)
+        {
+            <div>
+                <ul>
+                    <li class="ml">@ViewBag.Message</li>
                 </ul>
             </div>
         }

@@ -2,6 +2,7 @@
 using BusinessLayer.DTO.Response;
 using BusinessLayer.ServiceContract;
 using Microsoft.AspNetCore.Mvc;
+using TaskManager.Filteres.AuthorizationFilter;
 
 namespace TaskManager.Controllers
 {
@@ -9,6 +10,7 @@ namespace TaskManager.Controllers
     /// Controller with methods for working with category
     /// </summary>
     [Route("[controller]")]
+    [TypeFilter(typeof(AuthorizationFilter))]
     public class CategoryController : Controller
     {
 

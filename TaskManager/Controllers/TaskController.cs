@@ -4,6 +4,7 @@ using BusinessLayer.ServiceContract;
 using DataAccessLayer.RepositoryContract;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using TaskManager.Filteres.AuthorizationFilter;
 
 namespace TaskManager.Controllers
 {
@@ -11,6 +12,7 @@ namespace TaskManager.Controllers
     /// controller for working with task logic
     /// </summary>
     [Route("[controller]")]
+    [TypeFilter(typeof(AuthorizationFilter))]
     public class TaskController : Controller
     {
         private readonly ICategoryService _categoryService;

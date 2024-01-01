@@ -29,8 +29,11 @@ namespace TaskManager.Controllers
         /// <returns>return html css page for enter</returns>
         [HttpGet("[action]")]
         [HttpGet("/")]
-        public IActionResult Enter()
+        public IActionResult Enter(string? message)
         {
+            if (message != null)
+                ViewBag.Message = message;
+
             return View();
         }
 
