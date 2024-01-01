@@ -1,4 +1,6 @@
-﻿@{
+﻿@using System.Drawing
+@model IEnumerable<CategoryResponse>
+@{
     ViewBag.Title = "Tasks";
     Layout = "~/Views/Shared/_Layout_task.cshtml";
 }
@@ -6,90 +8,66 @@
 <div class='app'>
     <main class='project'>
         <div class='project-info'>
-            <h1>Homepage Design</h1>
-            <div class='project-participants'>
-                <span></span>
-                <span></span>
-                <span></span>
-                <button class='project-participants__add'>Add Participant</button>
-
-            </div>
+            <h1>Homepage</h1>
         </div>
         <div class='project-tasks'>
             <div class='project-column'>
                 <div class='project-column-heading'>
                     <h2 class='project-column-heading__title'>Need make</h2><button class='project-column-heading__options'><i class="fas fa-ellipsis-h"></i></button>
                 </div>
-                <div class='task' draggable='true'>
-                    <div class='task__tags'><span class='task__tag task__tag--copyright'>Copywriting</span><button class='task__options'><i class="fas fa-ellipsis-h"></i></button></div>
-                    <p>Konsep hero title yang menarik</p>
-                    <div class='task__stats'>
-                        <span><time datetime="2021-11-24T20:00:00"><i class="fas fa-flag"></i>Nov 24</time></span>
-                        <span><i class="fas fa-comment"></i>3</span>
-                        <span><i class="fas fa-paperclip"></i>7</span>
-                        <span class='task__owner'></span>
-                    </div>
-                </div>
 
-                <div class='task' draggable='true'>
-                    <div class='task__tags'><span class='task__tag task__tag--design'>UI Design</span><button class='task__options'><i class="fas fa-ellipsis-h"></i></button></div>
-                    <p>Icon di section our services</p>
-                    <div class='task__stats'>
-                        <span><time datetime="2021-11-24T20:00:00"><i class="fas fa-flag"></i>Nov 24</time></span>
-                        <span><i class="fas fa-comment"></i>2</span>
-                        <span><i class="fas fa-paperclip"></i>5</span>
-                        <span class='task__owner'></span>
-                    </div>
-                </div>
+                @foreach (CategoryResponse category in Model)
+                {
+                    Random random = new Random();
+                    Color color = Color.FromArgb(random.Next(200, 255), random.Next(200, 255), random.Next(200, 255));
+                    string redHex = color.R.ToString("X2");
+                    string greenHex = color.G.ToString("X2");
+                    string blueHex = color.B.ToString("X2");
+                    string colorString = $"#{redHex}{greenHex}{blueHex}";
 
-                <div class='task' draggable='true'>
-                    <div class='task__tags'><span class='task__tag task__tag--copyright'>Copywriting</span><button class='task__options'><i class="fas fa-ellipsis-h"></i></button></div>
-                    <p>Konsep hero title yang menarik</p>
-                    <div class='task__stats'>
-                        <span><time datetime="2021-11-24T20:00:00"><i class="fas fa-flag"></i>Nov 24</time></span>
-                        <span><i class="fas fa-comment"></i>2</span>
-                        <span><i class="fas fa-paperclip"></i>3</span>
-                        <span class='task__owner'></span>
-                    </div>
-                </div>
+                    foreach (TaskResponse task in category.Tasks)
+                    {
+                        @if (task.Status == Status.Active)
+                        {
+                            <div class='task' draggable='true'>
+                                <div class='task__tags'><span class='task__tag' style="background-color:@colorString">@category.Name</span><button class='task__options'><i class="fas fa-ellipsis-h"></i></button></div>
+                                <p>@task.Title</p>
+                                <div class='task__stats'>
+                                    <span><time>@task.FinishTime.ToString("yyyy-MM-dd")</time></span>
+                                </div>
+                            </div>
+                        }
+                    }
+                }
             </div>
             <div class='project-column'>
                 <div class='project-column-heading'>
                     <h2 class='project-column-heading__title'>Done</h2><button class='project-column-heading__options'><i class="fas fa-ellipsis-h"></i></button>
                 </div>
 
-                <div class='task' draggable='true'>
-                    <div class='task__tags'><span class='task__tag task__tag--illustration'>Illustration</span><button class='task__options'><i class="fas fa-ellipsis-h"></i></button></div>
-                    <p>Send Advert illustrations over to production company.</p>
-                    <div class='task__stats'>
-                        <span><time datetime="2021-11-24T20:00:00"><i class="fas fa-flag"></i>Nov 24</time></span>
-                        <span><i class="fas fa-comment"></i>12</span>
-                        <span><i class="fas fa-paperclip"></i>5</span>
-                        <span class='task__owner'></span>
-                    </div>
-                </div>
+                @foreach (CategoryResponse category in Model)
+                {
+                    Random random = new Random();
+                    Color color = Color.FromArgb(random.Next(200, 255), random.Next(200, 255), random.Next(200, 255));
+                    string redHex = color.R.ToString("X2");
+                    string greenHex = color.G.ToString("X2");
+                    string blueHex = color.B.ToString("X2");
+                    string colorString = $"#{redHex}{greenHex}{blueHex}";
 
-                <div class='task' draggable='true'>
-                    <div class='task__tags'><span class='task__tag task__tag--illustration'>Illustration</span><button class='task__options'><i class="fas fa-ellipsis-h"></i></button></div>
-                    <p>Dawn wants to move the text 3px to the right.</p>
-                    <div class='task__stats'>
-                        <span><time datetime="2021-11-24T20:00:00"><i class="fas fa-flag"></i>Nov 24</time></span>
-                        <span><i class="fas fa-comment"></i>3</span>
-                        <span><i class="fas fa-paperclip"></i>7</span>
-                        <span class='task__owner'></span>
-                    </div>
-                </div>
-
-                <div class='task' draggable='true'>
-                    <div class='task__tags'><span class='task__tag task__tag--copyright'>Copywriting</span><button class='task__options'><i class="fas fa-ellipsis-h"></i></button></div>
-                    <p>Amend the contract details.</p>
-                    <div class='task__stats'>
-                        <span><time datetime="2021-11-24T20:00:00"><i class="fas fa-flag"></i>Nov 24</time></span>
-                        <span><i class="fas fa-comment"></i>8</span>
-                        <span><i class="fas fa-paperclip"></i>16</span>
-                        <span class='task__owner'></span>
-                    </div>
-                </div>
+                    foreach (TaskResponse task in category.Tasks)
+                    {
+                        @if (task.Status == Status.Done)
+                        {
+                            <div class='task' draggable='true'>
+                                <div class='task__tags'><span class='task__tag' style="background-color:@colorString">@category.Name</span><button class='task__options'><i class="fas fa-ellipsis-h"></i></button></div>
+                                <p>@task.Title</p>
+                                <div class='task__stats'>
+                                    <span><time>@task.FinishTime.ToString("yyyy-MM-dd")</time></span>
+                                </div>
+                            </div>
+                        }
+                    }
+                }
 
             </div>
 
@@ -116,61 +94,61 @@
 
 <script>
 
-      document.addEventListener('DOMContentLoaded', (event) => {
-      var dragSrcEl = null;
+    document.addEventListener('DOMContentLoaded', (event) => {
+        var dragSrcEl = null;
 
-      function handleDragStart(e) {
-        this.style.opacity = '0.1';
-        this.style.border = '3px dashed #c4cad3';
+        function handleDragStart(e) {
+            this.style.opacity = '0.1';
+            this.style.border = '3px dashed #c4cad3';
 
-        dragSrcEl = this;
-        e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/html', this.innerHTML);
-      }
-      function handleDragOver(e) {
-        if (e.preventDefault) {
-          e.preventDefault();
+            dragSrcEl = this;
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.innerHTML);
         }
-        e.dataTransfer.dropEffect = 'move';
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
 
-        return false;
-      }
-      function handleDragEnter(e) {
-        this.classList.add('task-hover');
-      }
-      function handleDragLeave(e) {
-        this.classList.remove('task-hover');
-      }
-      function handleDrop(e) {
-        if (e.stopPropagation) {
-          e.stopPropagation(); // stops the browser from redirecting.
+            return false;
+        }
+        function handleDragEnter(e) {
+            this.classList.add('task-hover');
+        }
+        function handleDragLeave(e) {
+            this.classList.remove('task-hover');
+        }
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation(); // stops the browser from redirecting.
+            }
+
+            if (dragSrcEl != this) {
+                dragSrcEl.innerHTML = this.innerHTML;
+                this.innerHTML = e.dataTransfer.getData('text/html');
+            }
+
+            return false;
+        }
+        function handleDragEnd(e) {
+            this.style.opacity = '1';
+            this.style.border = 0;
+
+            items.forEach(function (item) {
+                item.classList.remove('task-hover');
+            });
         }
 
-        if (dragSrcEl != this) {
-          dragSrcEl.innerHTML = this.innerHTML;
-          this.innerHTML = e.dataTransfer.getData('text/html');
-        }
 
-        return false;
-      }
-      function handleDragEnd(e) {
-        this.style.opacity = '1';
-        this.style.border = 0;
-
+        let items = document.querySelectorAll('.task');
         items.forEach(function (item) {
-          item.classList.remove('task-hover');
+            item.addEventListener('dragstart', handleDragStart, false);
+            item.addEventListener('dragenter', handleDragEnter, false);
+            item.addEventListener('dragover', handleDragOver, false);
+            item.addEventListener('dragleave', handleDragLeave, false);
+            item.addEventListener('drop', handleDrop, false);
+            item.addEventListener('dragend', handleDragEnd, false);
         });
-      }
-
-
-      let items = document.querySelectorAll('.task');
-      items.forEach(function(item) {
-        item.addEventListener('dragstart', handleDragStart, false);
-        item.addEventListener('dragenter', handleDragEnter, false);
-        item.addEventListener('dragover', handleDragOver, false);
-        item.addEventListener('dragleave', handleDragLeave, false);
-        item.addEventListener('drop', handleDrop, false);
-        item.addEventListener('dragend', handleDragEnd, false);
-      });
     });
 </script>

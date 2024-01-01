@@ -6,7 +6,7 @@
 <link href="~/CSS/StyleAddTask.css" rel="stylesheet" />
 <div class="app">
     <div class="body-add">
-        <form asp-controller="User" asp-action="RegistrationPost" method="post">
+        <form asp-controller="Task" asp-action="AddNewTaskPost" method="post">
 
             <div>
                 <h1>Add new Task</h1>
@@ -17,7 +17,7 @@
             </div>
 
             <div class="form-field">
-                <textarea asp-for="Description" placeholder="Description" required></textarea>
+                <textarea asp-for="Description" placeholder="Description"></textarea>
             </div>
 
             <div class="form-field">
@@ -25,12 +25,12 @@
             </div>
 
             <div class="form-field">
-                <select asp-for="CategoryId" asp-items="@ViewBag.Categories">
+                <select asp-for="CategoryId" asp-items="@ViewBag.Categories" required>
                     <option value="">Please select Category</option>
                 </select>
             </div>
 
-            <input asp-for="Status" type="hidden" value="@Status.Active" required />
+            <input asp-for="Status" type="hidden" value="@Status.Active" />
 
             <div>
                 @if (ViewBag.Errors != null)

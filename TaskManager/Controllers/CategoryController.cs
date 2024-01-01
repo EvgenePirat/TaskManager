@@ -31,10 +31,10 @@ namespace TaskManager.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Method for get category from client and save in bd
         /// </summary>
-        /// <param name="categoryAddRequest"></param>
-        /// <returns></returns>
+        /// <param name="categoryAddRequest">category data from user</param>
+        /// <returns>returned home page if good save or page create category with errors</returns>
         [HttpPost("[action]")]
         public async Task<IActionResult> AddNewCategoryPost(CategoryAddRequest categoryAddRequest) 
         {
@@ -55,7 +55,7 @@ namespace TaskManager.Controllers
                 ViewBag.Errors = errorMessages;
                 return View("AddCategory");
             }
-            //i need change logic for unique for category name and i need make check for category for user with id
+            
             return RedirectToAction("Home","Task");
         }
     }

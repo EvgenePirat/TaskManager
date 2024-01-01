@@ -31,9 +31,12 @@ namespace BusinessLayer.ServiceImpl
             {
                 if(await _categoryRepository.GetCategoryById(taskAddRequest.CategoryId) != null)
                 {
-                    DataAccessLayer.Entities.Task task = TaskMapper.TaskAddRequestToTask(taskAddRequest);
-                    task = await _taskRepository.AddTask(task);
-                    return TaskMapper.TaskToTaskResponse(task);
+                    if(taskAddRequest.FinishTime >  DateTime.Now)
+                    {
+                        DataAccessLayer.Entities.Task task = TaskMapper.TaskAddRequestToTask(taskAddRequest);
+                        task = await _taskRepository.AddTask(task);
+                        return TaskMapper.TaskToTaskResponse(task);
+                    }
                 }
             }
             return null;
