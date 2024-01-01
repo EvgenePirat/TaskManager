@@ -5,6 +5,7 @@ using DataAccessLayer.Entities;
 using DataAccessLayer.RepositoryImpl;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using TaskManager.Filteres.ActionFilter.UserFilters;
 
 namespace TaskManager.Controllers
 {
@@ -43,16 +44,10 @@ namespace TaskManager.Controllers
         /// <param name="userEnterRequest">data for enter from user<</param>
         /// <returns>returned redirect or view with error</returns>
         [HttpPost("[action]/enter")]
+        [TypeFilter(typeof(EnterPostActionFilter))]
         public async Task<IActionResult> EnterPost(UserEnterRequest userEnterRequest)
         {
             List<string> errorMessages = new List<string>();
-            if (!ModelState.IsValid)
-            {
-                errorMessages = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
-
-                ViewBag.Errors = errorMessages;
-                return View("Enter");
-            }
 
             if (await _userService.CheckUserName(userEnterRequest.UserName))
             {
@@ -94,18 +89,10 @@ namespace TaskManager.Controllers
         /// <param name="userAddRequest">data for registration from user</param>
         /// <returns>returned redirect or view with error</returns>
         [HttpPost("[action]/save")]
+        [TypeFilter(typeof(RegistrationActionFilter))]
         public async Task<IActionResult> RegistrationPost(UserAddRequest userAddRequest)
         {
             List<string> errorMessages = new List<string>();
-            if ( !ModelState.IsValid )
-            {
-                List<RoleResponse> rolesList = await _roleService.GetAllRoles();
-                ViewBag.Roles = rolesList.Select(role => new SelectListItem { Value = role.Id.ToString(), Text = role.Name });
-                errorMessages = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
-
-                ViewBag.Errors = errorMessages;
-                return View("Registration");
-            }
 
             if(await _userService.CheckUserName(userAddRequest.UserName))
             {
