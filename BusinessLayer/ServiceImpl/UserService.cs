@@ -52,18 +52,33 @@ namespace BusinessLayer.ServiceImpl
             return user == null;
         }
 
-        public async Task<UserResponse?> EnterInSystem(UserEnterRequest userEnterRequest)
+        public async Task<UserResponse> EnterInSystem(UserEnterRequest userEnterRequest)
         {
             if(userEnterRequest != null)
             {
+                if (await CheckUserName(userEnterRequest.UserName))
+                {
+                    _logger.LogError("{controller}.{method} - userRequest equals null", nameof(UserService), nameof(EnterInSystem));
+                    throw new ArgumentException("UserName not found in system!");
+                }
+
                 User? userAfterSearch = await _userRepository.GetByUserName(userEnterRequest.UserName);
 
                 userEnterRequest.Password = Md5.HashPassword(userEnterRequest.Password);
 
-                if (userEnterRequest.Password == userAfterSearch.Password)
-                    return UserMapper.UserToUserResponse(userAfterSearch);
+                if (userEnterRequest.Password != userAfterSearch.Password)
+                {
+                    _logger.LogError("{controller}.{method} - userRequest equals null", nameof(UserService), nameof(EnterInSystem));
+                    throw new ArgumentException("You wrote wrong password!");
+                }
+
+                return UserMapper.UserToUserResponse(userAfterSearch);
             }
-            return null;
+            else
+            {
+                _logger.LogError("{service}.{method} - userRequest equals null", nameof(UserService), nameof(EnterInSystem));
+                throw new ArgumentNullException(nameof(userEnterRequest));
+            }
         }
     }
 }

@@ -25,7 +25,7 @@ namespace BusinessLayer.ServiceContract
         /// </summary>
         /// <param name="userEnterRequest">data from user for enter</param>
         /// <returns>returned new object with null fields if false enter in system or userresponse if true enter in system</returns>
-        public Task<UserResponse?> EnterInSystem(UserEnterRequest userEnterRequest);
+        public Task<UserResponse> EnterInSystem(UserEnterRequest userEnterRequest);
 
         /// <summary>
         /// Method for check exist username or not exist already in basedate

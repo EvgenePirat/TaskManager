@@ -34,10 +34,11 @@ namespace TaskManager.Controllers
         /// <returns>return html css page for enter</returns>
         [HttpGet("[action]")]
         [HttpGet("/")]
-        public IActionResult Enter(string? message)
+        public IActionResult Enter()
         {
-            if (message != null)
-                ViewBag.Message = message;
+            string errorMessage = HttpContext.Request.Query["error"].ToString();
+            if (errorMessage.Length > 0)
+                ViewBag.Errors = new List<string> { errorMessage };
 
             return View();
         }
@@ -49,26 +50,13 @@ namespace TaskManager.Controllers
         /// <returns>returned redirect or view with error</returns>
         [HttpPost("[action]/enter")]
         [TypeFilter(typeof(EnterPostActionFilter))]
+        [TypeFilter(typeof(UserExceptionFilter))]
         public async Task<IActionResult> EnterPost(UserEnterRequest userEnterRequest)
         {
-            List<string> errorMessages = new List<string>();
-
-            if (await _userService.CheckUserName(userEnterRequest.UserName))
-            {
-                errorMessages.Add("UserName not found in system!");
-                ViewBag.Errors = errorMessages;
-                return View("Enter");
-            }
-            UserResponse? findUser = await _userService.EnterInSystem(userEnterRequest);
-
-            if(findUser == null)
-            {
-                errorMessages.Add("You wrote wrong password!");
-                ViewBag.Errors = errorMessages;
-                return View("Enter");
-            }
+            UserResponse findUser = await _userService.EnterInSystem(userEnterRequest);
 
             HttpContext.Session.SetString("UserId", findUser.Id.ToString());
+
             return RedirectToAction("Home", "Task");
         }
 
