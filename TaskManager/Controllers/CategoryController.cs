@@ -50,13 +50,6 @@ namespace TaskManager.Controllers
             }
 
             CategoryResponse categoryResponse = await _categoryService.AddNewCategory(categoryAddRequest);
-
-            if(categoryResponse == null)
-            {
-                errorMessages.Add("Error with name category!");
-                ViewBag.Errors = errorMessages;
-                return View("AddCategory");
-            }
             
             return RedirectToAction("Home","Task");
         }

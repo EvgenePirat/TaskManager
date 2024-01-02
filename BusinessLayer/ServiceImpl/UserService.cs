@@ -48,7 +48,7 @@ namespace BusinessLayer.ServiceImpl
 
         public async Task<bool> CheckUserName(string userName)
         {
-            _logger.LogInformation("{service}.{method} - add new user in system", nameof(UserService), nameof(CheckUserName));
+            _logger.LogInformation("{service}.{method} - check user name in system", nameof(UserService), nameof(CheckUserName));
 
             User? user = await _userRepository.GetByUserName(userName);
             return user == null;
@@ -56,13 +56,13 @@ namespace BusinessLayer.ServiceImpl
 
         public async Task<UserResponse> EnterInSystem(UserEnterRequest userEnterRequest)
         {
-            _logger.LogInformation("{service}.{method} - add new user in system", nameof(UserService), nameof(EnterInSystem));
+            _logger.LogInformation("{service}.{method} - enter in system", nameof(UserService), nameof(EnterInSystem));
 
             if (userEnterRequest != null)
             {
                 if (await CheckUserName(userEnterRequest.UserName))
                 {
-                    _logger.LogError("{controller}.{method} - userRequest equals null", nameof(UserService), nameof(EnterInSystem));
+                    _logger.LogError("{controller}.{method} - userEnterRequest not found in system!", nameof(UserService), nameof(EnterInSystem));
                     throw new ArgumentException("UserName not found in system!");
                 }
 
@@ -72,7 +72,7 @@ namespace BusinessLayer.ServiceImpl
 
                 if (userEnterRequest.Password != userAfterSearch.Password)
                 {
-                    _logger.LogError("{controller}.{method} - userRequest equals null", nameof(UserService), nameof(EnterInSystem));
+                    _logger.LogError("{controller}.{method} - userEnterRequest has wrong password", nameof(UserService), nameof(EnterInSystem));
                     throw new ArgumentException("You wrote wrong password!");
                 }
 
@@ -80,7 +80,7 @@ namespace BusinessLayer.ServiceImpl
             }
             else
             {
-                _logger.LogError("{service}.{method} - userRequest equals null", nameof(UserService), nameof(EnterInSystem));
+                _logger.LogError("{service}.{method} - userEnterRequest equals null", nameof(UserService), nameof(EnterInSystem));
                 throw new ArgumentNullException(nameof(userEnterRequest));
             }
         }

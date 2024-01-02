@@ -4,6 +4,7 @@ using BusinessLayer.Mapper;
 using BusinessLayer.ServiceContract;
 using DataAccessLayer.Entities;
 using DataAccessLayer.RepositoryContract;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,35 +22,51 @@ namespace BusinessLayer.ServiceImpl
 
         private readonly IUserRepository _userRepository;
 
-        public CategoryService(ICategoryRepository categoryRepository, IUserRepository userRepository)
+        private readonly ILogger<CategoryService> _logger;
+
+        public CategoryService(ICategoryRepository categoryRepository, IUserRepository userRepository, ILogger<CategoryService> logger)
         {
             _categoryRepository = categoryRepository;
             _userRepository = userRepository;
+            _logger = logger;
         }
 
-        public async Task<CategoryResponse?> AddNewCategory(CategoryAddRequest categoryAddRequest)
+        public async Task<CategoryResponse> AddNewCategory(CategoryAddRequest categoryAddRequest)
         {
             if(categoryAddRequest != null)
             {
                 Category? category = await _categoryRepository.GetCategoryByName(categoryAddRequest.Name);
 
-                if(category == null)
+                if (category != null)
                 {
-                    category = CategoryMapper.CategoryAddRequestToCategory(categoryAddRequest);
-                    category = await _categoryRepository.AddCategory(category);
-                    return CategoryMapper.CategoryToCategoryResponse(category);
+                    _logger.LogError("{service}.{method} - Category already exist", nameof(CategoryService), nameof(AddNewCategory));
+                    throw new ArgumentException("Category already exist!");
                 }
+
+                category = CategoryMapper.CategoryAddRequestToCategory(categoryAddRequest);
+                category = await _categoryRepository.AddCategory(category);
+                return CategoryMapper.CategoryToCategoryResponse(category);
             }
-            return null;
+            else
+            {
+                _logger.LogError("{service}.{method} - categoryAddRequest equals null", nameof(CategoryService), nameof(AddNewCategory));
+                throw new ArgumentNullException(nameof(categoryAddRequest));
+            }
         }
 
-        public async Task<List<CategoryResponse>?> GetCategoriesForUser(Guid userId)
+        public async Task<List<CategoryResponse>> GetCategoriesForUser(Guid userId)
         {
             if((await _userRepository.GetByUserId(userId)) != null)
             {
                 return (await _categoryRepository.GetAllCategories(userId)).Select(temp => CategoryMapper.CategoryToCategoryResponse(temp)).ToList();
             }
-            return null;
+            else
+            {
+                _logger.LogError("{service}.{method} - User with id not found!", nameof(CategoryService), nameof(GetCategoriesForUser));
+                throw new ArgumentException(nameof(userId));
+            }
+
+            
         }
     }
 }
