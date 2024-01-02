@@ -4,6 +4,7 @@ using DataAccessLayer;
 using DataAccessLayer.RepositoryContract;
 using DataAccessLayer.RepositoryImpl;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace TaskManager.StartupConfigure
 {
@@ -43,6 +44,12 @@ namespace TaskManager.StartupConfigure
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
+            });
+
+            //on http serilog 
+            services.AddHttpLogging(options =>
+            {
+                options.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestPropertiesAndHeaders | Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.ResponsePropertiesAndHeaders;
             });
 
             return services;
