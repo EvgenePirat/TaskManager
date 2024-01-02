@@ -48,13 +48,17 @@ namespace BusinessLayer.ServiceImpl
 
         public async Task<bool> CheckUserName(string userName)
         {
+            _logger.LogInformation("{service}.{method} - add new user in system", nameof(UserService), nameof(CheckUserName));
+
             User? user = await _userRepository.GetByUserName(userName);
             return user == null;
         }
 
         public async Task<UserResponse> EnterInSystem(UserEnterRequest userEnterRequest)
         {
-            if(userEnterRequest != null)
+            _logger.LogInformation("{service}.{method} - add new user in system", nameof(UserService), nameof(EnterInSystem));
+
+            if (userEnterRequest != null)
             {
                 if (await CheckUserName(userEnterRequest.UserName))
                 {
