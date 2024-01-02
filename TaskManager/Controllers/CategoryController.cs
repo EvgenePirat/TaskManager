@@ -4,6 +4,7 @@ using BusinessLayer.ServiceContract;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Filteres.ActionFilter.CategoryFilters;
 using TaskManager.Filteres.AuthorizationFilter;
+using TaskManager.Filteres.ErrorFilteres.CategoryErrorFilteres;
 
 namespace TaskManager.Controllers
 {
@@ -14,7 +15,6 @@ namespace TaskManager.Controllers
     [TypeFilter(typeof(AuthorizationFilter))]
     public class CategoryController : Controller
     {
-
         private readonly ICategoryService _categoryService;
 
         public CategoryController(ICategoryService categoryService)
@@ -29,6 +29,10 @@ namespace TaskManager.Controllers
         [HttpGet("[action]")]
         public IActionResult AddNewCategory()
         {
+            string errorMessage = HttpContext.Request.Query["error"].ToString();
+            if (errorMessage.Length > 0)
+                ViewBag.Errors = new List<string> { errorMessage };
+
             ViewBag.UserId = Guid.Parse(HttpContext.Session.GetString("UserId"));
             return View("AddCategory");
         }
@@ -40,9 +44,10 @@ namespace TaskManager.Controllers
         /// <returns>returned home page if good save or page create category with errors</returns>
         [HttpPost("[action]")]
         [TypeFilter(typeof(CategoryValidationActionFilter))]
+        [TypeFilter(typeof(CategoryExceptionFilter))]
         public async Task<IActionResult> AddNewCategoryPost(CategoryAddRequest categoryAddRequest) 
         {
-            CategoryResponse categoryResponse = await _categoryService.AddNewCategory(categoryAddRequest);
+            await _categoryService.AddNewCategory(categoryAddRequest);
             
             return RedirectToAction("Home","Task");
         }
