@@ -3,6 +3,7 @@ using BusinessLayer.DTO.Response;
 using BusinessLayer.Mapper;
 using BusinessLayer.ServiceContract;
 using DataAccessLayer.RepositoryContract;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +19,13 @@ namespace BusinessLayer.ServiceImpl
     {
         private readonly ITaskRepository _taskRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly ILogger<TaskService> _logger;
 
-        public TaskService(ITaskRepository taskRepository, ICategoryRepository categoryRepository)
+        public TaskService(ITaskRepository taskRepository, ICategoryRepository categoryRepository, ILogger<TaskService> logger)
         {
             _taskRepository = taskRepository;
             _categoryRepository = categoryRepository;   
+            _logger = logger;
         }
 
         public async Task<TaskResponse?> AddNewTask(TaskAddRequest taskAddRequest)
@@ -31,24 +34,42 @@ namespace BusinessLayer.ServiceImpl
             {
                 if(await _categoryRepository.GetCategoryById(taskAddRequest.CategoryId) != null)
                 {
-                    if(taskAddRequest.FinishTime >  DateTime.Now)
+                    if(taskAddRequest.FinishTime > DateTime.Now)
                     {
                         DataAccessLayer.Entities.Task task = TaskMapper.TaskAddRequestToTask(taskAddRequest);
                         task = await _taskRepository.AddTask(task);
                         return TaskMapper.TaskToTaskResponse(task);
                     }
+                    else
+                    {
+                        _logger.LogError("{service}.{method} - finish time must be more than time now", nameof(TaskService), nameof(AddNewTask));
+                        throw new ArgumentException(nameof(taskAddRequest));
+                    }
+                }
+                else
+                {
+                    _logger.LogError("{service}.{method} - category not found", nameof(TaskService), nameof(AddNewTask));
+                    throw new ArgumentException(nameof(taskAddRequest));
                 }
             }
-            return null;
+            else
+            {
+                _logger.LogError("{service}.{method} - taskAddRequest equals null", nameof(TaskService), nameof(AddNewTask));
+                throw new ArgumentNullException(nameof(taskAddRequest));
+            }
         }
 
-        public async Task<List<TaskResponse>?> GetAllTaskForCategories(Guid categoryId)
+        public async Task<List<TaskResponse>> GetAllTaskForCategories(Guid categoryId)
         {
             if(await _categoryRepository.GetCategoryById(categoryId) != null)
             {
                 return (await _taskRepository.GetAllTasks(categoryId)).Select(task => TaskMapper.TaskToTaskResponse(task)).ToList();
             }
-            return null;
+            else
+            {
+                _logger.LogError("{service}.{method} - category with id not found", nameof(TaskService), nameof(GetAllTaskForCategories));
+                throw new ArgumentNullException(nameof(categoryId));
+            }
         }
     }
 }
