@@ -7,8 +7,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TaskManager.StartupConfigure
 {
+    /// <summary>
+    /// Static class has logic for configure application
+    /// </summary>
     public static class ConfigureServiceExtensions
     {
+        /// <summary>
+        /// Method for set options for IServiceCollection
+        /// </summary>
+        /// <param name="services">set this for it is class</param>
+        /// <param name="configuration">for set option for database</param>
+        /// <returns>returned IServiceCollection with all options</returns>
         public static IServiceCollection ConfigureService(this IServiceCollection services, IConfiguration configuration)
         {
             //set link for DI
