@@ -38,7 +38,7 @@
     </div>
 
     <div>
-        @if (ViewBag.Errors != null)
+        @if (ViewData["Errors"] != null)
         {
             <div class="text-red">
                 <ul>
@@ -49,6 +49,7 @@
                 </ul>
             </div>
         }
+        
     </div>
 
     <div class="form-field">

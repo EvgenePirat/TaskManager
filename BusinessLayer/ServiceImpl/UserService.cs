@@ -5,6 +5,7 @@ using BusinessLayer.Mapper;
 using BusinessLayer.ServiceContract;
 using DataAccessLayer.Entities;
 using DataAccessLayer.RepositoryContract;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,18 +20,27 @@ namespace BusinessLayer.ServiceImpl
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly ILogger<UserService> _logger;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, ILogger<UserService> logger)
         {
             _userRepository = userRepository;
+            _logger = logger;
         }
 
         public async Task<UserResponse> AddUser(UserAddRequest userRequest)
         {
+            _logger.LogInformation("{service}.{method} - add new user in system", nameof(UserService), nameof(AddUser));
+
+            if(userRequest == null)
+            {
+                _logger.LogError("{service}.{method} - userRequest equals null", nameof(UserService), nameof(AddUser));
+                throw new ArgumentNullException(nameof(userRequest));
+            }
+
             User user = UserMapper.UserRequestAddToUser(userRequest);
             user.Password = Md5.HashPassword(user.Password);
-            user.CreateAccount = DateTime.Now;
-            user.Age = DateTime.Now.Year - userRequest.DateOfBirth.Year;
+            user.Age = user.CreateAccount.Year - userRequest.DateOfBirth.Year;
             
             User userAfterSave = await _userRepository.AddUser(user);
             return UserMapper.UserToUserResponse(userAfterSave);

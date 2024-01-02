@@ -1,11 +1,13 @@
 ﻿using BusinessLayer.DTO.Request;
 using BusinessLayer.DTO.Response;
 using BusinessLayer.ServiceContract;
+using BusinessLayer.ServiceImpl;
 using DataAccessLayer.Entities;
 using DataAccessLayer.RepositoryImpl;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using TaskManager.Filteres.ActionFilter.UserFilters;
+using TaskManager.Filteres.ErrorFilteres.UserErrorFilteres;
 
 namespace TaskManager.Controllers
 {
@@ -17,11 +19,13 @@ namespace TaskManager.Controllers
     {
         private readonly IRoleService _roleService;
         private readonly IUserService _userService;
+        private readonly ILogger<UserController> _logger;
 
-        public UserController(IRoleService roleService, IUserService userService)
+        public UserController(IRoleService roleService, IUserService userService, ILogger<UserController> logger)
         {
             _roleService = roleService;
             _userService = userService;
+            _logger = logger;
         }
 
         /// <summary>
@@ -76,6 +80,10 @@ namespace TaskManager.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> Registration()
         {
+            string errorMessage = HttpContext.Request.Query["error"].ToString();
+            if (errorMessage.Length > 0)
+                ViewBag.Errors = new List<string> { errorMessage };
+
             List<RoleResponse> rolesList = await _roleService.GetAllRoles();
 
             ViewBag.Roles = rolesList.Select(role => new SelectListItem { Value = role.Id.ToString(), Text = role.Name });
@@ -90,19 +98,17 @@ namespace TaskManager.Controllers
         /// <returns>returned redirect or view with error</returns>
         [HttpPost("[action]/save")]
         [TypeFilter(typeof(RegistrationActionFilter))]
+        [TypeFilter(typeof(UserExceptionFilter))]
         public async Task<IActionResult> RegistrationPost(UserAddRequest userAddRequest)
         {
-            List<string> errorMessages = new List<string>();
-
             if(await _userService.CheckUserName(userAddRequest.UserName))
             {
                 UserResponse userResponse = await _userService.AddUser(userAddRequest);
             }
             else
             {
-                errorMessages.Add("User with username already exist");
-                ViewBag.Errors = errorMessages;
-                return View("Registration");
+                _logger.LogError("{controller}.{method} - userRequest equals null", nameof(UserController), nameof(RegistrationPost));
+                throw new ArgumentException("User with username already exist");
             }
 
             return RedirectToAction("Enter");

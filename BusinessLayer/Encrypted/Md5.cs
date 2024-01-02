@@ -17,7 +17,7 @@ namespace BusinessLayer.Encrypted
         /// </summary>
         /// <param name="password">not hash password</param>
         /// <returns>returned string with hash password</returns>
-        public static string? HashPassword(string password)
+        public static string? HashPassword(string? password)
         {
             if(password != null)
             {
