@@ -24,5 +24,12 @@ namespace DataAccessLayer.RepositoryContract
         /// <param name="categoryId">category id for find need tasks</param>
         /// <returns>returned list tasks for categories</returns>
         public Task<List<Entities.Task>> GetAllTasks(Guid categoryId);  
+
+        /// <summary>
+        /// Method for get task with id
+        /// </summary>
+        /// <param name="taskId">task if for search task in tasks</param>
+        /// <returns>returned task if find or null if not exist</returns>
+        public Task<Entities.Task?> GetTaskById(Guid taskId);
     }
 }
