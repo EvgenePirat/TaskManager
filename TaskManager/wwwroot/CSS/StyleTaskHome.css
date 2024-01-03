@@ -44,6 +44,44 @@ h1 {
     display: inline-block;
 }
 
+.mainmenubtn {
+    border: none;
+    cursor: pointer;
+    background-image: url('/Pictures/icon-more.png');
+    background-color:white;
+    background-size: contain;
+    padding: 13px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-child {
+    display: none;
+    background-color: #fbecc9;
+    min-width: 80px;
+    position: absolute;
+    font-size: 16px;
+    z-index: 1;
+}
+
+    .dropdown-child a {
+        color: black;
+        padding: 10px;
+        text-decoration: none;
+        display: block;
+    }
+
+        .dropdown-child a:hover {
+            background-color: darkgray;
+        }
+
+.dropdown:hover .dropdown-child {
+    display: block;
+}
+
 .project-info {
     padding: 2rem 0;
     display: flex;

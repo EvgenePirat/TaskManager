@@ -71,5 +71,11 @@ namespace TaskManager.Controllers
             return RedirectToAction("Home", "Task");
         }
 
+        [HttpGet("[action]")]
+        public async Task<IActionResult> TaskDetails(Guid taskId)
+        {
+            return View();
+        }
+
     }
 }
