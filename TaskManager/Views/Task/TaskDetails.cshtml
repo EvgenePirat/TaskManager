@@ -4,6 +4,12 @@
     Layout = "~/Views/Shared/_Layout_task.cshtml";
 }
 <link href="~/CSS/StyleTaskDetails.css" rel="stylesheet" />
-<div id="bg">
-
+<div id="bg"></div>
+<div class="task-details-container">
+    <div class="task-details">
+        <h1>@Model.Title</h1>
+        <p>Description: @Model.Description</p>
+        <p>Finish time: @Model.FinishTime</p>
+        <p>Category Name: @Model.Category.Name</p>
+    </div>
 </div>

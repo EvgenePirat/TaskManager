@@ -4,6 +4,7 @@ using BusinessLayer.ServiceContract;
 using DataAccessLayer.RepositoryContract;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 using TaskManager.Filteres.ActionFilter.TaskFilteres;
 using TaskManager.Filteres.AuthorizationFilter;
 using TaskManager.Filteres.ErrorFilteres.TaskErrorFilteres;
@@ -66,15 +67,17 @@ namespace TaskManager.Controllers
         [TypeFilter(typeof(TaskExceptionFilter))]
         public async Task<IActionResult> AddNewTaskPost(TaskAddRequest taskAddRequest)
         {
-            TaskResponse response = await _taskService.AddNewTask(taskAddRequest);
+            await _taskService.AddNewTask(taskAddRequest);
 
             return RedirectToAction("Home", "Task");
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> TaskDetails(Guid taskId)
+        public async Task<IActionResult> TaskDetails([Required] Guid taskId)
         {
-            return View();
+            TaskResponse taskResponse = await _taskService.GetTaskWithId(taskId);
+
+            return View(taskResponse);
         }
 
     }
