@@ -26,5 +26,12 @@ namespace BusinessLayer.ServiceContract
         /// <param name="categoryId">category id for search need tasks</param>
         /// <returns>returned all tasks for category</returns>
         public Task<List<TaskResponse>> GetAllTaskForCategories(Guid categoryId);
+
+        /// <summary>
+        /// Method for get task with id
+        /// </summary>
+        /// <param name="taskId">task id for dound task in system</param>
+        /// <returns>returned task response or throw argumetException()</returns>
+        public Task<TaskResponse> GetTaskWithId(Guid taskId);
     }
 }

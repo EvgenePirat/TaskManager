@@ -35,6 +35,5 @@ namespace BusinessLayer.Mapper
         {
             return new TaskResponse() { Category = task.Category, Description = task.Description, Id = task.Id, FinishTime = task.FinishTime, Title = task.Title, Status = System.Enum.Parse<Status>(task.Status) };
         }
-
     }
 }

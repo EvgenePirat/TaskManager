@@ -2,6 +2,7 @@
 using BusinessLayer.DTO.Response;
 using BusinessLayer.Mapper;
 using BusinessLayer.ServiceContract;
+using DataAccessLayer.Entities;
 using DataAccessLayer.RepositoryContract;
 using Microsoft.Extensions.Logging;
 using System;
@@ -68,7 +69,21 @@ namespace BusinessLayer.ServiceImpl
             else
             {
                 _logger.LogError("{service}.{method} - category with id not found", nameof(TaskService), nameof(GetAllTaskForCategories));
-                throw new ArgumentException("category with id not found");
+                throw new ArgumentNullException("category with id not found");
+            }
+        }
+
+        public async Task<TaskResponse> GetTaskWithId(Guid taskId)
+        {
+            DataAccessLayer.Entities.Task? task = await _taskRepository.GetTaskById(taskId);
+            if(task != null)
+            {
+                return TaskMapper.TaskToTaskResponse(task);
+            }
+            else
+            {
+                _logger.LogError("{service}.{method} - task with id not found", nameof(TaskService), nameof(GetTaskWithId));
+                throw new ArgumentException("task with id not found");
             }
         }
     }
