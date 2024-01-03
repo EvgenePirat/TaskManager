@@ -4,7 +4,9 @@ using BusinessLayer.ServiceContract;
 using DataAccessLayer.RepositoryContract;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using TaskManager.Filteres.ActionFilter.TaskFilteres;
 using TaskManager.Filteres.AuthorizationFilter;
+using TaskManager.Filteres.ErrorFilteres.TaskErrorFilteres;
 
 namespace TaskManager.Controllers
 {
@@ -44,6 +46,10 @@ namespace TaskManager.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> AddNewTask()
         {
+            string errorMessage = HttpContext.Request.Query["error"].ToString();
+            if (errorMessage.Length > 0)
+                ViewBag.Errors = new List<string> { errorMessage };
+
             Guid userId = Guid.Parse(HttpContext.Session.GetString("UserId"));
             List<CategoryResponse> categories = await _categoryService.GetCategoriesForUser(userId);
             ViewBag.Categories = categories.Select(temp => new SelectListItem() { Text = temp.Name, Value = temp.Id.ToString() });
@@ -56,29 +62,12 @@ namespace TaskManager.Controllers
         /// <param name="taskAddRequest">task data from client</param>
         /// <returns>returned home page if good save or page create task with errors</returns>
         [HttpPost("[action]")]
+        [TypeFilter(typeof(TaskValidationActionFilter))]
+        [TypeFilter(typeof(TaskExceptionFilter))]
         public async Task<IActionResult> AddNewTaskPost(TaskAddRequest taskAddRequest)
         {
-            List<string> errorMessages = new List<string>();
-            if (!ModelState.IsValid)
-            {
-                errorMessages = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
-
-                ViewBag.Errors = errorMessages;
-                return View("AddTask");
-            }
-
             TaskResponse response = await _taskService.AddNewTask(taskAddRequest);
 
-            if(response == null)
-            {
-                errorMessages.Add("Errors with task data check fields");
-                Guid userId = Guid.Parse(HttpContext.Session.GetString("UserId"));
-                List<CategoryResponse> categories = await _categoryService.GetCategoriesForUser(userId);
-
-                ViewBag.Categories = categories.Select(temp => new SelectListItem() { Text = temp.Name, Value = temp.Id.ToString() });
-                ViewBag.Errors = errorMessages;
-                return View("AddTask");
-            }
             return RedirectToAction("Home", "Task");
         }
 

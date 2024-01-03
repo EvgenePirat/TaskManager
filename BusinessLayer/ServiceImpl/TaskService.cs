@@ -43,19 +43,19 @@ namespace BusinessLayer.ServiceImpl
                     else
                     {
                         _logger.LogError("{service}.{method} - finish time must be more than time now", nameof(TaskService), nameof(AddNewTask));
-                        throw new ArgumentException(nameof(taskAddRequest));
+                        throw new ArgumentException("finish time must be more than time now");
                     }
                 }
                 else
                 {
                     _logger.LogError("{service}.{method} - category not found", nameof(TaskService), nameof(AddNewTask));
-                    throw new ArgumentException(nameof(taskAddRequest));
+                    throw new ArgumentException("category not found");
                 }
             }
             else
             {
                 _logger.LogError("{service}.{method} - taskAddRequest equals null", nameof(TaskService), nameof(AddNewTask));
-                throw new ArgumentNullException(nameof(taskAddRequest));
+                throw new ArgumentNullException("taskAddRequest equals null");
             }
         }
 
@@ -68,7 +68,7 @@ namespace BusinessLayer.ServiceImpl
             else
             {
                 _logger.LogError("{service}.{method} - category with id not found", nameof(TaskService), nameof(GetAllTaskForCategories));
-                throw new ArgumentNullException(nameof(categoryId));
+                throw new ArgumentException("category with id not found");
             }
         }
     }
