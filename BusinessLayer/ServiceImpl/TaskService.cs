@@ -2,6 +2,7 @@
 using BusinessLayer.DTO.Response;
 using BusinessLayer.Mapper;
 using BusinessLayer.ServiceContract;
+using DataAccessLayer.Entities;
 using DataAccessLayer.RepositoryContract;
 using Microsoft.Extensions.Logging;
 using System;
@@ -43,19 +44,19 @@ namespace BusinessLayer.ServiceImpl
                     else
                     {
                         _logger.LogError("{service}.{method} - finish time must be more than time now", nameof(TaskService), nameof(AddNewTask));
-                        throw new ArgumentException(nameof(taskAddRequest));
+                        throw new ArgumentException("finish time must be more than time now");
                     }
                 }
                 else
                 {
                     _logger.LogError("{service}.{method} - category not found", nameof(TaskService), nameof(AddNewTask));
-                    throw new ArgumentException(nameof(taskAddRequest));
+                    throw new ArgumentException("category not found");
                 }
             }
             else
             {
                 _logger.LogError("{service}.{method} - taskAddRequest equals null", nameof(TaskService), nameof(AddNewTask));
-                throw new ArgumentNullException(nameof(taskAddRequest));
+                throw new ArgumentNullException("taskAddRequest equals null");
             }
         }
 
@@ -68,7 +69,21 @@ namespace BusinessLayer.ServiceImpl
             else
             {
                 _logger.LogError("{service}.{method} - category with id not found", nameof(TaskService), nameof(GetAllTaskForCategories));
-                throw new ArgumentNullException(nameof(categoryId));
+                throw new ArgumentNullException("category with id not found");
+            }
+        }
+
+        public async Task<TaskResponse> GetTaskWithId(Guid taskId)
+        {
+            DataAccessLayer.Entities.Task? task = await _taskRepository.GetTaskById(taskId);
+            if(task != null)
+            {
+                return Mapper.TaskMapper.TaskToTaskResponse(task);
+            }
+            else
+            {
+                _logger.LogError("{service}.{method} - task with id not found", nameof(TaskService), nameof(GetTaskWithId));
+                throw new ArgumentException("task with id not found");
             }
         }
     }
