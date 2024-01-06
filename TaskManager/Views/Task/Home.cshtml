@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_Layout_task.cshtml";
 }
 <link href="~/CSS/StyleTaskHome.css" rel="stylesheet" />
+
 <div class='app'>
     <main class='project'>
         <div class='project-info'>
@@ -29,7 +30,7 @@
                     {
                         @if (task.Status == Status.Active)
                         {
-                            <div class='task' draggable='true'>
+                            <div id="taskElem" class='task' draggable='true' data-task-id="@task.Id">
                                 <div class='task__tags'>
                                     <span class='task__tag' style="background-color:@colorString">@category.Name</span>
                                     <div class="dropdown">
@@ -37,7 +38,10 @@
                                         <div class="dropdown-child">
                                             <a asp-action="TaskDetails" asp-controller="Task" asp-route-taskId="@task.Id">Details</a>
                                             <a>Edit</a>
-                                            <a onclick="confirmBox()">Delete</a>
+                                            <form method="post" asp-controller="Task" asp-action="DeleteTaskPost" asp-route-taskId="@task.Id">
+                                                <button type="submit">Delete</button>
+                                            </form>
+
                                         </div>
                                     </div>
                                 </div>
@@ -73,7 +77,7 @@
                                 <div class='task__tags'>
                                     <span class='task__tag' style="background-color:@colorString">@category.Name</span>
                                     <button class='project-column-heading__options'></button>
-                                </div>  
+                                </div>
                                 <p>@task.Title</p>
                                 <div class='task__stats'>
                                     <span><time>@task.FinishTime.ToString("yyyy-MM-dd")</time></span>
@@ -134,7 +138,7 @@
         }
         function handleDrop(e) {
             if (e.stopPropagation) {
-                e.stopPropagation(); 
+                e.stopPropagation();
             }
 
             if (dragSrcEl != this) {
@@ -162,14 +166,4 @@
             item.addEventListener('dragend', handleDragEnd, false);
         });
     });
-
-    function confirmBox() {
-        var result = confirm("Вы уверены, что хотите продолжить?");
-
-        if (result) {
-            alert("Вы выбрали ОК!");
-        } else {
-            alert("Вы выбрали Отмена!");
-        }
-    }
 </script>
