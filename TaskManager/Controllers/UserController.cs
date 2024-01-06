@@ -36,9 +36,13 @@ namespace TaskManager.Controllers
         [HttpGet("/")]
         public IActionResult Enter()
         {
+            _logger.LogInformation("{controller}.{method} - start get enter page", nameof(UserController), nameof(Enter));
+
             string errorMessage = HttpContext.Request.Query["error"].ToString();
             if (errorMessage.Length > 0)
                 ViewBag.Errors = new List<string> { errorMessage };
+
+            _logger.LogInformation("{controller}.{method} - finish get enter page", nameof(UserController), nameof(Enter));
 
             return View();
         }
@@ -53,9 +57,13 @@ namespace TaskManager.Controllers
         [TypeFilter(typeof(UserExceptionFilter))]
         public async Task<IActionResult> EnterPost(UserEnterRequest userEnterRequest)
         {
+            _logger.LogInformation("{controller}.{method} - start post user for enter in system", nameof(UserController), nameof(EnterPost));
+
             UserResponse findUser = await _userService.EnterInSystem(userEnterRequest);
 
             HttpContext.Session.SetString("UserId", findUser.Id.ToString());
+
+            _logger.LogInformation("{controller}.{method} - finish post user for enter in system", nameof(UserController), nameof(EnterPost));
 
             return RedirectToAction("Home", "Task");
         }
@@ -68,6 +76,8 @@ namespace TaskManager.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> Registration()
         {
+            _logger.LogInformation("{controller}.{method} - start post user for enter in system", nameof(UserController), nameof(Registration));
+
             string errorMessage = HttpContext.Request.Query["error"].ToString();
             if (errorMessage.Length > 0)
                 ViewBag.Errors = new List<string> { errorMessage };
@@ -75,6 +85,8 @@ namespace TaskManager.Controllers
             List<RoleResponse> rolesList = await _roleService.GetAllRoles();
 
             ViewBag.Roles = rolesList.Select(role => new SelectListItem { Value = role.Id.ToString(), Text = role.Name });
+
+            _logger.LogInformation("{controller}.{method} - finish post user for enter in system", nameof(UserController), nameof(Registration));
 
             return View();
         }
@@ -89,7 +101,9 @@ namespace TaskManager.Controllers
         [TypeFilter(typeof(UserExceptionFilter))]
         public async Task<IActionResult> RegistrationPost(UserAddRequest userAddRequest)
         {
-            if(await _userService.CheckUserName(userAddRequest.UserName))
+            _logger.LogInformation("{controller}.{method} - start post user for registration in system", nameof(UserController), nameof(RegistrationPost));
+
+            if (await _userService.CheckUserName(userAddRequest.UserName))
             {
                 UserResponse userResponse = await _userService.AddUser(userAddRequest);
             }
@@ -98,6 +112,8 @@ namespace TaskManager.Controllers
                 _logger.LogError("{controller}.{method} - userRequest equals null", nameof(UserController), nameof(RegistrationPost));
                 throw new ArgumentException("User with username already exist");
             }
+
+            _logger.LogInformation("{controller}.{method} - finish post user for registration in system", nameof(UserController), nameof(RegistrationPost));
 
             return RedirectToAction("Enter");
         }
