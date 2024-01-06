@@ -2,6 +2,7 @@
 using BusinessLayer.DTO.Response;
 using BusinessLayer.Mapper;
 using BusinessLayer.ServiceContract;
+using CustomExceptions.TaskExceptions;
 using DataAccessLayer.Entities;
 using DataAccessLayer.RepositoryContract;
 using Microsoft.Extensions.Logging;
@@ -62,9 +63,19 @@ namespace BusinessLayer.ServiceImpl
             }
         }
 
-        public System.Threading.Tasks.Task DeleteWithId(Guid taskId)
+        public async System.Threading.Tasks.Task DeleteWithId(Guid taskId)
         {
             _logger.LogInformation("{service}.{method} - delete task in service layer", nameof(TaskService), nameof(DeleteWithId));
+
+            if(await _taskRepository.GetTaskById(taskId) != null)
+            {
+                await _taskRepository.DeleteById(taskId);
+            }
+            else
+            {
+                _logger.LogError("{service}.{method} - not found task for delete", nameof(TaskService), nameof(DeleteWithId));
+                throw new TaskArgumentException("task not found for delete");
+            }
         }
 
         public async Task<List<TaskResponse>> GetAllTaskForCategories(Guid categoryId)
