@@ -8,8 +8,11 @@
 <div class="task-details-container">
     <div class="task-details">
         <h1>@Model.Title</h1>
-        <p>Description: @Model.Description</p>
-        <p>Finish time: @Model.FinishTime</p>
+        @if(Model.Description != null)
+        {
+            <p>Description: @Model.Description</p>
+        }
+        <p>Finish time: @Model.FinishTime.ToString("yyyy-MM-dd")</p>
         <p>Category Name: @Model.Category.Name</p>
     </div>
 </div>

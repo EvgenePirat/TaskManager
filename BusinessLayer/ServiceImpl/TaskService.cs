@@ -83,7 +83,7 @@ namespace BusinessLayer.ServiceImpl
             else
             {
                 _logger.LogError("{service}.{method} - task with id not found", nameof(TaskService), nameof(GetTaskWithId));
-                throw new ArgumentException("task with id not found");
+                throw new ArgumentException("Task with id not found");
             }
         }
     }

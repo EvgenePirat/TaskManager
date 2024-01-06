@@ -37,7 +37,7 @@
                                         <div class="dropdown-child">
                                             <a asp-action="TaskDetails" asp-controller="Task" asp-route-taskId="@task.Id">Details</a>
                                             <a>Edit</a>
-                                            <a>Delete</a>
+                                            <a onclick="confirmBox()">Delete</a>
                                         </div>
                                     </div>
                                 </div>
@@ -134,7 +134,7 @@
         }
         function handleDrop(e) {
             if (e.stopPropagation) {
-                e.stopPropagation(); // stops the browser from redirecting.
+                e.stopPropagation(); 
             }
 
             if (dragSrcEl != this) {
@@ -162,4 +162,14 @@
             item.addEventListener('dragend', handleDragEnd, false);
         });
     });
+
+    function confirmBox() {
+        var result = confirm("Вы уверены, что хотите продолжить?");
+
+        if (result) {
+            alert("Вы выбрали ОК!");
+        } else {
+            alert("Вы выбрали Отмена!");
+        }
+    }
 </script>
