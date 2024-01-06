@@ -32,7 +32,7 @@ namespace BusinessLayer.ServiceImpl
 
         public async Task<TaskResponse?> AddNewTask(TaskAddRequest taskAddRequest)
         {
-            _logger.LogInformation("{service}.{method} - add new task in service layer", nameof(TaskService), nameof(AddNewTask));
+            _logger.LogInformation("{service}.{method} - start add new task in service layer", nameof(TaskService), nameof(AddNewTask));
 
             if(taskAddRequest != null)
             {
@@ -42,12 +42,15 @@ namespace BusinessLayer.ServiceImpl
                     {
                         DataAccessLayer.Entities.Task task = TaskMapper.TaskAddRequestToTask(taskAddRequest);
                         task = await _taskRepository.AddTask(task);
+
+                        _logger.LogInformation("{service}.{method} - finish add new task in service layer", nameof(TaskService), nameof(AddNewTask));
+
                         return TaskMapper.TaskToTaskResponse(task);
                     }
                     else
                     {
                         _logger.LogError("{service}.{method} - finish time must be more than time now", nameof(TaskService), nameof(AddNewTask));
-                        throw new TaskArgumentException("finish time must be more than time now");
+                        throw new TaskArgumentException ("finish time must be more than time now");
                     }
                 }
                 else
@@ -65,11 +68,13 @@ namespace BusinessLayer.ServiceImpl
 
         public async System.Threading.Tasks.Task DeleteWithId(Guid taskId)
         {
-            _logger.LogInformation("{service}.{method} - delete task in service layer", nameof(TaskService), nameof(DeleteWithId));
+            _logger.LogInformation("{service}.{method} - start delete task in service layer", nameof(TaskService), nameof(DeleteWithId));
 
             if(await _taskRepository.GetTaskById(taskId) != null)
             {
                 await _taskRepository.DeleteById(taskId);
+
+                _logger.LogInformation("{service}.{method} - finish delete task in service layer", nameof(TaskService), nameof(DeleteWithId));
             }
             else
             {
@@ -80,10 +85,12 @@ namespace BusinessLayer.ServiceImpl
 
         public async Task<List<TaskResponse>> GetAllTaskForCategories(Guid categoryId)
         {
-            _logger.LogInformation("{service}.{method} - get all task for categories in service layer", nameof(TaskService), nameof(GetAllTaskForCategories));
+            _logger.LogInformation("{service}.{method} - start get all task for categories in service layer", nameof(TaskService), nameof(GetAllTaskForCategories));
 
             if (await _categoryRepository.GetCategoryById(categoryId) != null)
             {
+                _logger.LogInformation("{service}.{method} - finish all task for categories in service layer", nameof(TaskService), nameof(GetAllTaskForCategories));
+
                 return (await _taskRepository.GetAllTasks(categoryId)).Select(task => TaskMapper.TaskToTaskResponse(task)).ToList();
             }
             else
@@ -95,11 +102,13 @@ namespace BusinessLayer.ServiceImpl
 
         public async Task<TaskResponse> GetTaskWithId(Guid taskId)
         {
-            _logger.LogInformation("{service}.{method} - get task by id in service layer", nameof(TaskService), nameof(GetTaskWithId));
+            _logger.LogInformation("{service}.{method} - start get task by id in service layer", nameof(TaskService), nameof(GetTaskWithId));
 
             DataAccessLayer.Entities.Task? task = await _taskRepository.GetTaskById(taskId);
             if(task != null)
             {
+                _logger.LogInformation("{service}.{method} - finish get all task for categories in service layer", nameof(TaskService), nameof(GetAllTaskForCategories));
+
                 return TaskMapper.TaskToTaskResponse(task);
             }
             else
