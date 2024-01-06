@@ -31,5 +31,11 @@ namespace DataAccessLayer.RepositoryContract
         /// <param name="taskId">task if for search task in tasks</param>
         /// <returns>returned task if find or null if not exist</returns>
         public Task<Entities.Task?> GetTaskById(Guid taskId);
+
+        /// <summary>
+        /// Method for delete task with id
+        /// </summary>
+        /// <param name="taskId">guid id for delete task</param>
+        public Task DeleteById(Guid taskId);
     }
 }

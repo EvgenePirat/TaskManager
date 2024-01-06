@@ -26,6 +26,13 @@ namespace DataAccessLayer.RepositoryImpl
             return task;
         }
 
+        public async Task DeleteById(Guid taskId)
+        {
+            var task = await _context.Tasks.FindAsync(taskId);
+            _context.Tasks.Remove(task);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Entities.Task>> GetAllTasks(Guid categoryId)
         {
             return await _context.Tasks.Where(temp =>  temp.CategoryId == categoryId).ToListAsync();
