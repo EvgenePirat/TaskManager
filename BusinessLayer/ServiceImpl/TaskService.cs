@@ -31,6 +31,8 @@ namespace BusinessLayer.ServiceImpl
 
         public async Task<TaskResponse?> AddNewTask(TaskAddRequest taskAddRequest)
         {
+            _logger.LogInformation("{service}.{method} - add new task in service layer", nameof(TaskService), nameof(AddNewTask));
+
             if(taskAddRequest != null)
             {
                 if(await _categoryRepository.GetCategoryById(taskAddRequest.CategoryId) != null)
@@ -60,9 +62,16 @@ namespace BusinessLayer.ServiceImpl
             }
         }
 
+        public System.Threading.Tasks.Task DeleteWithId(Guid taskId)
+        {
+            _logger.LogInformation("{service}.{method} - delete task in service layer", nameof(TaskService), nameof(DeleteWithId));
+        }
+
         public async Task<List<TaskResponse>> GetAllTaskForCategories(Guid categoryId)
         {
-            if(await _categoryRepository.GetCategoryById(categoryId) != null)
+            _logger.LogInformation("{service}.{method} - get all task for categories in service layer", nameof(TaskService), nameof(GetAllTaskForCategories));
+
+            if (await _categoryRepository.GetCategoryById(categoryId) != null)
             {
                 return (await _taskRepository.GetAllTasks(categoryId)).Select(task => TaskMapper.TaskToTaskResponse(task)).ToList();
             }
@@ -75,6 +84,8 @@ namespace BusinessLayer.ServiceImpl
 
         public async Task<TaskResponse> GetTaskWithId(Guid taskId)
         {
+            _logger.LogInformation("{service}.{method} - get task by id in service layer", nameof(TaskService), nameof(GetTaskWithId));
+
             DataAccessLayer.Entities.Task? task = await _taskRepository.GetTaskById(taskId);
             if(task != null)
             {

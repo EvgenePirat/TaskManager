@@ -33,5 +33,11 @@ namespace BusinessLayer.ServiceContract
         /// <param name="taskId">task id for dound task in system</param>
         /// <returns>returned task response or throw argumetException()</returns>
         public Task<TaskResponse> GetTaskWithId(Guid taskId);
+
+        /// <summary>
+        /// Method for add businnes logic before delete task
+        /// </summary>
+        /// <param name="taskId">guid id for check exist or not</param>
+        public Task DeleteWithId(Guid taskId);
     }
 }
