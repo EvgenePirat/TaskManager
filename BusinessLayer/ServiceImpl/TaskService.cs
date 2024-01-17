@@ -2,6 +2,7 @@
 using BusinessLayer.DTO.TaskDto.Response;
 using BusinessLayer.Mapper;
 using BusinessLayer.ServiceContract;
+using CustomExceptions.CategoryExceptions;
 using CustomExceptions.TaskExceptions;
 using DataAccessLayer.Entities;
 using DataAccessLayer.RepositoryContract;
@@ -41,7 +42,7 @@ namespace BusinessLayer.ServiceImpl
                     if(taskAddRequest.FinishTime > DateTime.Now)
                     {
                         DataAccessLayer.Entities.Task task = TaskMapper.TaskAddRequestToTask(taskAddRequest);
-                        task = await _taskRepository.AddTask(task);
+                        task = await _taskRepository.AddTaskAsync(task);
 
                         _logger.LogInformation("{service}.{method} - finish add new task in service layer", nameof(TaskService), nameof(AddNewTask));
 
@@ -56,7 +57,7 @@ namespace BusinessLayer.ServiceImpl
                 else
                 {
                     _logger.LogError("{service}.{method} - category not found", nameof(TaskService), nameof(AddNewTask));
-                    throw new TaskArgumentException("category not found");
+                    throw new CategoryArgumentException("category not found");
                 }
             }
             else
@@ -70,9 +71,9 @@ namespace BusinessLayer.ServiceImpl
         {
             _logger.LogInformation("{service}.{method} - start delete task in service layer", nameof(TaskService), nameof(DeleteWithId));
 
-            if(await _taskRepository.GetTaskById(taskId) != null)
+            if(await _taskRepository.GetTaskByIdAsync(taskId) != null)
             {
-                await _taskRepository.DeleteById(taskId);
+                await _taskRepository.DeleteByIdAsync(taskId);
 
                 _logger.LogInformation("{service}.{method} - finish delete task in service layer", nameof(TaskService), nameof(DeleteWithId));
             }
@@ -91,7 +92,7 @@ namespace BusinessLayer.ServiceImpl
             {
                 _logger.LogInformation("{service}.{method} - finish all task for categories in service layer", nameof(TaskService), nameof(GetAllTaskForCategories));
 
-                return (await _taskRepository.GetAllTasks(categoryId)).Select(task => TaskMapper.TaskToTaskResponse(task)).ToList();
+                return (await _taskRepository.GetAllTasksAsync(categoryId)).Select(task => TaskMapper.TaskToTaskResponse(task)).ToList();
             }
             else
             {
@@ -104,7 +105,7 @@ namespace BusinessLayer.ServiceImpl
         {
             _logger.LogInformation("{service}.{method} - start get task by id in service layer", nameof(TaskService), nameof(GetTaskWithId));
 
-            DataAccessLayer.Entities.Task? task = await _taskRepository.GetTaskById(taskId);
+            DataAccessLayer.Entities.Task? task = await _taskRepository.GetTaskByIdAsync(taskId);
             if(task != null)
             {
                 _logger.LogInformation("{service}.{method} - finish get all task for categories in service layer", nameof(TaskService), nameof(GetAllTaskForCategories));
@@ -115,6 +116,23 @@ namespace BusinessLayer.ServiceImpl
             {
                 _logger.LogError("{service}.{method} - task with id not found", nameof(TaskService), nameof(GetTaskWithId));
                 throw new TaskArgumentException("Task with id not found");
+            }
+        }
+
+        public async Task<TaskResponse> UpdateTaskAsync(TaskUpdateRequest taskUpdate)
+        {
+            _logger.LogInformation("{service}.{method} - start update task in service layer", nameof(TaskService), nameof(UpdateTaskAsync));
+
+            if (await _taskRepository.GetTaskByIdAsync(taskUpdate.Id) != null)
+            {
+                var mappedTask = TaskMapper.TaskUpdateRequestToTask(taskUpdate);
+                var result = await _taskRepository.UpdateTaskAsync(mappedTask);
+                return TaskMapper.TaskToTaskResponse(result);
+            }
+            else
+            {
+                _logger.LogError("{service}.{method} - not found task for update", nameof(TaskService), nameof(UpdateTaskAsync));
+                throw new TaskArgumentException("task not found for update");
             }
         }
     }

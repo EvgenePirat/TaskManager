@@ -39,5 +39,12 @@ namespace BusinessLayer.ServiceContract
         /// </summary>
         /// <param name="taskId">guid id for check exist or not</param>
         public Task DeleteWithId(Guid taskId);
+
+        /// <summary>
+        /// Method for add businnes logic before update task
+        /// </summary>
+        /// <param name="taskUpdate">task with data for update</param>
+        /// <returns>returned already updated task with new data</returns>
+        public Task<TaskResponse> UpdateTaskAsync(TaskUpdateRequest taskUpdate);
     }
 }
