@@ -1,5 +1,5 @@
-﻿using BusinessLayer.DTO.Request;
-using BusinessLayer.DTO.Response;
+﻿using BusinessLayer.DTO.CategoryDto.Request;
+using BusinessLayer.DTO.CategoryDto.Response;
 using DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;

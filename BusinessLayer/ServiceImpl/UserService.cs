@@ -1,5 +1,5 @@
-﻿using BusinessLayer.DTO.Request;
-using BusinessLayer.DTO.Response;
+﻿using BusinessLayer.DTO.UserDto.Request;
+using BusinessLayer.DTO.UserDto.Response;
 using BusinessLayer.Encrypted;
 using BusinessLayer.Mapper;
 using BusinessLayer.ServiceContract;
@@ -42,7 +42,7 @@ namespace BusinessLayer.ServiceImpl
             user.Password = Md5.HashPassword(user.Password);
             user.Age = user.CreateAccount.Year - userRequest.DateOfBirth.Year;
             
-            User userAfterSave = await _userRepository.AddUser(user);
+            User userAfterSave = await _userRepository.AddUserAsync(user);
             return UserMapper.UserToUserResponse(userAfterSave);
         }
 
@@ -50,7 +50,7 @@ namespace BusinessLayer.ServiceImpl
         {
             _logger.LogInformation("{service}.{method} - check user name in system", nameof(UserService), nameof(CheckUserName));
 
-            User? user = await _userRepository.GetByUserName(userName);
+            User? user = await _userRepository.GetByUserNameAsync(userName);
             return user == null;
         }
 
@@ -66,7 +66,7 @@ namespace BusinessLayer.ServiceImpl
                     throw new ArgumentException("UserName not found in system!");
                 }
 
-                User? userAfterSearch = await _userRepository.GetByUserName(userEnterRequest.UserName);
+                User? userAfterSearch = await _userRepository.GetByUserNameAsync(userEnterRequest.UserName);
 
                 userEnterRequest.Password = Md5.HashPassword(userEnterRequest.Password);
 

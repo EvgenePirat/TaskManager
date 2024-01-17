@@ -21,7 +21,7 @@ namespace DataAccessLayer.RepositoryImpl
             _context = dbContext;
         }
 
-        public async Task<Category?> AddCategory(Category category)
+        public async Task<Category?> AddCategoryAsync(Category category)
         {
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
@@ -29,7 +29,7 @@ namespace DataAccessLayer.RepositoryImpl
             return await _context.Categories.Include("Tasks").FirstOrDefaultAsync(temp => temp.Id == category.Id);
         }
 
-        public async Task<List<Category>> GetAllCategories(Guid UserId)
+        public async Task<List<Category>> GetAllCategoriesAsync(Guid UserId)
         {
             return await _context.Categories.Include("Tasks").Where(temp => temp.UserId == UserId).ToListAsync();
         }

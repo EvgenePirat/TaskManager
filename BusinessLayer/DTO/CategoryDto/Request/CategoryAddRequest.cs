@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLayer.DTO.Request
+namespace BusinessLayer.DTO.CategoryDto.Request
 {
     /// <summary>
     /// DTO for interesting a new category

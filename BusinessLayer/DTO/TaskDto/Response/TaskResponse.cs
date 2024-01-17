@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLayer.DTO.Response
+namespace BusinessLayer.DTO.TaskDto.Response
 {
     /// <summary>
     /// DTO for response task entity

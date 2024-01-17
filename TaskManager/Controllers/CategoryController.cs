@@ -1,5 +1,4 @@
-﻿using BusinessLayer.DTO.Request;
-using BusinessLayer.DTO.Response;
+﻿using BusinessLayer.DTO.CategoryDto.Request;
 using BusinessLayer.ServiceContract;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Filteres.ActionFilter.CategoryFilters;

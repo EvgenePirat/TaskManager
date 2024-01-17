@@ -17,15 +17,14 @@ namespace DataAccessLayer.RepositoryContract
         /// </summary>
         /// <param name="category">data category from user</param>
         /// <returns>returned category with id after save</returns>
-        public Task<Category> AddCategory(Category category);
+        public Task<Category> AddCategoryAsync(Category category);
 
         /// <summary>
         /// Method for get all categories for user
         /// </summary>
         /// <param name="UserId">user id for filtered categories</param>
         /// <returns>returned all categories for user</returns>
-<<<<<<< HEAD
-        public Task<List<Category>> GetAllCategories(Guid UserId);
+        public Task<List<Category>> GetAllCategoriesAsync(Guid UserId);
 
         /// <summary>
         /// Method for find and get category with category name
@@ -40,8 +39,5 @@ namespace DataAccessLayer.RepositoryContract
         /// <param name="Id">guid id for search category</param>
         /// <returns>returned category if find or null if not find</returns>
         public Task<Category?> GetCategoryByIdAsync(Guid Id);
-=======
-        public Task<List<Category>> GetAllCategoriesAsync(Guid UserId);
->>>>>>> dates_layer
     }
 }

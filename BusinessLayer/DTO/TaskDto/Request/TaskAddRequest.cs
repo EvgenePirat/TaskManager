@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLayer.DTO.Request
+namespace BusinessLayer.DTO.TaskDto.Request
 {
     /// <summary>
     /// DTO for add model task

@@ -1,4 +1,4 @@
-﻿using BusinessLayer.DTO.Response;
+﻿using BusinessLayer.DTO.RoleDto.Response;
 using BusinessLayer.Mapper;
 using BusinessLayer.ServiceContract;
 using DataAccessLayer.RepositoryContract;
@@ -28,7 +28,7 @@ namespace BusinessLayer.ServiceImpl
         /// <returns>returned all roles</returns>
         public async Task<List<RoleResponse>> GetAllRoles()
         {
-            return (await _roleRepository.GetAllRoles()).Select(role => RoleMapper.RoleToRoleResponse(role)).ToList();
+            return (await _roleRepository.GetAllRolesAsync()).Select(role => RoleMapper.RoleToRoleResponse(role)).ToList();
         }
     }
 }

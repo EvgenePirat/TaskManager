@@ -5,15 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLayer.DTO.Response
+namespace BusinessLayer.DTO.RoleDto.Request
 {
     /// <summary>
-    /// DTO for response role entity
+    /// DTO for model user
     /// </summary>
-    public class RoleResponse
+    public class RoleRequest
     {
-        public Guid Id { get; set; }
-
+        [Required(ErrorMessage = "Role name can be")]
         public string? Name { get; set; }
     }
 }

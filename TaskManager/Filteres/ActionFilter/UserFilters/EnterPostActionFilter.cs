@@ -1,5 +1,4 @@
-﻿using BusinessLayer.DTO.Response;
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using TaskManager.Controllers;
 

@@ -1,5 +1,6 @@
-﻿using BusinessLayer.DTO.Request;
-using BusinessLayer.DTO.Response;
+﻿using BusinessLayer.DTO.CategoryDto.Response;
+using BusinessLayer.DTO.TaskDto.Request;
+using BusinessLayer.DTO.TaskDto.Response;
 using BusinessLayer.ServiceContract;
 using DataAccessLayer.RepositoryContract;
 using Microsoft.AspNetCore.Mvc;
@@ -82,7 +83,7 @@ namespace TaskManager.Controllers
         }
 
         /// <summary>
-        /// Method for get task with id
+        /// Method for get task by id
         /// </summary>
         /// <param name="taskId">guid task id for filter</param>
         /// <returns>returned task if finded or exceptions</returns>
@@ -96,11 +97,24 @@ namespace TaskManager.Controllers
             return View(taskResponse);
         }
 
+        /// <summary>
+        /// Method for delete task by id
+        /// </summary>
+        /// <param name="taskId">task</param>
+        /// <returns>returned page wothout tasks</returns>
+        [HttpPost("[action]")]
         public async Task<IActionResult> DeleteTaskPost([Required] Guid taskId)
         {
-            _logger.LogInformation("{controller}.{method} - post delete task if find", nameof(TaskController), nameof(AddNewTaskPost));
+            _logger.LogInformation("{controller}.{method} - start post delete task if find", nameof(TaskController), nameof(AddNewTaskPost));
 
+            await _taskService.DeleteWithId(taskId);
 
+            Guid userId = Guid.Parse(HttpContext.Session.GetString("UserId"));
+            List<CategoryResponse> categories = await _categoryService.GetCategoriesForUser(userId);
+
+            _logger.LogInformation("{controller}.{method} - finish post delete task if find", nameof(TaskController), nameof(AddNewTaskPost));
+
+            return View("Home", categories);
         }
 
     }

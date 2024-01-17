@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Entities;
+﻿using BusinessLayer.DTO.RoleDto.Response;
+using DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLayer.DTO.Response
+namespace BusinessLayer.DTO.UserDto.Response
 {
     /// <summary>
     /// DTO for response user entity

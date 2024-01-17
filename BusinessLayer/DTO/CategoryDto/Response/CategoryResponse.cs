@@ -4,8 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BusinessLayer.DTO.TaskDto.Response;
 
-namespace BusinessLayer.DTO.Response
+namespace BusinessLayer.DTO.CategoryDto.Response
 {
     /// <summary>
     /// DTO for response category entity

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLayer.DTO.Request
+namespace BusinessLayer.DTO.UserDto.Request
 {
     /// <summary>
     /// DTO for enter in system

@@ -1,5 +1,5 @@
-﻿using BusinessLayer.DTO.Request;
-using BusinessLayer.DTO.Response;
+﻿using BusinessLayer.DTO.CategoryDto.Request;
+using BusinessLayer.DTO.CategoryDto.Response;
 using BusinessLayer.Mapper;
 using BusinessLayer.ServiceContract;
 using DataAccessLayer.Entities;
@@ -56,9 +56,9 @@ namespace BusinessLayer.ServiceImpl
 
         public async Task<List<CategoryResponse>> GetCategoriesForUser(Guid userId)
         {
-            if((await _userRepository.GetByUserId(userId)) != null)
+            if((await _userRepository.GetByUserIdAsync(userId)) != null)
             {
-                return (await _categoryRepository.GetAllCategories(userId)).Select(temp => CategoryMapper.CategoryToCategoryResponse(temp)).ToList();
+                return (await _categoryRepository.GetAllCategoriesAsync(userId)).Select(temp => CategoryMapper.CategoryToCategoryResponse(temp)).ToList();
             }
             else
             {

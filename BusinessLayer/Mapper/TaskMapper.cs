@@ -1,6 +1,4 @@
-﻿using BusinessLayer.DTO.Request;
-using BusinessLayer.DTO.Response;
-using DataAccessLayer.Entities;
+﻿using DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Task = DataAccessLayer.Entities.Task;
 using BusinessLayer.Enum;
+using BusinessLayer.DTO.TaskDto.Request;
+using BusinessLayer.DTO.TaskDto.Response;
 
 namespace BusinessLayer.Mapper
 {
