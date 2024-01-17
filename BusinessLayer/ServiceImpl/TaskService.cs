@@ -36,7 +36,7 @@ namespace BusinessLayer.ServiceImpl
 
             if(taskAddRequest != null)
             {
-                if(await _categoryRepository.GetCategoryById(taskAddRequest.CategoryId) != null)
+                if(await _categoryRepository.GetCategoryByIdAsync(taskAddRequest.CategoryId) != null)
                 {
                     if(taskAddRequest.FinishTime > DateTime.Now)
                     {
@@ -87,7 +87,7 @@ namespace BusinessLayer.ServiceImpl
         {
             _logger.LogInformation("{service}.{method} - start get all task for categories in service layer", nameof(TaskService), nameof(GetAllTaskForCategories));
 
-            if (await _categoryRepository.GetCategoryById(categoryId) != null)
+            if (await _categoryRepository.GetCategoryByIdAsync(categoryId) != null)
             {
                 _logger.LogInformation("{service}.{method} - finish all task for categories in service layer", nameof(TaskService), nameof(GetAllTaskForCategories));
 

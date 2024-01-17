@@ -35,7 +35,7 @@ namespace BusinessLayer.ServiceImpl
         {
             if(categoryAddRequest != null)
             {
-                Category? category = await _categoryRepository.GetCategoryByName(categoryAddRequest.Name);
+                Category? category = await _categoryRepository.GetCategoryByNameAsync(categoryAddRequest.Name);
 
                 if (category != null)
                 {
@@ -56,9 +56,9 @@ namespace BusinessLayer.ServiceImpl
 
         public async Task<List<CategoryResponse>> GetCategoriesForUser(Guid userId)
         {
-            if((await _userRepository.GetByUserId(userId)) != null)
+            if((await _userRepository.GetByUserIdAsync(userId)) != null)
             {
-                return (await _categoryRepository.GetAllCategories(userId)).Select(temp => CategoryMapper.CategoryToCategoryResponse(temp)).ToList();
+                return (await _categoryRepository.GetAllCategoriesAsync(userId)).Select(temp => CategoryMapper.CategoryToCategoryResponse(temp)).ToList();
             }
             else
             {

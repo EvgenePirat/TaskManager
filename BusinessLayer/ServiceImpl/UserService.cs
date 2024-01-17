@@ -50,7 +50,7 @@ namespace BusinessLayer.ServiceImpl
         {
             _logger.LogInformation("{service}.{method} - check user name in system", nameof(UserService), nameof(CheckUserName));
 
-            User? user = await _userRepository.GetByUserName(userName);
+            User? user = await _userRepository.GetByUserNameAsync(userName);
             return user == null;
         }
 
@@ -66,7 +66,7 @@ namespace BusinessLayer.ServiceImpl
                     throw new ArgumentException("UserName not found in system!");
                 }
 
-                User? userAfterSearch = await _userRepository.GetByUserName(userEnterRequest.UserName);
+                User? userAfterSearch = await _userRepository.GetByUserNameAsync(userEnterRequest.UserName);
 
                 userEnterRequest.Password = Md5.HashPassword(userEnterRequest.Password);
 
