@@ -2,6 +2,8 @@
 using BusinessLayer.DTO.CategoryDto.Response;
 using BusinessLayer.Mapper;
 using BusinessLayer.ServiceContract;
+using CustomExceptions.CategoryExceptions;
+using CustomExceptions.UserExceptions;
 using DataAccessLayer.Entities;
 using DataAccessLayer.RepositoryContract;
 using Microsoft.Extensions.Logging;
@@ -40,11 +42,11 @@ namespace BusinessLayer.ServiceImpl
                 if (category != null)
                 {
                     _logger.LogError("{service}.{method} - Category already exist", nameof(CategoryService), nameof(AddNewCategory));
-                    throw new ArgumentException("Category already exist!");
+                    throw new CategoryArgumentException("Category already exist!");
                 }
 
                 category = CategoryMapper.CategoryAddRequestToCategory(categoryAddRequest);
-                category = await _categoryRepository.AddCategory(category);
+                category = await _categoryRepository.AddCategoryAsync(category);
                 return CategoryMapper.CategoryToCategoryResponse(category);
             }
             else
@@ -63,10 +65,8 @@ namespace BusinessLayer.ServiceImpl
             else
             {
                 _logger.LogError("{service}.{method} - User with id not found!", nameof(CategoryService), nameof(GetCategoriesForUser));
-                throw new ArgumentException(nameof(userId));
-            }
-
-            
+                throw new UserArgumentException("User with id not found!");
+            }  
         }
     }
 }

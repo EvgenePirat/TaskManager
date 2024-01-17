@@ -3,6 +3,7 @@ using BusinessLayer.DTO.UserDto.Response;
 using BusinessLayer.Encrypted;
 using BusinessLayer.Mapper;
 using BusinessLayer.ServiceContract;
+using CustomExceptions.UserExceptions;
 using DataAccessLayer.Entities;
 using DataAccessLayer.RepositoryContract;
 using Microsoft.Extensions.Logging;
@@ -63,7 +64,7 @@ namespace BusinessLayer.ServiceImpl
                 if (await CheckUserName(userEnterRequest.UserName))
                 {
                     _logger.LogError("{controller}.{method} - userEnterRequest not found in system!", nameof(UserService), nameof(EnterInSystem));
-                    throw new ArgumentException("UserName not found in system!");
+                    throw new UserArgumentException("UserName not found in system!");
                 }
 
                 User? userAfterSearch = await _userRepository.GetByUserNameAsync(userEnterRequest.UserName);
@@ -73,7 +74,7 @@ namespace BusinessLayer.ServiceImpl
                 if (userEnterRequest.Password != userAfterSearch.Password)
                 {
                     _logger.LogError("{controller}.{method} - userEnterRequest has wrong password", nameof(UserService), nameof(EnterInSystem));
-                    throw new ArgumentException("You wrote wrong password!");
+                    throw new UserArgumentException("You wrote wrong password!");
                 }
 
                 return UserMapper.UserToUserResponse(userAfterSearch);
