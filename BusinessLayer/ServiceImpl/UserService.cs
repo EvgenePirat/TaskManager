@@ -42,7 +42,7 @@ namespace BusinessLayer.ServiceImpl
             user.Password = Md5.HashPassword(user.Password);
             user.Age = user.CreateAccount.Year - userRequest.DateOfBirth.Year;
             
-            User userAfterSave = await _userRepository.AddUser(user);
+            User userAfterSave = await _userRepository.AddUserAsync(user);
             return UserMapper.UserToUserResponse(userAfterSave);
         }
 

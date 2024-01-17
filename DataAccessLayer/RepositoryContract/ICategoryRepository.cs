@@ -17,7 +17,7 @@ namespace DataAccessLayer.RepositoryContract
         /// </summary>
         /// <param name="category">data category from user</param>
         /// <returns>returned category with id after save</returns>
-        public Task<Category> AddCategory(Category category);
+        public Task<Category> AddCategoryAsync(Category category);
 
         /// <summary>
         /// Method for get all categories for user

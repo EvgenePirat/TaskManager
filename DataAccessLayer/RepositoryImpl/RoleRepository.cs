@@ -21,7 +21,7 @@ namespace DataAccessLayer.RepositoryImpl
             _context = dbContext;
         }
 
-        public async Task<List<Role>> GetAllRoles()
+        public async Task<List<Role>> GetAllRolesAsync()
         {
             return await _context.Roles.ToListAsync();
         }

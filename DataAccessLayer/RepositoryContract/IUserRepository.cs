@@ -17,7 +17,7 @@ namespace DataAccessLayer.RepositoryContract
         /// </summary>
         /// <param name="user">User for save to BD</param>
         /// <returns>returned user with id from db</returns>
-        public Task<User> AddUser(User user);
+        public Task<User> AddUserAsync(User user);
 
         /// <summary>
         /// Get user from db with username
