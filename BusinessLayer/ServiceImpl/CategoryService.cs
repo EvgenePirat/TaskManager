@@ -35,7 +35,7 @@ namespace BusinessLayer.ServiceImpl
         {
             if(categoryAddRequest != null)
             {
-                Category? category = await _categoryRepository.GetCategoryByName(categoryAddRequest.Name);
+                Category? category = await _categoryRepository.GetCategoryByNameAsync(categoryAddRequest.Name);
 
                 if (category != null)
                 {
