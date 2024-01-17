@@ -16,6 +16,6 @@ namespace DataAccessLayer.RepositoryContract
         /// Method for gets all roles from basedata
         /// </summary>
         /// <returns>returned list with role from db</returns>
-        public Task<List<Role>> GetAllRoles();
+        public Task<List<Role>> GetAllRolesAsync();
     }
 }

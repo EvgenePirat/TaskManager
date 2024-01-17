@@ -17,13 +17,13 @@ namespace DataAccessLayer.RepositoryContract
         /// </summary>
         /// <param name="category">data category from user</param>
         /// <returns>returned category with id after save</returns>
-        public Task<Category> AddCategory(Category category);
+        public Task<Category> AddCategoryAsync(Category category);
 
         /// <summary>
         /// Method for get all categories for user
         /// </summary>
         /// <param name="UserId">user id for filtered categories</param>
         /// <returns>returned all categories for user</returns>
-        public Task<List<Category>> GetAllCategories(Guid UserId);
+        public Task<List<Category>> GetAllCategoriesAsync(Guid UserId);
     }
 }

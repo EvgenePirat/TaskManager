@@ -21,7 +21,7 @@ namespace DataAccessLayer.RepositoryImpl
             _context = dbContext;
         }
 
-        public async Task<User?> AddUser(User user)
+        public async Task<User?> AddUserAsync(User user)
         {
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -29,7 +29,7 @@ namespace DataAccessLayer.RepositoryImpl
             return await _context.Users.Include("Role").FirstOrDefaultAsync(temp => temp.Id == user.Id);
         }
 
-        public async Task<User?> GetByUserName(string userName)
+        public async Task<User?> GetByUserNameAsync(string userName)
         {
             return await _context.Users.Include("Role").FirstOrDefaultAsync(temp => temp.UserName == userName);
         }

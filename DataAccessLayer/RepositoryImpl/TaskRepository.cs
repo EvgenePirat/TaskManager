@@ -19,31 +19,31 @@ namespace DataAccessLayer.RepositoryImpl
             _context = applicationDbContext;
         }
 
-        public async Task<Entities.Task> AddTask(Entities.Task task)
+        public async Task<Entities.Task> AddTaskAsync(Entities.Task task)
         {
             _context.Tasks.Add(task);
             await _context.SaveChangesAsync();
             return task;
         }
 
-        public async Task DeleteById(Guid taskId)
+        public async Task DeleteByIdAsync(Guid taskId)
         {
             var task = await _context.Tasks.FindAsync(taskId);
             _context.Tasks.Remove(task);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Entities.Task>> GetAllTasks(Guid categoryId)
+        public async Task<List<Entities.Task>> GetAllTasksAsync(Guid categoryId)
         {
             return await _context.Tasks.Where(temp =>  temp.CategoryId == categoryId).ToListAsync();
         }
 
-        public async Task<Entities.Task?> GetTaskById(Guid taskId)
+        public async Task<Entities.Task?> GetTaskByIdAsync(Guid taskId)
         {
             return await _context.Tasks.Include("Category").FirstOrDefaultAsync(temp => temp.Id == taskId);
         }
 
-        public async Task<Entities.Task?> UpdateTask(Entities.Task task)
+        public async Task<Entities.Task?> UpdateTaskAsync(Entities.Task task)
         {
             Entities.Task? taskFromDb = await _context.Tasks.FirstOrDefaultAsync(temp => temp.Id != task.Id);
 

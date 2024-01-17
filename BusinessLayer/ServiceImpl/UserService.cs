@@ -29,13 +29,13 @@ namespace BusinessLayer.ServiceImpl
             user.CreateAccount = DateTime.Now;
             user.Age = DateTime.Now.Year - userRequest.DateOfBirth.Year;
             
-            User userAfterSave = await _userRepository.AddUser(user);
+            User userAfterSave = await _userRepository.AddUserAsync(user);
             return UserMapper.UserToUserResponse(userAfterSave);
         }
 
         public async Task<bool> CheckUserName(string userName)
         {
-            User? user = await _userRepository.GetByUserName(userName);
+            User? user = await _userRepository.GetByUserNameAsync(userName);
             return user == null;
         }
 
@@ -43,7 +43,7 @@ namespace BusinessLayer.ServiceImpl
         {
             if(userEnterRequest != null)
             {
-                User? userAfterSearch = await _userRepository.GetByUserName(userEnterRequest.UserName);
+                User? userAfterSearch = await _userRepository.GetByUserNameAsync(userEnterRequest.UserName);
 
                 userEnterRequest.Password = Md5.HashPassword(userEnterRequest.Password);
 
