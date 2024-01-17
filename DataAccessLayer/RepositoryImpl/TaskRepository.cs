@@ -42,5 +42,23 @@ namespace DataAccessLayer.RepositoryImpl
         {
             return await _context.Tasks.Include("Category").FirstOrDefaultAsync(temp => temp.Id == taskId);
         }
+
+        public async Task<Entities.Task?> UpdateTask(Entities.Task task)
+        {
+            Entities.Task? taskFromDb = await _context.Tasks.FirstOrDefaultAsync(temp => temp.Id != task.Id);
+
+            if(taskFromDb != null)
+            {
+                taskFromDb.Title = task.Title;
+                taskFromDb.Description = task.Description;
+                taskFromDb.Status = task.Status;
+                taskFromDb.FinishTime = task.FinishTime;
+                taskFromDb.CategoryId = task.CategoryId;
+
+                _context.SaveChanges();
+            }
+
+            return taskFromDb;
+        }
     }
 }

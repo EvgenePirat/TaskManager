@@ -37,5 +37,12 @@ namespace DataAccessLayer.RepositoryContract
         /// </summary>
         /// <param name="taskId">guid id for delete task</param>
         public Task DeleteById(Guid taskId);
+
+        /// <summary>
+        /// Method for update already exist task
+        /// </summary>
+        /// <param name="task">task for update</param>
+        /// <returns>returned task with updated data</returns>
+        public Task<Entities.Task?> UpdateTask(Entities.Task task);
     }
 }
