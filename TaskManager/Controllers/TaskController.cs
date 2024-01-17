@@ -1,5 +1,6 @@
-﻿using BusinessLayer.DTO.Request;
-using BusinessLayer.DTO.Response;
+﻿using BusinessLayer.DTO.CategoryDto.Response;
+using BusinessLayer.DTO.TaskDto.Request;
+using BusinessLayer.DTO.TaskDto.Response;
 using BusinessLayer.ServiceContract;
 using DataAccessLayer.RepositoryContract;
 using Microsoft.AspNetCore.Mvc;

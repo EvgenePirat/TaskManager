@@ -1,5 +1,5 @@
-﻿using BusinessLayer.DTO.Request;
-using BusinessLayer.DTO.Response;
+﻿using BusinessLayer.DTO.CategoryDto.Request;
+using BusinessLayer.DTO.CategoryDto.Response;
 using BusinessLayer.Mapper;
 using BusinessLayer.ServiceContract;
 using DataAccessLayer.Entities;

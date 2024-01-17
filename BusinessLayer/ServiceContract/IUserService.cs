@@ -1,5 +1,5 @@
-﻿using BusinessLayer.DTO.Request;
-using BusinessLayer.DTO.Response;
+﻿using BusinessLayer.DTO.UserDto.Request;
+using BusinessLayer.DTO.UserDto.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;

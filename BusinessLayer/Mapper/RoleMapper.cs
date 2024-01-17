@@ -1,4 +1,4 @@
-﻿using BusinessLayer.DTO.Response;
+﻿using BusinessLayer.DTO.RoleDto.Response;
 using DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;

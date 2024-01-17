@@ -1,4 +1,4 @@
-﻿using BusinessLayer.DTO.Response;
+﻿using BusinessLayer.DTO.RoleDto.Response;
 using BusinessLayer.Mapper;
 using BusinessLayer.ServiceContract;
 using DataAccessLayer.RepositoryContract;

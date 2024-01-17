@@ -1,5 +1,6 @@
-﻿using BusinessLayer.DTO.Request;
-using BusinessLayer.DTO.Response;
+﻿using BusinessLayer.DTO.RoleDto.Response;
+using BusinessLayer.DTO.UserDto.Request;
+using BusinessLayer.DTO.UserDto.Response;
 using BusinessLayer.ServiceContract;
 using BusinessLayer.ServiceImpl;
 using DataAccessLayer.Entities;

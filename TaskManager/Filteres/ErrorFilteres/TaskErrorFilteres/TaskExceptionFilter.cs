@@ -1,5 +1,4 @@
-﻿using BusinessLayer.DTO.Response;
-using BusinessLayer.ServiceContract;
+﻿using BusinessLayer.ServiceContract;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
