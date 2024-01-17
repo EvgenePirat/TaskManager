@@ -1,10 +1,4 @@
-﻿using DataAccessLayer.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Task = DataAccessLayer.Entities.Task;
+﻿using Task = DataAccessLayer.Entities.Task;
 using BusinessLayer.Enum;
 using BusinessLayer.DTO.TaskDto.Request;
 using BusinessLayer.DTO.TaskDto.Response;
@@ -34,6 +28,16 @@ namespace BusinessLayer.Mapper
         public static TaskResponse TaskToTaskResponse(Task task)
         {
             return new TaskResponse() { Category = task.Category, Description = task.Description, Id = task.Id, FinishTime = task.FinishTime, Title = task.Title, Status = System.Enum.Parse<Status>(task.Status) };
+        }
+
+        /// <summary>
+        /// Method with logic for change from taskUpdateRequest class to task class for update in bd
+        /// </summary>
+        /// <param name="taskUpdateRequest">taskUpdateRequest has data for task</param>
+        /// <returns>returned task with data from taskUpdateRequest</returns>
+        public static Task TaskUpdateRequestToTask(TaskUpdateRequest taskUpdateRequest)
+        {
+            return new Task() { Id = taskUpdateRequest.Id, Title = taskUpdateRequest.Title, Description = taskUpdateRequest.Description, FinishTime = taskUpdateRequest.FinishTime, Status = taskUpdateRequest?.Status.ToString(), CategoryId = taskUpdateRequest.CategoryId };
         }
     }
 }
