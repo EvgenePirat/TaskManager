@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Entities;
+﻿using DataAccessLayer.DbContext;
+using DataAccessLayer.Entities;
 using DataAccessLayer.RepositoryContract;
 using Microsoft.EntityFrameworkCore;
 using System;

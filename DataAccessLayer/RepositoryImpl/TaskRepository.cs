@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.RepositoryContract;
+﻿using DataAccessLayer.DbContext;
+using DataAccessLayer.RepositoryContract;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
