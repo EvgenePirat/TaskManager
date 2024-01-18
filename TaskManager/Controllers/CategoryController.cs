@@ -1,4 +1,5 @@
-﻿using BusinessLayer.DTO.CategoryDto.Request;
+﻿using AutoMapper;
+using BusinessLayer.Models.Categories.Request;
 using BusinessLayer.ServiceContract;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Dto.Categories.Request;
@@ -16,10 +17,14 @@ namespace TaskManager.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
+        private readonly IMapper _mapper;
+        private readonly ILogger<CategoryController> _logger;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(ICategoryService categoryService, IMapper mapper, ILogger<CategoryController> logger)
         {
             _categoryService = categoryService;
+            _mapper = mapper;
+            _logger = logger;
         }
 
         /// <summary>
@@ -29,11 +34,16 @@ namespace TaskManager.Controllers
         [HttpGet("[action]")]
         public IActionResult AddNewCategory()
         {
+            _logger.LogInformation("{controller}.{method} - Get add new category page, start", nameof(CategoryController), nameof(AddNewCategory));
+
             string errorMessage = HttpContext.Request.Query["error"].ToString();
             if (errorMessage.Length > 0)
                 ViewBag.Errors = new List<string> { errorMessage };
 
             ViewBag.UserId = Guid.Parse(HttpContext.Session.GetString("UserId"));
+
+            _logger.LogInformation("{controller}.{method} - Get add new category page, finish", nameof(CategoryController), nameof(AddNewCategory));
+
             return View("AddCategory");
         }
 
@@ -47,8 +57,14 @@ namespace TaskManager.Controllers
         [TypeFilter(typeof(CategoryExceptionFilter))]
         public async Task<IActionResult> AddNewCategoryPost(CategoryAddDto categoryAddRequest) 
         {
-            await _categoryService.AddNewCategoryAsync(categoryAddRequest);
-            
+            _logger.LogInformation("{controller}.{method} - post category for save, start", nameof(CategoryController), nameof(AddNewCategoryPost));
+
+            var mappedModel = _mapper.Map<CategoryAddModel>(categoryAddRequest);
+
+            await _categoryService.AddNewCategoryAsync(mappedModel);
+
+            _logger.LogInformation("{controller}.{method} - post category for save, finish", nameof(CategoryController), nameof(AddNewCategoryPost));
+
             return RedirectToAction("Home","Task");
         }
     }

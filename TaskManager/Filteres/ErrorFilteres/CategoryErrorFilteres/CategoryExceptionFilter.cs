@@ -27,7 +27,7 @@ namespace TaskManager.Filteres.ErrorFilteres.CategoryErrorFilteres
 
             if (context.HttpContext.Request.Path.Value.Contains("AddNewCategoryPost"))
             {
-                context.Result = new RedirectToActionResult("AddNewCategoryAsync", "Category", new { error = errorMessage });
+                context.Result = new RedirectToActionResult("AddNewCategory", "Category", new { error = errorMessage });
             }
 
             context.ExceptionHandled = true;

@@ -1,8 +1,10 @@
-﻿using BusinessLayer.DTO.RoleDto.Response;
+﻿using AutoMapper;
 using BusinessLayer.ServiceContract;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 using TaskManager.Controllers;
+using TaskManager.Dto.Roles.Response;
 
 namespace TaskManager.Filteres.ActionFilter.UserFilters
 {
@@ -12,10 +14,12 @@ namespace TaskManager.Filteres.ActionFilter.UserFilters
     public class RegistrationActionFilter : IAsyncActionFilter
     {
         private readonly IRoleService _roleService;
+        private readonly IMapper _mapper;
 
-        public RegistrationActionFilter(IRoleService roleService)
+        public RegistrationActionFilter(IRoleService roleService, IMapper mapper)
         {
             _roleService = roleService;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -31,7 +35,7 @@ namespace TaskManager.Filteres.ActionFilter.UserFilters
                 List<string> errorMessages = new List<string>();
                 if (!context.ModelState.IsValid)
                 {
-                    List<RoleDto> rolesList = await _roleService.GetAllRolesAsync();
+                    List<RoleDto> rolesList = _mapper.Map<List<RoleDto>>(await _roleService.GetAllRolesAsync());
                     userController.ViewBag.Roles = rolesList.Select(role => new SelectListItem { Value = role.Id.ToString(), Text = role.Name });
                     errorMessages = context.ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
 

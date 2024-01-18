@@ -1,9 +1,4 @@
-﻿using BusinessLayer.DTO.TaskDto.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BusinessLayer.Models.Tasks.Response;
 
 namespace BusinessLayer.Models.Categories.Response
 {

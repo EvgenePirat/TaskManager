@@ -1,9 +1,13 @@
-﻿using BusinessLayer.Models.Roles.Response;
-using BusinessLayer.Models.Users.Response;
+﻿using AutoMapper;
+using BusinessLayer.Models.Roles.Response;
+using BusinessLayer.Models.Users.Request;
 using BusinessLayer.ServiceContract;
+using CustomExceptions.UserExceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using TaskManager.Dto.Roles.Response;
 using TaskManager.Dto.Users.Request;
+using TaskManager.Dto.Users.Response;
 using TaskManager.Filteres.ActionFilter.UserFilters;
 using TaskManager.Filteres.ErrorFilteres.UserErrorFilteres;
 
@@ -18,12 +22,14 @@ namespace TaskManager.Controllers
         private readonly IRoleService _roleService;
         private readonly IUserService _userService;
         private readonly ILogger<UserController> _logger;
+        private readonly IMapper _mapper;
 
-        public UserController(IRoleService roleService, IUserService userService, ILogger<UserController> logger)
+        public UserController(IRoleService roleService, IUserService userService, ILogger<UserController> logger, IMapper mapper)
         {
             _roleService = roleService;
             _userService = userService;
             _logger = logger;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -57,7 +63,9 @@ namespace TaskManager.Controllers
         {
             _logger.LogInformation("{controller}.{method} - start post user for enter in system", nameof(UserController), nameof(EnterPost));
 
-            UserModel findUser = await _userService.EnterInSystemAsync(userEnterRequest);
+            var mappedModel = _mapper.Map<UserEnterModel>(userEnterRequest);
+
+            UserDto findUser = _mapper.Map<UserDto>(await _userService.EnterInSystemAsync(mappedModel));
 
             HttpContext.Session.SetString("UserId", findUser.Id.ToString());
 
@@ -80,9 +88,11 @@ namespace TaskManager.Controllers
             if (errorMessage.Length > 0)
                 ViewBag.Errors = new List<string> { errorMessage };
 
-            List<RoleModel> rolesList = await _roleService.GetAllRolesAsync();
+            List<RoleModel> modelRoles = await _roleService.GetAllRolesAsync();
 
-            ViewBag.Roles = rolesList.Select(role => new SelectListItem { Value = role.Id.ToString(), Text = role.Name });
+            List<RoleDto> mappedRoles = _mapper.Map<List<RoleDto>>(modelRoles);
+
+            ViewBag.Roles = mappedRoles.Select(role => new SelectListItem { Value = role.Id.ToString(), Text = role.Name });
 
             _logger.LogInformation("{controller}.{method} - finish post user for enter in system", nameof(UserController), nameof(Registration));
 
@@ -103,12 +113,14 @@ namespace TaskManager.Controllers
 
             if (await _userService.CheckUserNameAsync(userAddRequest.UserName))
             {
-                UserModel userResponse = await _userService.AddUserAsync(userAddRequest);
+                var mappedModel = _mapper.Map<UserAddModel>(userAddRequest);
+
+                await _userService.AddUserAsync(mappedModel);
             }
             else
             {
                 _logger.LogError("{controller}.{method} - userRequest equals null", nameof(UserController), nameof(RegistrationPost));
-                throw new ArgumentException("User with username already exist");
+                throw new UserArgumentException("User with username already exist");
             }
 
             _logger.LogInformation("{controller}.{method} - finish post user for registration in system", nameof(UserController), nameof(RegistrationPost));

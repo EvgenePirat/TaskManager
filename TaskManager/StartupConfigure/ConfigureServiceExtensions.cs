@@ -4,7 +4,6 @@ using DataAccessLayer;
 using DataAccessLayer.RepositoryContract;
 using DataAccessLayer.RepositoryImpl;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace TaskManager.StartupConfigure
 {

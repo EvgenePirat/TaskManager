@@ -1,19 +1,11 @@
-﻿using BusinessLayer.DTO.TaskDto.Request;
-using BusinessLayer.DTO.TaskDto.Response;
-using BusinessLayer.Mapper;
+﻿using AutoMapper;
 using BusinessLayer.Models.Tasks.Request;
 using BusinessLayer.Models.Tasks.Response;
 using BusinessLayer.ServiceContract;
 using CustomExceptions.CategoryExceptions;
 using CustomExceptions.TaskExceptions;
-using DataAccessLayer.Entities;
 using DataAccessLayer.RepositoryContract;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLayer.ServiceImpl
 {
@@ -25,12 +17,14 @@ namespace BusinessLayer.ServiceImpl
         private readonly ITaskRepository _taskRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly ILogger<TaskService> _logger;
+        private readonly IMapper _mapper;
 
-        public TaskService(ITaskRepository taskRepository, ICategoryRepository categoryRepository, ILogger<TaskService> logger)
+        public TaskService(ITaskRepository taskRepository, ICategoryRepository categoryRepository, ILogger<TaskService> logger, IMapper mapper)
         {
             _taskRepository = taskRepository;
             _categoryRepository = categoryRepository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         public async Task<TaskModel?> AddNewTaskAsync(TaskAddModel taskAddRequest)
@@ -43,12 +37,14 @@ namespace BusinessLayer.ServiceImpl
                 {
                     if (taskAddRequest.FinishTime > DateTime.Now)
                     {
-                        DataAccessLayer.Entities.Task task = TaskMapper.TaskAddRequestToTask(taskAddRequest);
-                        task = await _taskRepository.AddTaskAsync(task);
+                        DataAccessLayer.Entities.Task mappedTask = _mapper.Map<DataAccessLayer.Entities.Task>(taskAddRequest);
+                        var result = await _taskRepository.AddTaskAsync(mappedTask);
+
+                        var mappedResult = _mapper.Map<TaskModel>(result);
 
                         _logger.LogInformation("{service}.{method} - finish add new task in service layer", nameof(TaskService), nameof(AddNewTaskAsync));
 
-                        return TaskMapper.TaskToTaskResponse(task);
+                        return mappedResult;
                     }
                     else
                     {
@@ -94,7 +90,7 @@ namespace BusinessLayer.ServiceImpl
             {
                 _logger.LogInformation("{service}.{method} - finish all task for categories in service layer", nameof(TaskService), nameof(GetAllTaskForCategoriesAsync));
 
-                return (await _taskRepository.GetAllTasksAsync(categoryId)).Select(task => TaskMapper.TaskToTaskResponse(task)).ToList();
+                return _mapper.Map<List<TaskModel>>(await _taskRepository.GetAllTasksAsync(categoryId));
             }
             else
             {
@@ -108,11 +104,12 @@ namespace BusinessLayer.ServiceImpl
             _logger.LogInformation("{service}.{method} - start get task by id in service layer", nameof(TaskService), nameof(GetTaskWithIdAsync));
 
             DataAccessLayer.Entities.Task? task = await _taskRepository.GetTaskByIdAsync(taskId);
+
             if (task != null)
             {
                 _logger.LogInformation("{service}.{method} - finish get all task for categories in service layer", nameof(TaskService), nameof(GetTaskWithIdAsync));
 
-                return TaskMapper.TaskToTaskResponse(task);
+                return _mapper.Map<TaskModel>(task);
             }
             else
             {
@@ -127,9 +124,12 @@ namespace BusinessLayer.ServiceImpl
 
             if (await _taskRepository.GetTaskByIdAsync(taskUpdate.Id) != null)
             {
-                var mappedTask = TaskMapper.TaskUpdateRequestToTask(taskUpdate);
+                var mappedTask = _mapper.Map<DataAccessLayer.Entities.Task>(taskUpdate);
                 var result = await _taskRepository.UpdateTaskAsync(mappedTask);
-                return TaskMapper.TaskToTaskResponse(result);
+
+                _logger.LogInformation("{service}.{method} - finish update task in service layer", nameof(TaskService), nameof(UpdateTaskAsync));
+
+                return _mapper.Map<TaskModel>(result);
             }
             else
             {

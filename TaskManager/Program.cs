@@ -1,10 +1,5 @@
-using BusinessLayer.ServiceContract;
-using BusinessLayer.ServiceImpl;
-using DataAccessLayer;
-using DataAccessLayer.RepositoryContract;
-using DataAccessLayer.RepositoryImpl;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Serilog;
 using TaskManager.StartupConfigure;
 
@@ -21,6 +16,11 @@ namespace TaskManager
             {
                 loggerConfiguration.ReadFrom.Configuration(context.Configuration).ReadFrom.Services(services);
             });
+
+            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+
+            builder.Host.ConfigureContainer<ContainerBuilder>(
+                containerBuilder => containerBuilder.RegisterModule(new MappersModules()));
 
             //for set options for service
             builder.Services.ConfigureService(builder.Configuration);

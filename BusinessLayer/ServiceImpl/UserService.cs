@@ -1,5 +1,5 @@
-﻿using BusinessLayer.Encrypted;
-using BusinessLayer.Mapper;
+﻿using AutoMapper;
+using BusinessLayer.Encrypted;
 using BusinessLayer.Models.Users.Request;
 using BusinessLayer.Models.Users.Response;
 using BusinessLayer.ServiceContract;
@@ -17,16 +17,18 @@ namespace BusinessLayer.ServiceImpl
     {
         private readonly IUserRepository _userRepository;
         private readonly ILogger<UserService> _logger;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, ILogger<UserService> logger)
+        public UserService(IUserRepository userRepository, ILogger<UserService> logger, IMapper mapper)
         {
             _userRepository = userRepository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         public async Task<UserModel> AddUserAsync(UserAddModel userRequest)
         {
-            _logger.LogInformation("{service}.{method} - add new user in system", nameof(UserService), nameof(AddUserAsync));
+            _logger.LogInformation("{service}.{method} - start, add new user in system", nameof(UserService), nameof(AddUserAsync));
 
             if(userRequest == null)
             {
@@ -34,12 +36,16 @@ namespace BusinessLayer.ServiceImpl
                 throw new ArgumentNullException(nameof(userRequest));
             }
 
-            User user = UserMapper.UserRequestAddToUser(userRequest);
-            user.Password = Md5.HashPassword(user.Password);
-            user.Age = user.CreateAccount.Year - userRequest.DateOfBirth.Year;
+            User mappedUser = _mapper.Map<User>(userRequest);
+
+            mappedUser.Password = Md5.HashPassword(mappedUser.Password);
+            mappedUser.Age = mappedUser.CreateAccount.Year - userRequest.DateOfBirth.Year;
             
-            User userAfterSave = await _userRepository.AddUserAsync(user);
-            return UserMapper.UserToUserResponse(userAfterSave);
+            User? userAfterSave = await _userRepository.AddUserAsync(mappedUser);
+
+            _logger.LogInformation("{service}.{method} - finish, add new user in system", nameof(UserService), nameof(AddUserAsync));
+
+            return _mapper.Map<UserModel>(userAfterSave);
         }
 
         public async Task<bool> CheckUserNameAsync(string userName)
@@ -54,27 +60,31 @@ namespace BusinessLayer.ServiceImpl
 
         public async Task<UserModel> EnterInSystemAsync(UserEnterModel userEnterRequest)
         {
-            _logger.LogInformation("{service}.{method} - enter in system", nameof(UserService), nameof(EnterInSystemAsync));
+            _logger.LogInformation("{service}.{method} - start, enter in system", nameof(UserService), nameof(EnterInSystemAsync));
 
             if (userEnterRequest != null)
             {
-                if (await CheckUserNameAsync(userEnterRequest.UserName))
+                User? userAfterSearch = await _userRepository.GetByUserNameAsync(userEnterRequest.UserName);
+
+                if (userAfterSearch == null)
                 {
                     _logger.LogError("{controller}.{method} - userEnterRequest not found in system!", nameof(UserService), nameof(EnterInSystemAsync));
                     throw new UserArgumentException("UserName not found in system!");
                 }
 
-                User? userAfterSearch = await _userRepository.GetByUserNameAsync(userEnterRequest.UserName);
+                var mappedUser = _mapper.Map<User>(userEnterRequest);
 
-                userEnterRequest.Password = Md5.HashPassword(userEnterRequest.Password);
+                mappedUser.Password = Md5.HashPassword(mappedUser.Password);
 
-                if (userEnterRequest.Password != userAfterSearch.Password)
+                if (mappedUser.Password != userAfterSearch.Password)
                 {
                     _logger.LogError("{controller}.{method} - userEnterRequest has wrong password", nameof(UserService), nameof(EnterInSystemAsync));
                     throw new UserArgumentException("You wrote wrong password!");
                 }
 
-                return UserMapper.UserToUserResponse(userAfterSearch);
+                _logger.LogInformation("{service}.{method} - finish, enter in system", nameof(UserService), nameof(EnterInSystemAsync));
+
+                return _mapper.Map<UserModel>(userAfterSearch);
             }
             else
             {

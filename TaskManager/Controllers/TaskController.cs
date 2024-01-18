@@ -1,15 +1,13 @@
-﻿using BusinessLayer.DTO.CategoryDto.Response;
-using BusinessLayer.DTO.TaskDto.Request;
-using BusinessLayer.DTO.TaskDto.Response;
-using BusinessLayer.Mapper;
+﻿using AutoMapper;
 using BusinessLayer.Models.Categories.Response;
+using BusinessLayer.Models.Tasks.Request;
 using BusinessLayer.Models.Tasks.Response;
 using BusinessLayer.ServiceContract;
-using DataAccessLayer.RepositoryContract;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel.DataAnnotations;
+using TaskManager.Dto.Categories.Response;
 using TaskManager.Dto.Tasks.Request;
+using TaskManager.Dto.Tasks.Response;
 using TaskManager.Filteres.ActionFilter.TaskFilteres;
 using TaskManager.Filteres.AuthorizationFilter;
 using TaskManager.Filteres.ErrorFilteres.TaskErrorFilteres;
@@ -29,11 +27,14 @@ namespace TaskManager.Controllers
 
         private readonly ILogger<TaskController> _logger;
 
-        public TaskController(ICategoryService categoryService, ITaskService taskService, ILogger<TaskController> logger)
+        private readonly IMapper _mapper;
+
+        public TaskController(ICategoryService categoryService, ITaskService taskService, ILogger<TaskController> logger, IMapper mapper)
         {
             _categoryService = categoryService;
             _taskService = taskService;
             _logger = logger;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -48,9 +49,11 @@ namespace TaskManager.Controllers
             Guid userId = Guid.Parse(HttpContext.Session.GetString("UserId"));
             List<CategoryModel> categories = await _categoryService.GetCategoriesForUserAsync(userId);
 
+            var mappedCategories = _mapper.Map<List<CategoryDto>>(categories);
+
             _logger.LogInformation("{controller}.{method} - Get home page, finish", nameof(TaskController), nameof(Home));
 
-            return View(categories);
+            return View(mappedCategories);
         }
 
         /// <summary>
@@ -67,8 +70,12 @@ namespace TaskManager.Controllers
                 ViewBag.Errors = new List<string> { errorMessage };
 
             Guid userId = Guid.Parse(HttpContext.Session.GetString("UserId"));
+
             List<CategoryModel> categories = await _categoryService.GetCategoriesForUserAsync(userId);
-            ViewBag.Categories = categories.Select(temp => new SelectListItem() { Text = temp.Name, Value = temp.Id.ToString() });
+
+            var mappedCategories = _mapper.Map<List<CategoryDto>>(categories);
+
+            ViewBag.Categories = mappedCategories.Select(temp => new SelectListItem() { Text = temp.Name, Value = temp.Id.ToString() });
 
             _logger.LogInformation("{controller}.{method} - Get add new task page, finish", nameof(TaskController), nameof(AddNewTask));
 
@@ -87,7 +94,9 @@ namespace TaskManager.Controllers
         {
             _logger.LogInformation("{controller}.{method} - post task for save, start", nameof(TaskController), nameof(AddNewTaskPost));
 
-            await _taskService.AddNewTaskAsync(taskAddRequest);
+            var mappedModel = _mapper.Map<TaskAddModel>(taskAddRequest);
+
+            await _taskService.AddNewTaskAsync(mappedModel);
 
             _logger.LogInformation("{controller}.{method} - post task for save, finish", nameof(TaskController), nameof(AddNewTaskPost));
 
@@ -104,11 +113,13 @@ namespace TaskManager.Controllers
         {
             _logger.LogInformation("{controller}.{method} - get task details page, start", nameof(TaskController), nameof(AddNewTaskPost));
 
-            TaskModel taskResponse = await _taskService.GetTaskWithIdAsync(taskId);
+            TaskModel taskModel = await _taskService.GetTaskWithIdAsync(taskId);
+
+            var mappedTask = _mapper.Map<TaskDto>(taskModel);
 
             _logger.LogInformation("{controller}.{method} - get task details page, finish", nameof(TaskController), nameof(AddNewTaskPost));
 
-            return View(taskResponse);
+            return View(mappedTask);
         }
 
         /// <summary>
@@ -126,9 +137,11 @@ namespace TaskManager.Controllers
             Guid userId = Guid.Parse(HttpContext.Session.GetString("UserId"));
             List<CategoryModel> categories = await _categoryService.GetCategoriesForUserAsync(userId);
 
+            var mappedCategories = _mapper.Map<List<CategoryDto>>(categories);
+
             _logger.LogInformation("{controller}.{method} - finish post delete task if find", nameof(TaskController), nameof(AddNewTaskPost));
 
-            return View("Home", categories);
+            return View("Home", mappedCategories);
         }
 
         /// <summary>
@@ -141,17 +154,21 @@ namespace TaskManager.Controllers
         {
             _logger.LogInformation("{controller}.{method} - get task update page, start", nameof(TaskController), nameof(TaskUpdate));
 
-            var taskToUpdate = await _taskService.GetTaskWithIdAsync(taskId);
+            var taskToUpdateModel = await _taskService.GetTaskWithIdAsync(taskId);
 
-            TaskUpdateDto taskUpdateRequest = TaskMapper.TaskResponseToTaskUpdateRequest(taskToUpdate);
+            var mappedTask = _mapper.Map<TaskUpdateDto>(taskToUpdateModel);
 
             Guid userId = Guid.Parse(HttpContext.Session.GetString("UserId"));
+
             List<CategoryModel> categories = await _categoryService.GetCategoriesForUserAsync(userId);
-            ViewBag.Categories = categories.Where(temp => temp.Name != taskUpdateRequest.CategoryName).Select(temp => new SelectListItem() { Text = temp.Name, Value = temp.Id.ToString() });
+
+            var mappedCategories = _mapper.Map<List<CategoryDto>>(categories);
+
+            ViewBag.Categories = mappedCategories.Select(temp => new SelectListItem() { Text = temp.Name, Value = temp.Id.ToString() });
 
             _logger.LogInformation("{controller}.{method} - get task update page, finish", nameof(TaskController), nameof(TaskUpdate));
 
-            return View(taskUpdateRequest);
+            return View(mappedTask);
         }
 
         /// <summary>
@@ -164,7 +181,9 @@ namespace TaskManager.Controllers
         {
             _logger.LogInformation("{controller}.{method} - post update task, start", nameof(TaskController), nameof(TaskUpdatePost));
 
-            await _taskService.UpdateTaskAsync(taskUpdate);
+            var mappedModel = _mapper.Map<TaskUpdateModel>(taskUpdate);
+
+            await _taskService.UpdateTaskAsync(mappedModel);
 
             _logger.LogInformation("{controller}.{method} - post update task, finish", nameof(TaskController), nameof(TaskUpdatePost));
 

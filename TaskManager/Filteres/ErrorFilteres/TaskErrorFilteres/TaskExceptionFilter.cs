@@ -32,7 +32,7 @@ namespace TaskManager.Filteres.ErrorFilteres.TaskErrorFilteres
 
             if (context.HttpContext.Request.Path.Value.Contains("AddNewTaskPost"))
             {
-                context.Result = new RedirectToActionResult("AddNewTaskAsync", "Task", new { error = errorMessage });
+                context.Result = new RedirectToActionResult("AddNewTask", "Task", new { error = errorMessage });
             }
         }
     }
