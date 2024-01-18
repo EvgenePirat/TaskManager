@@ -37,7 +37,7 @@
                                         <button class="mainmenubtn"></button>
                                         <div class="dropdown-child">
                                             <a asp-action="TaskDetails" asp-controller="Task" asp-route-taskId="@task.Id">Details</a>
-                                            <a>Edit</a>
+                                            <a asp-action="TaskUpdate" asp-controller="Task" asp-route-taskId="@task.Id">Edit</a>
                                             <form method="post" asp-controller="Task" asp-action="DeleteTaskPost" asp-route-taskId="@task.Id">
                                                 <button type="submit">Delete</button>
                                             </form>

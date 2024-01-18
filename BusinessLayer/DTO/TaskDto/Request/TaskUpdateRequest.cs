@@ -29,6 +29,8 @@ namespace BusinessLayer.DTO.TaskDto.Request
 
         public Guid CategoryId { get; set; }
 
+        public string? CategoryName { get; set; }
+
     }
 }
 

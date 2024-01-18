@@ -45,7 +45,7 @@ namespace DataAccessLayer.RepositoryImpl
 
         public async Task<Entities.Task?> UpdateTaskAsync(Entities.Task task)
         {
-            Entities.Task? taskFromDb = await _context.Tasks.FirstOrDefaultAsync(temp => temp.Id != task.Id);
+            Entities.Task? taskFromDb = await _context.Tasks.FirstOrDefaultAsync(temp => temp.Id == task.Id);
 
             if(taskFromDb != null)
             {

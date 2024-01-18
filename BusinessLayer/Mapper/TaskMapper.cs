@@ -39,5 +39,15 @@ namespace BusinessLayer.Mapper
         {
             return new Task() { Id = taskUpdateRequest.Id, Title = taskUpdateRequest.Title, Description = taskUpdateRequest.Description, FinishTime = taskUpdateRequest.FinishTime, Status = taskUpdateRequest?.Status.ToString(), CategoryId = taskUpdateRequest.CategoryId };
         }
+
+        /// <summary>
+        /// Method with logic for change from taskResponse class to taskUpdateRequest class
+        /// </summary>
+        /// <param name="taskResponse"></param>
+        /// <returns></returns>
+        public static TaskUpdateRequest TaskResponseToTaskUpdateRequest(TaskResponse taskResponse)
+        {
+            return new TaskUpdateRequest() {  Id = taskResponse.Id, Title = taskResponse.Title, Description = taskResponse.Description, FinishTime = taskResponse.FinishTime, CategoryId = taskResponse.Category.Id, CategoryName = taskResponse.Category.Name, Status = taskResponse.Status };
+        }
     }
 }

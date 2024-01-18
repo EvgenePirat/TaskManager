@@ -1,15 +1,16 @@
-﻿@model TaskAddRequest
+﻿@model TaskUpdateRequest
 @{
-    ViewBag.Title = "Add Task";
+    ViewBag.Title = "Update Task";
     Layout = "~/Views/Shared/_Layout_task.cshtml";
 }
+
 <link href="~/CSS/StyleAddTask.css" rel="stylesheet" />
+
 <div class="app">
     <div class="body-add">
-        <form asp-controller="Task" asp-action="AddNewTaskPost" method="post">
-
+        <form asp-controller="Task" asp-action="TaskUpdatePost" method="post">
             <div>
-                <h1>Add new Task</h1>
+                <h1>Update Task</h1>
             </div>
 
             <div class="form-field">
@@ -17,20 +18,22 @@
             </div>
 
             <div class="form-field">
-                <textarea asp-for="Description" placeholder="Description"></textarea>
+                <textarea asp-for="Description" placeholder="Write description for task">@ViewBag.TaskUpdate.Description</textarea>
             </div>
 
             <div class="form-field">
-                <input asp-for="FinishTime" type="date" placeholder="Date Of Birth" required />
+                <input asp-for="FinishTime" type="date" required />
             </div>
 
             <div class="form-field">
                 <select asp-for="CategoryId" asp-items="@ViewBag.Categories" required>
-                    <option value="">Please select Category</option>
+                    <option value="@Model.CategoryId">@Model.CategoryName</option>
                 </select>
             </div>
 
-            <input asp-for="Status" type="hidden" value="@Status.Active" />
+            <input asp-for="Id" type="hidden" />
+
+            <input asp-for="Status" type="hidden" />
 
             <div>
                 @if (ViewBag.Errors != null)
@@ -48,7 +51,7 @@
 
             <div class="form-field">
                 <button class="btn-reg"><a asp-controller="Task" asp-action="Home">Home</a></button>
-                <button class="btn" type="submit">Add</button>
+                <button class="btn" type="submit">Update</button>
             </div>
 
         </form>
