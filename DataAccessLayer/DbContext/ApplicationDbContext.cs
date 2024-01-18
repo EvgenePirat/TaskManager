@@ -1,17 +1,15 @@
 ﻿using DataAccessLayer.Entities;
+using DataAccessLayer.IdentityEntities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
 
-namespace DataAccessLayer
+namespace DataAccessLayer.DbContext
 {
     /// <summary>
     /// Class for registration our models in context application,setting their and change setting connection to BD 
     /// </summary>
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
