@@ -15,7 +15,7 @@ namespace BusinessLayer.Mapper
         /// </summary>
         /// <param name="taskAddRequest">taskAddRequest has data for task</param>
         /// <returns>returned task with data from taskAddRequest</returns>
-        public static Task TaskAddRequestToTask(TaskAddRequest taskAddRequest)
+        public static Task TaskAddRequestToTask(TaskAddModel taskAddRequest)
         {
             return new Task() { CategoryId = taskAddRequest.CategoryId, Title = taskAddRequest.Title, Description = taskAddRequest.Description, FinishTime = taskAddRequest.FinishTime, Status = taskAddRequest.Status.ToString() };
         }
@@ -25,9 +25,9 @@ namespace BusinessLayer.Mapper
         /// </summary>
         /// <param name="task">task has data for TaskResponse</param>
         /// <returns>returned TaskResponse with data from task</returns>
-        public static TaskResponse TaskToTaskResponse(Task task)
+        public static TaskModel TaskToTaskResponse(Task task)
         {
-            return new TaskResponse() { Category = task.Category, Description = task.Description, Id = task.Id, FinishTime = task.FinishTime, Title = task.Title, Status = System.Enum.Parse<Status>(task.Status) };
+            return new TaskModel() { Category = task.Category, Description = task.Description, Id = task.Id, FinishTime = task.FinishTime, Title = task.Title, Status = System.Enum.Parse<Status>(task.Status) };
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace BusinessLayer.Mapper
         /// </summary>
         /// <param name="taskUpdateRequest">taskUpdateRequest has data for task</param>
         /// <returns>returned task with data from taskUpdateRequest</returns>
-        public static Task TaskUpdateRequestToTask(TaskUpdateRequest taskUpdateRequest)
+        public static Task TaskUpdateRequestToTask(TaskUpdateModel taskUpdateRequest)
         {
             return new Task() { Id = taskUpdateRequest.Id, Title = taskUpdateRequest.Title, Description = taskUpdateRequest.Description, FinishTime = taskUpdateRequest.FinishTime, Status = taskUpdateRequest?.Status.ToString(), CategoryId = taskUpdateRequest.CategoryId };
         }
@@ -45,9 +45,9 @@ namespace BusinessLayer.Mapper
         /// </summary>
         /// <param name="taskResponse"></param>
         /// <returns></returns>
-        public static TaskUpdateRequest TaskResponseToTaskUpdateRequest(TaskResponse taskResponse)
+        public static TaskUpdateModel TaskResponseToTaskUpdateRequest(TaskModel taskResponse)
         {
-            return new TaskUpdateRequest() {  Id = taskResponse.Id, Title = taskResponse.Title, Description = taskResponse.Description, FinishTime = taskResponse.FinishTime, CategoryId = taskResponse.Category.Id, CategoryName = taskResponse.Category.Name, Status = taskResponse.Status };
+            return new TaskUpdateModel() {  Id = taskResponse.Id, Title = taskResponse.Title, Description = taskResponse.Description, FinishTime = taskResponse.FinishTime, CategoryId = taskResponse.Category.Id, CategoryName = taskResponse.Category.Name, Status = taskResponse.Status };
         }
     }
 }

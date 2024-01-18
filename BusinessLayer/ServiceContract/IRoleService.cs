@@ -1,9 +1,4 @@
-﻿using BusinessLayer.DTO.RoleDto.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BusinessLayer.Models.Roles.Response;
 
 namespace BusinessLayer.ServiceContract
 {
@@ -16,6 +11,6 @@ namespace BusinessLayer.ServiceContract
         /// Method for get all roles
         /// </summary>
         /// <returns>return a list of objects of roleresponse type</returns>
-        public Task<List<RoleResponse>> GetAllRoles();
+        public Task<List<RoleModel>> GetAllRolesAsync();
     }
 }

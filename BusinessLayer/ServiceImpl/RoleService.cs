@@ -1,7 +1,9 @@
 ﻿using BusinessLayer.DTO.RoleDto.Response;
 using BusinessLayer.Mapper;
+using BusinessLayer.Models.Roles.Response;
 using BusinessLayer.ServiceContract;
 using DataAccessLayer.RepositoryContract;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,19 +18,27 @@ namespace BusinessLayer.ServiceImpl
     public class RoleService : IRoleService
     {
         private readonly IRoleRepository _roleRepository;
+        private readonly ILogger<RoleService> _logger;
 
-        public RoleService(IRoleRepository roleRepository)
+        public RoleService(IRoleRepository roleRepository, ILogger<RoleService> logger)
         {
             _roleRepository = roleRepository;
+            _logger = logger;
         }
 
         /// <summary>
         /// method for return all roles
         /// </summary>
         /// <returns>returned all roles</returns>
-        public async Task<List<RoleResponse>> GetAllRoles()
+        public async Task<List<RoleModel>> GetAllRolesAsync()
         {
-            return (await _roleRepository.GetAllRolesAsync()).Select(role => RoleMapper.RoleToRoleResponse(role)).ToList();
+            _logger.LogInformation("{service}.{method} - start, get all roles in service layer", nameof(RoleService), nameof(GetAllRolesAsync));
+
+            var roles = (await _roleRepository.GetAllRolesAsync()).Select(role => RoleMapper.RoleToRoleResponse(role)).ToList();
+
+            _logger.LogInformation("{service}.{method} - finish, get all roles in service layer", nameof(RoleService), nameof(GetAllRolesAsync));
+
+            return roles;
         }
     }
 }

@@ -19,9 +19,9 @@ namespace BusinessLayer.Mapper
         /// </summary>
         /// <param name="user">user has data for userresponse</param>
         /// <returns>returned userresponse with data from user</returns>
-        public static UserResponse UserToUserResponse(User user)
+        public static UserModel UserToUserResponse(User user)
         {
-            return new UserResponse() { Id = user.Id, Name=user.Name, Email=user.Email,Age=user.Age, Password=user.Password, UserName=user.UserName, Role=RoleMapper.RoleToRoleResponse(user.Role) };
+            return new UserModel() { Id = user.Id, Name=user.Name, Email=user.Email,Age=user.Age, Password=user.Password, UserName=user.UserName, Role=RoleMapper.RoleToRoleResponse(user.Role) };
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace BusinessLayer.Mapper
         /// </summary>
         /// <param name="addRequest">useraddrequest has data for user</param>
         /// <returns>returned user with data from useraddrequest</returns>
-        public static User UserRequestAddToUser(UserAddRequest addRequest)
+        public static User UserRequestAddToUser(UserAddModel addRequest)
         {
             return new User() { Email = addRequest.Email, Name = addRequest.Name, UserName = addRequest.UserName, RoleId = addRequest.RoleId, Password = addRequest.Password, DateOfBirth = addRequest.DateOfBirth };
         }

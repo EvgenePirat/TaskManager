@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.DTO.CategoryDto.Request;
 using BusinessLayer.ServiceContract;
 using Microsoft.AspNetCore.Mvc;
+using TaskManager.Dto.Categories.Request;
 using TaskManager.Filteres.ActionFilter.CategoryFilters;
 using TaskManager.Filteres.AuthorizationFilter;
 using TaskManager.Filteres.ErrorFilteres.CategoryErrorFilteres;
@@ -44,9 +45,9 @@ namespace TaskManager.Controllers
         [HttpPost("[action]")]
         [TypeFilter(typeof(CategoryValidationActionFilter))]
         [TypeFilter(typeof(CategoryExceptionFilter))]
-        public async Task<IActionResult> AddNewCategoryPost(CategoryAddRequest categoryAddRequest) 
+        public async Task<IActionResult> AddNewCategoryPost(CategoryAddDto categoryAddRequest) 
         {
-            await _categoryService.AddNewCategory(categoryAddRequest);
+            await _categoryService.AddNewCategoryAsync(categoryAddRequest);
             
             return RedirectToAction("Home","Task");
         }

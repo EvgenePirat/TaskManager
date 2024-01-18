@@ -26,7 +26,7 @@ namespace DataAccessLayer.RepositoryImpl
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return await _context.Users.Include("Role").FirstOrDefaultAsync(temp => temp.Id == user.Id);
+            return await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(temp => temp.Id == user.Id);
         }
 
         public async Task<User?> GetByUserIdAsync(Guid userId)

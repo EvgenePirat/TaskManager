@@ -18,9 +18,9 @@ namespace BusinessLayer.Mapper
         /// </summary>
         /// <param name="role">role has data for roleresponse</param>
         /// <returns>returned roleresponse with data from role</returns>
-        public static RoleResponse RoleToRoleResponse(Role role)
+        public static RoleModel RoleToRoleResponse(Role role)
         {
-            return new RoleResponse() { Id = role.Id, Name = role.Name };
+            return new RoleModel() { Id = role.Id, Name = role.Name };
         }
     }
 }

@@ -1,10 +1,5 @@
-﻿using BusinessLayer.DTO.UserDto.Request;
-using BusinessLayer.DTO.UserDto.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BusinessLayer.Models.Users.Request;
+using BusinessLayer.Models.Users.Response;
 
 namespace BusinessLayer.ServiceContract
 {
@@ -18,20 +13,20 @@ namespace BusinessLayer.ServiceContract
         /// </summary>
         /// <param name="userRequest">data from user</param>
         /// <returns>returned user with id</returns>
-        public Task<UserResponse> AddUser(UserAddRequest userRequest);
+        public Task<UserModel> AddUserAsync(UserAddModel userRequest);
 
         /// <summary>
         /// Method for check data for enter in system and returned new object with null fields if false enter in system or userresponse if true enter in system
         /// </summary>
         /// <param name="userEnterRequest">data from user for enter</param>
         /// <returns>returned new object with null fields if false enter in system or userresponse if true enter in system</returns>
-        public Task<UserResponse> EnterInSystem(UserEnterRequest userEnterRequest);
+        public Task<UserModel> EnterInSystemAsync(UserEnterModel userEnterRequest);
 
         /// <summary>
         /// Method for check exist username or not exist already in basedate
         /// </summary>
         /// <param name="userName">string field for search username</param>
         /// <returns>returned true if not exist or false or not exist</returns>
-        public Task<bool> CheckUserName(string userName);
+        public Task<bool> CheckUserNameAsync(string userName);
     }
 }

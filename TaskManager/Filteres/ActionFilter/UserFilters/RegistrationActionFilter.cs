@@ -31,7 +31,7 @@ namespace TaskManager.Filteres.ActionFilter.UserFilters
                 List<string> errorMessages = new List<string>();
                 if (!context.ModelState.IsValid)
                 {
-                    List<RoleResponse> rolesList = await _roleService.GetAllRoles();
+                    List<RoleDto> rolesList = await _roleService.GetAllRolesAsync();
                     userController.ViewBag.Roles = rolesList.Select(role => new SelectListItem { Value = role.Id.ToString(), Text = role.Name });
                     errorMessages = context.ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
 

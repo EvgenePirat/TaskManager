@@ -1,17 +1,12 @@
-﻿using BusinessLayer.DTO.CategoryDto.Request;
-using BusinessLayer.DTO.CategoryDto.Response;
-using BusinessLayer.Mapper;
+﻿using BusinessLayer.Mapper;
+using BusinessLayer.Models.Categories.Request;
+using BusinessLayer.Models.Categories.Response;
 using BusinessLayer.ServiceContract;
 using CustomExceptions.CategoryExceptions;
 using CustomExceptions.UserExceptions;
 using DataAccessLayer.Entities;
 using DataAccessLayer.RepositoryContract;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLayer.ServiceImpl
 {
@@ -33,7 +28,7 @@ namespace BusinessLayer.ServiceImpl
             _logger = logger;
         }
 
-        public async Task<CategoryResponse> AddNewCategory(CategoryAddRequest categoryAddRequest)
+        public async Task<CategoryModel> AddNewCategoryAsync(CategoryAddModel categoryAddRequest)
         {
             if(categoryAddRequest != null)
             {
@@ -41,7 +36,7 @@ namespace BusinessLayer.ServiceImpl
 
                 if (category != null)
                 {
-                    _logger.LogError("{service}.{method} - Category already exist", nameof(CategoryService), nameof(AddNewCategory));
+                    _logger.LogError("{service}.{method} - Category already exist", nameof(CategoryService), nameof(AddNewCategoryAsync));
                     throw new CategoryArgumentException("Category already exist!");
                 }
 
@@ -51,12 +46,12 @@ namespace BusinessLayer.ServiceImpl
             }
             else
             {
-                _logger.LogError("{service}.{method} - categoryAddRequest equals null", nameof(CategoryService), nameof(AddNewCategory));
+                _logger.LogError("{service}.{method} - categoryAddRequest equals null", nameof(CategoryService), nameof(AddNewCategoryAsync));
                 throw new ArgumentNullException(nameof(categoryAddRequest));
             }
         }
 
-        public async Task<List<CategoryResponse>> GetCategoriesForUser(Guid userId)
+        public async Task<List<CategoryModel>> GetCategoriesForUserAsync(Guid userId)
         {
             if((await _userRepository.GetByUserIdAsync(userId)) != null)
             {
@@ -64,7 +59,7 @@ namespace BusinessLayer.ServiceImpl
             }
             else
             {
-                _logger.LogError("{service}.{method} - User with id not found!", nameof(CategoryService), nameof(GetCategoriesForUser));
+                _logger.LogError("{service}.{method} - User with id not found!", nameof(CategoryService), nameof(GetCategoriesForUserAsync));
                 throw new UserArgumentException("User with id not found!");
             }  
         }

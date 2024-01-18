@@ -2,11 +2,14 @@
 using BusinessLayer.DTO.TaskDto.Request;
 using BusinessLayer.DTO.TaskDto.Response;
 using BusinessLayer.Mapper;
+using BusinessLayer.Models.Categories.Response;
+using BusinessLayer.Models.Tasks.Response;
 using BusinessLayer.ServiceContract;
 using DataAccessLayer.RepositoryContract;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
+using TaskManager.Dto.Tasks.Request;
 using TaskManager.Filteres.ActionFilter.TaskFilteres;
 using TaskManager.Filteres.AuthorizationFilter;
 using TaskManager.Filteres.ErrorFilteres.TaskErrorFilteres;
@@ -43,7 +46,7 @@ namespace TaskManager.Controllers
             _logger.LogInformation("{controller}.{method} - Get home page, start", nameof(TaskController), nameof(Home));
 
             Guid userId = Guid.Parse(HttpContext.Session.GetString("UserId"));
-            List<CategoryResponse> categories = await _categoryService.GetCategoriesForUser(userId);
+            List<CategoryModel> categories = await _categoryService.GetCategoriesForUserAsync(userId);
 
             _logger.LogInformation("{controller}.{method} - Get home page, finish", nameof(TaskController), nameof(Home));
 
@@ -64,7 +67,7 @@ namespace TaskManager.Controllers
                 ViewBag.Errors = new List<string> { errorMessage };
 
             Guid userId = Guid.Parse(HttpContext.Session.GetString("UserId"));
-            List<CategoryResponse> categories = await _categoryService.GetCategoriesForUser(userId);
+            List<CategoryModel> categories = await _categoryService.GetCategoriesForUserAsync(userId);
             ViewBag.Categories = categories.Select(temp => new SelectListItem() { Text = temp.Name, Value = temp.Id.ToString() });
 
             _logger.LogInformation("{controller}.{method} - Get add new task page, finish", nameof(TaskController), nameof(AddNewTask));
@@ -80,11 +83,11 @@ namespace TaskManager.Controllers
         [HttpPost("[action]")]
         [TypeFilter(typeof(TaskValidationActionFilter))]
         [TypeFilter(typeof(TaskExceptionFilter))]
-        public async Task<IActionResult> AddNewTaskPost(TaskAddRequest taskAddRequest)
+        public async Task<IActionResult> AddNewTaskPost(TaskAddDto taskAddRequest)
         {
             _logger.LogInformation("{controller}.{method} - post task for save, start", nameof(TaskController), nameof(AddNewTaskPost));
 
-            await _taskService.AddNewTask(taskAddRequest);
+            await _taskService.AddNewTaskAsync(taskAddRequest);
 
             _logger.LogInformation("{controller}.{method} - post task for save, finish", nameof(TaskController), nameof(AddNewTaskPost));
 
@@ -101,7 +104,7 @@ namespace TaskManager.Controllers
         {
             _logger.LogInformation("{controller}.{method} - get task details page, start", nameof(TaskController), nameof(AddNewTaskPost));
 
-            TaskResponse taskResponse = await _taskService.GetTaskWithId(taskId);
+            TaskModel taskResponse = await _taskService.GetTaskWithIdAsync(taskId);
 
             _logger.LogInformation("{controller}.{method} - get task details page, finish", nameof(TaskController), nameof(AddNewTaskPost));
 
@@ -118,10 +121,10 @@ namespace TaskManager.Controllers
         {
             _logger.LogInformation("{controller}.{method} - start post delete task if find", nameof(TaskController), nameof(AddNewTaskPost));
 
-            await _taskService.DeleteWithId(taskId);
+            await _taskService.DeleteWithIdAsync(taskId);
 
             Guid userId = Guid.Parse(HttpContext.Session.GetString("UserId"));
-            List<CategoryResponse> categories = await _categoryService.GetCategoriesForUser(userId);
+            List<CategoryModel> categories = await _categoryService.GetCategoriesForUserAsync(userId);
 
             _logger.LogInformation("{controller}.{method} - finish post delete task if find", nameof(TaskController), nameof(AddNewTaskPost));
 
@@ -138,12 +141,12 @@ namespace TaskManager.Controllers
         {
             _logger.LogInformation("{controller}.{method} - get task update page, start", nameof(TaskController), nameof(TaskUpdate));
 
-            var taskToUpdate = await _taskService.GetTaskWithId(taskId);
+            var taskToUpdate = await _taskService.GetTaskWithIdAsync(taskId);
 
-            TaskUpdateRequest taskUpdateRequest = TaskMapper.TaskResponseToTaskUpdateRequest(taskToUpdate);
+            TaskUpdateDto taskUpdateRequest = TaskMapper.TaskResponseToTaskUpdateRequest(taskToUpdate);
 
             Guid userId = Guid.Parse(HttpContext.Session.GetString("UserId"));
-            List<CategoryResponse> categories = await _categoryService.GetCategoriesForUser(userId);
+            List<CategoryModel> categories = await _categoryService.GetCategoriesForUserAsync(userId);
             ViewBag.Categories = categories.Where(temp => temp.Name != taskUpdateRequest.CategoryName).Select(temp => new SelectListItem() { Text = temp.Name, Value = temp.Id.ToString() });
 
             _logger.LogInformation("{controller}.{method} - get task update page, finish", nameof(TaskController), nameof(TaskUpdate));
@@ -157,7 +160,7 @@ namespace TaskManager.Controllers
         /// <param name="taskUpdate">task with data for update</param>
         /// <returns>returned home page with updates task</returns>
         [HttpPost("[action]")]
-        public async Task<IActionResult> TaskUpdatePost([FromForm]TaskUpdateRequest taskUpdate)
+        public async Task<IActionResult> TaskUpdatePost([FromForm]TaskUpdateDto taskUpdate)
         {
             _logger.LogInformation("{controller}.{method} - post update task, start", nameof(TaskController), nameof(TaskUpdatePost));
 

@@ -1,12 +1,9 @@
-﻿using BusinessLayer.DTO.RoleDto.Response;
-using BusinessLayer.DTO.UserDto.Request;
-using BusinessLayer.DTO.UserDto.Response;
+﻿using BusinessLayer.Models.Roles.Response;
+using BusinessLayer.Models.Users.Response;
 using BusinessLayer.ServiceContract;
-using BusinessLayer.ServiceImpl;
-using DataAccessLayer.Entities;
-using DataAccessLayer.RepositoryImpl;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using TaskManager.Dto.Users.Request;
 using TaskManager.Filteres.ActionFilter.UserFilters;
 using TaskManager.Filteres.ErrorFilteres.UserErrorFilteres;
 
@@ -56,11 +53,11 @@ namespace TaskManager.Controllers
         [HttpPost("[action]/enter")]
         [TypeFilter(typeof(EnterPostActionFilter))]
         [TypeFilter(typeof(UserExceptionFilter))]
-        public async Task<IActionResult> EnterPost(UserEnterRequest userEnterRequest)
+        public async Task<IActionResult> EnterPost(UserEnterDto userEnterRequest)
         {
             _logger.LogInformation("{controller}.{method} - start post user for enter in system", nameof(UserController), nameof(EnterPost));
 
-            UserResponse findUser = await _userService.EnterInSystem(userEnterRequest);
+            UserModel findUser = await _userService.EnterInSystemAsync(userEnterRequest);
 
             HttpContext.Session.SetString("UserId", findUser.Id.ToString());
 
@@ -83,7 +80,7 @@ namespace TaskManager.Controllers
             if (errorMessage.Length > 0)
                 ViewBag.Errors = new List<string> { errorMessage };
 
-            List<RoleResponse> rolesList = await _roleService.GetAllRoles();
+            List<RoleModel> rolesList = await _roleService.GetAllRolesAsync();
 
             ViewBag.Roles = rolesList.Select(role => new SelectListItem { Value = role.Id.ToString(), Text = role.Name });
 
@@ -100,13 +97,13 @@ namespace TaskManager.Controllers
         [HttpPost("[action]/save")]
         [TypeFilter(typeof(RegistrationActionFilter))]
         [TypeFilter(typeof(UserExceptionFilter))]
-        public async Task<IActionResult> RegistrationPost(UserAddRequest userAddRequest)
+        public async Task<IActionResult> RegistrationPost(UserAddDto userAddRequest)
         {
             _logger.LogInformation("{controller}.{method} - start post user for registration in system", nameof(UserController), nameof(RegistrationPost));
 
-            if (await _userService.CheckUserName(userAddRequest.UserName))
+            if (await _userService.CheckUserNameAsync(userAddRequest.UserName))
             {
-                UserResponse userResponse = await _userService.AddUser(userAddRequest);
+                UserModel userResponse = await _userService.AddUserAsync(userAddRequest);
             }
             else
             {

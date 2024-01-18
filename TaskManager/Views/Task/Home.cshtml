@@ -1,5 +1,5 @@
 ﻿@using BusinessLayer.DTO.CategoryDto.Response
-@model IEnumerable<CategoryResponse>
+@model IEnumerable<CategoryDto>
 @{
     ViewBag.Title = "Tasks";
     Layout = "~/Views/Shared/_Layout_task.cshtml";
@@ -17,7 +17,7 @@
                     <h2 class='project-column-heading__title'>Need make</h2><button class='project-column-heading__options'><i class="fas fa-ellipsis-h"></i></button>
                 </div>
 
-                @foreach (CategoryResponse category in Model)
+                @foreach (CategoryDto category in Model)
                 {
                     Random random = new Random();
                     Color color = Color.FromArgb(random.Next(200, 255), random.Next(200, 255), random.Next(200, 255));
@@ -26,7 +26,7 @@
                     string blueHex = color.B.ToString("X2");
                     string colorString = $"#{redHex}{greenHex}{blueHex}";
 
-                    foreach (TaskResponse task in category.Tasks)
+                    foreach (TaskDto task in category.Tasks)
                     {
                         @if (task.Status == Status.Active)
                         {
@@ -60,7 +60,7 @@
                     <button class='project-column-heading__options'><i class="fas fa-ellipsis-h"></i></button>
                 </div>
 
-                @foreach (CategoryResponse category in Model)
+                @foreach (CategoryDto category in Model)
                 {
                     Random random = new Random();
                     Color color = Color.FromArgb(random.Next(200, 255), random.Next(200, 255), random.Next(200, 255));
@@ -69,7 +69,7 @@
                     string blueHex = color.B.ToString("X2");
                     string colorString = $"#{redHex}{greenHex}{blueHex}";
 
-                    foreach (TaskResponse task in category.Tasks)
+                    foreach (TaskDto task in category.Tasks)
                     {
                         @if (task.Status == Status.Done)
                         {

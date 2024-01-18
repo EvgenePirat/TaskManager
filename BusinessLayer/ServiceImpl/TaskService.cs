@@ -1,6 +1,8 @@
 ﻿using BusinessLayer.DTO.TaskDto.Request;
 using BusinessLayer.DTO.TaskDto.Response;
 using BusinessLayer.Mapper;
+using BusinessLayer.Models.Tasks.Request;
+using BusinessLayer.Models.Tasks.Response;
 using BusinessLayer.ServiceContract;
 using CustomExceptions.CategoryExceptions;
 using CustomExceptions.TaskExceptions;
@@ -31,9 +33,9 @@ namespace BusinessLayer.ServiceImpl
             _logger = logger;
         }
 
-        public async Task<TaskResponse?> AddNewTask(TaskAddRequest taskAddRequest)
+        public async Task<TaskModel?> AddNewTaskAsync(TaskAddModel taskAddRequest)
         {
-            _logger.LogInformation("{service}.{method} - start add new task in service layer", nameof(TaskService), nameof(AddNewTask));
+            _logger.LogInformation("{service}.{method} - start add new task in service layer", nameof(TaskService), nameof(AddNewTaskAsync));
 
             if (taskAddRequest != null)
             {
@@ -44,82 +46,82 @@ namespace BusinessLayer.ServiceImpl
                         DataAccessLayer.Entities.Task task = TaskMapper.TaskAddRequestToTask(taskAddRequest);
                         task = await _taskRepository.AddTaskAsync(task);
 
-                        _logger.LogInformation("{service}.{method} - finish add new task in service layer", nameof(TaskService), nameof(AddNewTask));
+                        _logger.LogInformation("{service}.{method} - finish add new task in service layer", nameof(TaskService), nameof(AddNewTaskAsync));
 
                         return TaskMapper.TaskToTaskResponse(task);
                     }
                     else
                     {
-                        _logger.LogError("{service}.{method} - finish time must be more than time now", nameof(TaskService), nameof(AddNewTask));
+                        _logger.LogError("{service}.{method} - finish time must be more than time now", nameof(TaskService), nameof(AddNewTaskAsync));
                         throw new TaskArgumentException("finish time must be more than time now");
                     }
                 }
                 else
                 {
-                    _logger.LogError("{service}.{method} - category not found", nameof(TaskService), nameof(AddNewTask));
+                    _logger.LogError("{service}.{method} - category not found", nameof(TaskService), nameof(AddNewTaskAsync));
                     throw new CategoryArgumentException("category not found");
                 }
             }
             else
             {
-                _logger.LogError("{service}.{method} - taskAddRequest equals null", nameof(TaskService), nameof(AddNewTask));
+                _logger.LogError("{service}.{method} - taskAddRequest equals null", nameof(TaskService), nameof(AddNewTaskAsync));
                 throw new ArgumentNullException("taskAddRequest equals null");
             }
         }
 
-        public async System.Threading.Tasks.Task DeleteWithId(Guid taskId)
+        public async System.Threading.Tasks.Task DeleteWithIdAsync(Guid taskId)
         {
-            _logger.LogInformation("{service}.{method} - start delete task in service layer", nameof(TaskService), nameof(DeleteWithId));
+            _logger.LogInformation("{service}.{method} - start delete task in service layer", nameof(TaskService), nameof(DeleteWithIdAsync));
 
             if (await _taskRepository.GetTaskByIdAsync(taskId) != null)
             {
                 await _taskRepository.DeleteByIdAsync(taskId);
 
-                _logger.LogInformation("{service}.{method} - finish delete task in service layer", nameof(TaskService), nameof(DeleteWithId));
+                _logger.LogInformation("{service}.{method} - finish delete task in service layer", nameof(TaskService), nameof(DeleteWithIdAsync));
             }
             else
             {
-                _logger.LogError("{service}.{method} - not found task for delete", nameof(TaskService), nameof(DeleteWithId));
+                _logger.LogError("{service}.{method} - not found task for delete", nameof(TaskService), nameof(DeleteWithIdAsync));
                 throw new TaskArgumentException("task not found for delete");
             }
         }
 
-        public async Task<List<TaskResponse>> GetAllTaskForCategories(Guid categoryId)
+        public async Task<List<TaskModel>> GetAllTaskForCategoriesAsync(Guid categoryId)
         {
-            _logger.LogInformation("{service}.{method} - start get all task for categories in service layer", nameof(TaskService), nameof(GetAllTaskForCategories));
+            _logger.LogInformation("{service}.{method} - start get all task for categories in service layer", nameof(TaskService), nameof(GetAllTaskForCategoriesAsync));
 
             if (await _categoryRepository.GetCategoryByIdAsync(categoryId) != null)
             {
-                _logger.LogInformation("{service}.{method} - finish all task for categories in service layer", nameof(TaskService), nameof(GetAllTaskForCategories));
+                _logger.LogInformation("{service}.{method} - finish all task for categories in service layer", nameof(TaskService), nameof(GetAllTaskForCategoriesAsync));
 
                 return (await _taskRepository.GetAllTasksAsync(categoryId)).Select(task => TaskMapper.TaskToTaskResponse(task)).ToList();
             }
             else
             {
-                _logger.LogError("{service}.{method} - category with id not found", nameof(TaskService), nameof(GetAllTaskForCategories));
+                _logger.LogError("{service}.{method} - category with id not found", nameof(TaskService), nameof(GetAllTaskForCategoriesAsync));
                 throw new ArgumentNullException("category with id not found");
             }
         }
 
-        public async Task<TaskResponse> GetTaskWithId(Guid taskId)
+        public async Task<TaskModel> GetTaskWithIdAsync(Guid taskId)
         {
-            _logger.LogInformation("{service}.{method} - start get task by id in service layer", nameof(TaskService), nameof(GetTaskWithId));
+            _logger.LogInformation("{service}.{method} - start get task by id in service layer", nameof(TaskService), nameof(GetTaskWithIdAsync));
 
             DataAccessLayer.Entities.Task? task = await _taskRepository.GetTaskByIdAsync(taskId);
             if (task != null)
             {
-                _logger.LogInformation("{service}.{method} - finish get all task for categories in service layer", nameof(TaskService), nameof(GetAllTaskForCategories));
+                _logger.LogInformation("{service}.{method} - finish get all task for categories in service layer", nameof(TaskService), nameof(GetTaskWithIdAsync));
 
                 return TaskMapper.TaskToTaskResponse(task);
             }
             else
             {
-                _logger.LogError("{service}.{method} - task with id not found", nameof(TaskService), nameof(GetTaskWithId));
+                _logger.LogError("{service}.{method} - task with id not found", nameof(TaskService), nameof(GetTaskWithIdAsync));
                 throw new TaskArgumentException("Task with id not found");
             }
         }
 
-        public async Task<TaskResponse> UpdateTaskAsync(TaskUpdateRequest taskUpdate)
+        public async Task<TaskModel> UpdateTaskAsync(TaskUpdateModel taskUpdate)
         {
             _logger.LogInformation("{service}.{method} - start update task in service layer", nameof(TaskService), nameof(UpdateTaskAsync));
 
