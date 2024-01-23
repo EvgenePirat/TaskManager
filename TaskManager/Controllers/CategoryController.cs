@@ -4,7 +4,6 @@ using BusinessLayer.ServiceContract;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Dto.Categories.Request;
 using TaskManager.Filteres.ActionFilter.CategoryFilters;
-using TaskManager.Filteres.AuthorizationFilter;
 using TaskManager.Filteres.ErrorFilteres.CategoryErrorFilteres;
 
 namespace TaskManager.Controllers
@@ -13,7 +12,6 @@ namespace TaskManager.Controllers
     /// Controller with methods for working with category
     /// </summary>
     [Route("[controller]")]
-    [TypeFilter(typeof(AuthorizationFilter))]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;

@@ -17,15 +17,15 @@ namespace TaskManager.Filteres.ActionFilter.UserFilters
         /// <returns></returns>
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            if (context.Controller is UserController userController)
+            if (context.Controller is AccountController accountController)
             {
                 List<string> errorMessages = new List<string>();
                 if (!context.ModelState.IsValid)
                 {
-                    errorMessages = userController.ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
+                    errorMessages = accountController.ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
 
-                    userController.ViewBag.Errors = errorMessages;
-                    context.Result = userController.View("Enter");
+                    accountController.ViewBag.Errors = errorMessages;
+                    context.Result = accountController.View("Enter");
                 }
                 else
                     await next();

@@ -1,6 +1,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Serilog;
+using TaskManager.Middleware;
 using TaskManager.StartupConfigure;
 
 namespace TaskManager
@@ -27,11 +28,14 @@ namespace TaskManager
 
             var app = builder.Build();
 
+            app.UseExceptionHandler("/Error");
+            app.UseExceptionHandingMiddleware();
             app.UseSerilogRequestLogging();
             app.UseHttpLogging();
-            app.UseSession();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.MapControllers();
 
             app.Run();

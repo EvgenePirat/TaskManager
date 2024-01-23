@@ -6,14 +6,10 @@
 }
 <link href="~/CSS/StyleRegistration.css" rel="stylesheet" />
 
-<form asp-controller="User" asp-action="RegistrationPost" method="post">
+<form asp-controller="Account" asp-action="RegistrationPost" method="post">
 
     <div>
         <h1>Registration</h1>
-    </div>
-
-    <div class="form-field">
-        <input asp-for="Name" type="text" placeholder="Name" required />
     </div>
 
     <div class="form-field">
@@ -29,11 +25,15 @@
     </div>
 
     <div class="form-field">
+        <input asp-for="ConfirmPassword" type="password" placeholder="Confirm Password" required />
+    </div>
+
+    <div class="form-field">
         <input asp-for="DateOfBirth" type="date" placeholder="Date Of Birth" required />
     </div>
 
     <div class ="form-field">
-        <select asp-for="RoleId" asp-items="@ViewBag.Roles">
+        <select asp-for="UserType" asp-items="@ViewBag.Roles">
             <option value="">Please select role</option>
         </select>
     </div>
@@ -54,7 +54,7 @@
     </div>
 
     <div class="form-field">
-        <button class="btn-reg"><a asp-controller="User" asp-action="Enter">Login</a></button>
+        <button class="btn-reg"><a asp-controller="Account" asp-action="Enter">Login</a></button>
         <button class="btn" type="submit">Registration</button>
     </div>
 

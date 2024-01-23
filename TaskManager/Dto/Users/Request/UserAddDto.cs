@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BusinessLayer.Enum;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace TaskManager.Dto.Users.Request
 {
@@ -7,23 +9,26 @@ namespace TaskManager.Dto.Users.Request
     /// </summary>
     public class UserAddDto
     {
-        [Required(ErrorMessage = "User name can't be blank")]
-        public string? Name { get; set; }
-
         [Required(ErrorMessage = "UserName can't be blank")]
         public string? UserName { get; set; }
 
-        [Required(ErrorMessage = "User email can't be blank")]
-        [EmailAddress]
+        [Required(ErrorMessage = "Email can't be blank")]
+        [EmailAddress(ErrorMessage = "Email should be in a proper email address format")]
+        [DataType(DataType.EmailAddress)]
         public string? Email { get; set; }
 
         [Required(ErrorMessage = "Password can't be blank")]
+        [DataType(DataType.Password)]
         public string? Password { get; set; }
+
+        [Required(ErrorMessage = "Confirm Password can't be blank")]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "Password and confirm password do not match")]
+        public string? ConfirmPassword { get; set; }
 
         [Required(ErrorMessage = "Date of birth can't be blank")]
         public DateTime DateOfBirth { get; set; }
 
-        [Required(ErrorMessage = "Role id can't be blank")]
-        public Guid RoleId { get; set; }
+        public UserTypes UserType { get; set; } = UserTypes.User;
     }
 }

@@ -28,7 +28,7 @@ namespace TaskManager.Filteres.ErrorFilteres.TaskErrorFilteres
         public async Task OnExceptionAsync(ExceptionContext context)
         {
             var errorMessage = context.Exception.Message;
-            _logger.LogError("{class}.{method} " + errorMessage, nameof(UserExceptionFilter), nameof(OnExceptionAsync));
+            _logger.LogError("{class}.{method} " + errorMessage, nameof(AccountExceptionFilter), nameof(OnExceptionAsync));
 
             if (context.HttpContext.Request.Path.Value.Contains("AddNewTaskPost"))
             {

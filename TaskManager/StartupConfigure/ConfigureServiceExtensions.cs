@@ -1,10 +1,11 @@
-﻿using BusinessLayer.ServiceContract;
+﻿
+using BusinessLayer.ServiceContract;
 using BusinessLayer.ServiceImpl;
-using DataAccessLayer;
 using DataAccessLayer.DbContext;
 using DataAccessLayer.IdentityEntities;
 using DataAccessLayer.RepositoryContract;
 using DataAccessLayer.RepositoryImpl;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,14 +41,6 @@ namespace TaskManager.StartupConfigure
                 option.UseSqlServer(configuration["ConnectionStrings:DefaultConnection"].ToString());
             });
 
-            //set session configuration
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromMinutes(30);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-            });
-
             //on http serilog 
             services.AddHttpLogging(options =>
             {
@@ -66,7 +59,8 @@ namespace TaskManager.StartupConfigure
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddUserStore<UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, Guid>>()
-                .AddRoleStore<RoleStore<ApplicationRole, ApplicationDbContext, Guid>>();
+                .AddRoleStore<RoleStore<ApplicationRole, ApplicationDbContext, Guid>>()
+                .AddDefaultTokenProviders();
 
             return services;
         }

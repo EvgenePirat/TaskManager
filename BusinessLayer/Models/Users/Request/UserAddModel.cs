@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLayer.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,8 +12,6 @@ namespace BusinessLayer.Models.Users.Request
     /// </summary>
     public class UserAddModel
     {
-        public string? Name { get; set; }
-
         public string? UserName { get; set; }
 
         public string? Email { get; set; }
@@ -21,6 +20,6 @@ namespace BusinessLayer.Models.Users.Request
 
         public DateTime DateOfBirth { get; set; }
 
-        public Guid RoleId { get; set; }
+        public UserTypes UserType { get; set; } = UserTypes.User;
     }
 }

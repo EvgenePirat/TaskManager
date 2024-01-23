@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace TaskManager.Filteres.ErrorFilteres.UserErrorFilteres
 {
-    public class UserExceptionFilter : IExceptionFilter
+    public class AccountExceptionFilter : IExceptionFilter
     {
-        private readonly ILogger<UserExceptionFilter> _logger;
+        private readonly ILogger<AccountExceptionFilter> _logger;
 
-        public UserExceptionFilter(ILogger<UserExceptionFilter> logger)
+        public AccountExceptionFilter(ILogger<AccountExceptionFilter> logger)
         {
             _logger = logger;
         }
@@ -17,15 +17,15 @@ namespace TaskManager.Filteres.ErrorFilteres.UserErrorFilteres
         public void OnException(ExceptionContext context)
         {
             var errorMessage = context.Exception.Message;
-            _logger.LogError("{class}.{method} " + errorMessage, nameof(UserExceptionFilter), nameof(OnException));
+            _logger.LogError("{class}.{method} " + errorMessage, nameof(AccountExceptionFilter), nameof(OnException));
 
             if (context.HttpContext.Request.Path.Value.Contains("RegistrationPost"))
             {
-                context.Result = new RedirectToActionResult("Registration", "User", new { error = errorMessage });
+                context.Result = new RedirectToActionResult("Registration", "Account", new { error = errorMessage });
             }
             else if (context.HttpContext.Request.Path.Value.Contains("EnterPost"))
             {
-                context.Result = new RedirectToActionResult("Enter", "User", new { error = errorMessage });
+                context.Result = new RedirectToActionResult("Enter", "Account", new { error = errorMessage });
             }
 
             context.ExceptionHandled = true;

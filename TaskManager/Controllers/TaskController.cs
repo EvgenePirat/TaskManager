@@ -3,13 +3,13 @@ using BusinessLayer.Models.Categories.Response;
 using BusinessLayer.Models.Tasks.Request;
 using BusinessLayer.Models.Tasks.Response;
 using BusinessLayer.ServiceContract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using TaskManager.Dto.Categories.Response;
 using TaskManager.Dto.Tasks.Request;
 using TaskManager.Dto.Tasks.Response;
 using TaskManager.Filteres.ActionFilter.TaskFilteres;
-using TaskManager.Filteres.AuthorizationFilter;
 using TaskManager.Filteres.ErrorFilteres.TaskErrorFilteres;
 
 namespace TaskManager.Controllers
@@ -18,7 +18,7 @@ namespace TaskManager.Controllers
     /// controller for working with task logic
     /// </summary>
     [Route("[controller]")]
-    [TypeFilter(typeof(AuthorizationFilter))]
+    [Authorize(Roles = "User")]
     public class TaskController : Controller
     {
         private readonly ICategoryService _categoryService;
