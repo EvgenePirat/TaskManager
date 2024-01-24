@@ -13,5 +13,8 @@ namespace DataAccessLayer.IdentityEntities
 
         [Required]
         public UserProfile? UserProfile { get; set; }
+
+        public List<Category>? Categories { get; set; }
+
     }
 }

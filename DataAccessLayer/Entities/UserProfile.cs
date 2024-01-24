@@ -33,8 +33,6 @@ namespace DataAccessLayer.Entities
 
         public DateTime CreateAccount { get; set; } = DateTime.Now;
 
-        public List<Category>? Categories { get; set; }
-
         [Required]
         public ApplicationUser? ApplicationUser { get; set; }
     }

@@ -30,7 +30,7 @@ namespace DataAccessLayer.DbContext
             modelBuilder.Entity<IdentityUserLogin<Guid>>().HasKey(l => new { l.LoginProvider, l.ProviderKey });
 
             //set link beetwen user and categories and category and task
-            modelBuilder.Entity<UserProfile>()
+            modelBuilder.Entity<ApplicationUser>()
                 .HasMany(u => u.Categories)
                 .WithOne(c => c.User)
                 .HasForeignKey(c => c.UserId)
