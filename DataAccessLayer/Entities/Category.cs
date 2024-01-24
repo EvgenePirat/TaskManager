@@ -23,7 +23,7 @@ namespace DataAccessLayer.Entities
         public Guid UserId { get; set; }
 
         [Required]
-        public User? User { get; set; }
+        public UserProfile? User { get; set; }
 
         public List<Task>? Tasks { get; set; }
     }

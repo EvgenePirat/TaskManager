@@ -76,7 +76,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = new Guid("fabab501-8b10-4f1f-987e-210e59cd7a2b"),
-                            Name = "User"
+                            Name = "UserProfile"
                         });
                 });
 
@@ -113,7 +113,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Tasks");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.User", b =>
+            modelBuilder.Entity("DataAccessLayer.Entities.UserProfile", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -163,13 +163,13 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.Entities.Category", b =>
                 {
-                    b.HasOne("DataAccessLayer.Entities.User", "User")
+                    b.HasOne("DataAccessLayer.Entities.UserProfile", "UserProfile")
                         .WithMany("Categories")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("UserProfile");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Task", b =>
@@ -183,7 +183,7 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.User", b =>
+            modelBuilder.Entity("DataAccessLayer.Entities.UserProfile", b =>
                 {
                     b.HasOne("DataAccessLayer.Entities.Role", "Role")
                         .WithMany("Users")
@@ -204,7 +204,7 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.User", b =>
+            modelBuilder.Entity("DataAccessLayer.Entities.UserProfile", b =>
                 {
                     b.Navigation("Categories");
                 });

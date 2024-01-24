@@ -39,7 +39,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.User", b =>
+            modelBuilder.Entity("DataAccessLayer.Entities.UserProfile", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -80,7 +80,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.User", b =>
+            modelBuilder.Entity("DataAccessLayer.Entities.UserProfile", b =>
                 {
                     b.HasOne("DataAccessLayer.Entities.Role", "Role")
                         .WithMany("Users")

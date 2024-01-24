@@ -25,9 +25,7 @@ namespace TaskManager.StartupConfigure
         public static IServiceCollection ConfigureService(this IServiceCollection services, IConfiguration configuration)
         {
             //set link for DI
-            services.AddScoped<IRoleService, RoleService>();
-            services.AddScoped<IRoleRepository, RoleRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserProfileRepository, UserProfileRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICategoryService, CategoryService>();

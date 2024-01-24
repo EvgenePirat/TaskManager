@@ -8,29 +8,22 @@ using System.Threading.Tasks;
 namespace DataAccessLayer.RepositoryContract
 {
     /// <summary>
-    /// Perpesents data access logic for managing User entity
+    /// Perpesents data access logic for managing UserProfile entity
     /// </summary>
-    public interface IUserRepository
+    public interface IUserProfileRepository
     {
         /// <summary>
         /// Adds a new user object to the data store
         /// </summary>
-        /// <param name="user">User for save to BD</param>
+        /// <param name="user">UserProfile for save to BD</param>
         /// <returns>returned user with id from db</returns>
-        public Task<User?> AddUserAsync(User user);
-
-        /// <summary>
-        /// Get user from db with username
-        /// </summary>
-        /// <param name="userName">username for search user in bd</param>
-        /// <returns>returned user if find or null if not find</returns>
-        public Task<User?> GetByUserNameAsync(string userName);
+        public Task<UserProfile?> AddUserProfileAsync(UserProfile user);
 
         /// <summary>
         /// Get user from db with id
         /// </summary>
         /// <param name="userId">guid id for search user in bd</param>
         /// <returns>returned user if find or null if not find</returns>
-        public Task<User?> GetByUserIdAsync(Guid userId);
+        public Task<UserProfile?> GetUserProfileByIdAsync(Guid userId);
     }
 }

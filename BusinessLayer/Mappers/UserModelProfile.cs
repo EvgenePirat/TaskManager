@@ -15,11 +15,11 @@ namespace BusinessLayer.Mappers
     {
         public UserModelProfile()
         {
-            CreateMap<UserAddModel, User>();
+            CreateMap<UserAddModel, UserProfile>();
 
-            CreateMap<User, UserModel>();
+            CreateMap<UserProfile, UserModel>();
 
-            CreateMap<UserEnterModel, User>();
+            CreateMap<UserEnterModel, UserProfile>();
 
             CreateMap<ApplicationUser, UserModel>();
 

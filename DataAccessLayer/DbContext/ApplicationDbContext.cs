@@ -14,8 +14,7 @@ namespace DataAccessLayer.DbContext
     {
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Role> Roles { get; set; }
+        public DbSet<UserProfile> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Entities.Task> Tasks { get; set; }
 
@@ -30,14 +29,8 @@ namespace DataAccessLayer.DbContext
 
             modelBuilder.Entity<IdentityUserLogin<Guid>>().HasKey(l => new { l.LoginProvider, l.ProviderKey });
 
-            //set link one to many between user and role
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Role)
-                .WithMany(u => u.Users)
-                .HasForeignKey(u => u.RoleId);
-
             //set link beetwen user and categories and category and task
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<UserProfile>()
                 .HasMany(u => u.Categories)
                 .WithOne(c => c.User)
                 .HasForeignKey(c => c.UserId)
@@ -50,22 +43,12 @@ namespace DataAccessLayer.DbContext
                 .HasForeignKey(t => t.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            //Seed date
-            string rolesJson = File.ReadAllText("roles.json");
-            List<Role> roles = JsonSerializer.Deserialize<List<Role>>(rolesJson);
+            modelBuilder.Entity<ApplicationUser>()
+               .HasOne(u => u.UserProfile)        
+               .WithOne(up => up.ApplicationUser)              
+               .HasForeignKey<UserProfile>(up => up.UserProfileId)  
+               .OnDelete(DeleteBehavior.Cascade);
 
-            //Seed unique username for user
-            modelBuilder.Entity<User>()
-                .HasIndex(u => u.UserName)
-                .IsUnique();
-
-            //seed unique name for role
-            modelBuilder.Entity<Role>()
-                .HasIndex(u => u.Name)
-                .IsUnique();
-
-            foreach (var role in roles)
-                modelBuilder.Entity<Role>().HasData(role);
         }
     }
 }

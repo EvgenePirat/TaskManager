@@ -1,4 +1,4 @@
-﻿using TaskManager.Dto.Roles.Response;
+﻿
 
 namespace TaskManager.Dto.Users.Response
 {
@@ -16,8 +16,6 @@ namespace TaskManager.Dto.Users.Response
         public string? Password { get; set; }
 
         public string? Email { get; set; }
-
-        public RoleDto Role { get; set; }
 
         public int Age { get; set; }
 

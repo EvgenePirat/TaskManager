@@ -1,15 +1,4 @@
-﻿using AutoMapper;
-using BusinessLayer.Models.Roles.Response;
-using BusinessLayer.Models.Users.Request;
-using BusinessLayer.ServiceContract;
-using CustomExceptions.UserExceptions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using TaskManager.Dto.Roles.Response;
-using TaskManager.Dto.Users.Request;
-using TaskManager.Dto.Users.Response;
-using TaskManager.Filteres.ActionFilter.UserFilters;
-using TaskManager.Filteres.ErrorFilteres.UserErrorFilteres;
+﻿
 
 namespace TaskManager.Controllers
 {

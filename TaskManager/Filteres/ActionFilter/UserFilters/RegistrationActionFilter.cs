@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using TaskManager.Controllers;
-using TaskManager.Dto.Roles.Response;
 
 namespace TaskManager.Filteres.ActionFilter.UserFilters
 {
@@ -14,12 +13,10 @@ namespace TaskManager.Filteres.ActionFilter.UserFilters
     /// </summary>
     public class RegistrationActionFilter : IAsyncActionFilter
     {
-        private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
 
-        public RegistrationActionFilter(IRoleService roleService, IMapper mapper)
+        public RegistrationActionFilter(IMapper mapper)
         {
-            _roleService = roleService;
             _mapper = mapper;
         }
 

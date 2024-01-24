@@ -14,9 +14,6 @@ namespace TaskManager.StartupConfigure
                 cfg.AddProfile(new CategoryModelProfile());
                 cfg.AddProfile(new CategoryDtoProfile());
 
-                cfg.AddProfile(new RoleModelProfile());
-                cfg.AddProfile(new RoleDtoProfile());
-
                 cfg.AddProfile(new UserModelProfile());
                 cfg.AddProfile(new UserDtoProfile());
 

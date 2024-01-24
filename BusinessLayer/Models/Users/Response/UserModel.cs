@@ -1,6 +1,4 @@
-﻿using BusinessLayer.Models.Roles.Response;
-
-namespace BusinessLayer.Models.Users.Response
+﻿namespace BusinessLayer.Models.Users.Response
 {
     /// <summary>
     /// Model for response user entity
@@ -16,8 +14,6 @@ namespace BusinessLayer.Models.Users.Response
         public string? Password { get; set; }
 
         public string? Email { get; set; }
-
-        public RoleModel Role { get; set; }
 
         public int Age { get; set; }
 

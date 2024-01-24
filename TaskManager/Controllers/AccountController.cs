@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BusinessLayer.Enum;
-using BusinessLayer.Models.Roles.Response;
 using BusinessLayer.Models.Users.Request;
 using BusinessLayer.ServiceContract;
 using CustomExceptions.UserExceptions;
@@ -20,14 +19,12 @@ namespace TaskManager.Controllers
     [AllowAnonymous]
     public class AccountController : Controller
     {
-        private readonly IRoleService _roleService;
         private readonly IUserService _userService;
         private readonly ILogger<AccountController> _logger;
         private readonly IMapper _mapper;
 
-        public AccountController(IRoleService roleService, IUserService userService, ILogger<AccountController> logger, IMapper mapper)
+        public AccountController(IUserService userService, ILogger<AccountController> logger, IMapper mapper)
         {
-            _roleService = roleService;
             _userService = userService;
             _logger = logger;
             _mapper = mapper;
@@ -86,17 +83,9 @@ namespace TaskManager.Controllers
         {
             _logger.LogInformation("{controller}.{method} - start post user for registration in system", nameof(AccountController), nameof(RegistrationPost));
 
-            if (await _userService.CheckUserNameAsync(userAddRequest.UserName))
-            {
-                var mappedModel = _mapper.Map<UserAddModel>(userAddRequest);
+            var mappedModel = _mapper.Map<UserAddModel>(userAddRequest);
 
-                await _userService.AddUserAsync(mappedModel);
-            }
-            else
-            {
-                _logger.LogError("{controller}.{method} - userRequest equals null", nameof(AccountController), nameof(RegistrationPost));
-                throw new UserArgumentException("User with username already exist");
-            }
+            await _userService.AddUserAsync(mappedModel);
 
             _logger.LogInformation("{controller}.{method} - finish post user for registration in system", nameof(AccountController), nameof(RegistrationPost));
 

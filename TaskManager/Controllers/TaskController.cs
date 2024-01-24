@@ -46,8 +46,9 @@ namespace TaskManager.Controllers
         {
             _logger.LogInformation("{controller}.{method} - Get home page, start", nameof(TaskController), nameof(Home));
 
-            Guid userId = Guid.Parse(HttpContext.Session.GetString("UserId"));
-            List<CategoryModel> categories = await _categoryService.GetCategoriesForUserAsync(userId);
+            string name = User.Identity.Name;
+
+            List<CategoryModel> categories = await _categoryService.GetCategoriesForUserAsync(Guid.NewGuid());
 
             var mappedCategories = _mapper.Map<List<CategoryDto>>(categories);
 

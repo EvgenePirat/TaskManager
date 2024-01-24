@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DataAccessLayer.Entities;
+using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace DataAccessLayer.IdentityEntities
 {
@@ -8,5 +10,8 @@ namespace DataAccessLayer.IdentityEntities
     public class ApplicationUser : IdentityUser<Guid>
     {
         public DateTime DateOfBirth { get; set; }
+
+        [Required]
+        public UserProfile? UserProfile { get; set; }
     }
 }

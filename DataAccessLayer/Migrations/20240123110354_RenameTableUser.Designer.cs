@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240118162933_addIdentity")]
-    partial class addIdentity
+    [Migration("20240123110354_RenameTableUser")]
+    partial class RenameTableUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,37 +46,6 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Entities.Role", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("77faa92e-48cc-45f0-aafb-7c4031839329"),
-                            Name = "Admin"
-                        },
-                        new
-                        {
-                            Id = new Guid("fabab501-8b10-4f1f-987e-210e59cd7a2b"),
-                            Name = "UserProfile"
-                        });
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Task", b =>
@@ -114,8 +83,7 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.Entities.UserProfile", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("UserProfileId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Age")
@@ -124,40 +92,21 @@ namespace DataAccessLayer.Migrations
                     b.Property<DateTime>("CreateAccount")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
+                    b.Property<string>("FirstName")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
+                    b.Property<string>("LastName")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
+                    b.Property<string>("NumberPhone")
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserProfileId");
 
-                    b.HasIndex("RoleId");
-
-                    b.HasIndex("UserName")
-                        .IsUnique();
-
-                    b.ToTable("Users");
+                    b.ToTable("UserProfile");
                 });
 
             modelBuilder.Entity("DataAccessLayer.IdentityEntities.ApplicationRole", b =>
@@ -362,13 +311,13 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.Entities.Category", b =>
                 {
-                    b.HasOne("DataAccessLayer.Entities.UserProfile", "UserProfile")
+                    b.HasOne("DataAccessLayer.Entities.UserProfile", "User")
                         .WithMany("Categories")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("UserProfile");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Task", b =>
@@ -384,13 +333,13 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.Entities.UserProfile", b =>
                 {
-                    b.HasOne("DataAccessLayer.Entities.Role", "Role")
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId")
+                    b.HasOne("DataAccessLayer.IdentityEntities.ApplicationUser", "ApplicationUser")
+                        .WithOne("UserProfile")
+                        .HasForeignKey("DataAccessLayer.Entities.UserProfile", "UserProfileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Role");
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -449,14 +398,15 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Tasks");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.Role", b =>
-                {
-                    b.Navigation("Users");
-                });
-
             modelBuilder.Entity("DataAccessLayer.Entities.UserProfile", b =>
                 {
                     b.Navigation("Categories");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.IdentityEntities.ApplicationUser", b =>
+                {
+                    b.Navigation("UserProfile")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

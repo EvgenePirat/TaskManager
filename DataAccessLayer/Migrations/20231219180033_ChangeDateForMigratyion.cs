@@ -17,7 +17,7 @@ namespace DataAccessLayer.Migrations
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "Name" },
-                values: new object[] { new Guid("fabab501-8b10-4f1f-987e-210e59cd7a2b"), "User" });
+                values: new object[] { new Guid("fabab501-8b10-4f1f-987e-210e59cd7a2b"), "UserProfile" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

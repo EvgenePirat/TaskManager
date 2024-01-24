@@ -13,31 +13,26 @@ namespace DataAccessLayer.RepositoryImpl
     /// <summary>
     /// Implementation logic for user repository contract
     /// </summary>
-    public class UserRepository : IUserRepository
+    public class UserProfileRepository : IUserProfileRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public UserRepository(ApplicationDbContext dbContext)
+        public UserProfileRepository(ApplicationDbContext dbContext)
         {
             _context = dbContext;
         }
 
-        public async Task<User?> AddUserAsync(User user)
+        public async Task<UserProfile?> AddUserProfileAsync(UserProfile user)
         {
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(temp => temp.Id == user.Id);
+            return await _context.Users.FirstOrDefaultAsync(temp => temp.UserProfileId == user.UserProfileId);
         }
 
-        public async Task<User?> GetByUserIdAsync(Guid userId)
+        public async Task<UserProfile?> GetUserProfileByIdAsync(Guid userId)
         {
-            return await _context.Users.Include("Categories").FirstOrDefaultAsync(temp => temp.Id == userId);
-        }
-
-        public async Task<User?> GetByUserNameAsync(string userName)
-        {
-            return await _context.Users.Include("Role").FirstOrDefaultAsync(temp => temp.UserName == userName);
+            return await _context.Users.Include("Categories").FirstOrDefaultAsync(temp => temp.UserProfileId == userId);
         }
     }
 }

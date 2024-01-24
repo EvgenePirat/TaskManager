@@ -73,7 +73,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = new Guid("fabab501-8b10-4f1f-987e-210e59cd7a2b"),
-                            Name = "User"
+                            Name = "UserProfile"
                         });
                 });
 
@@ -116,7 +116,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Tasks");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.User", b =>
+            modelBuilder.Entity("DataAccessLayer.Entities.UserProfile", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -172,7 +172,7 @@ namespace DataAccessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataAccessLayer.Entities.User", "User")
+                    b.HasOne("DataAccessLayer.Entities.UserProfile", "UserProfile")
                         .WithMany("Tasks")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -180,10 +180,10 @@ namespace DataAccessLayer.Migrations
 
                     b.Navigation("Category");
 
-                    b.Navigation("User");
+                    b.Navigation("UserProfile");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.User", b =>
+            modelBuilder.Entity("DataAccessLayer.Entities.UserProfile", b =>
                 {
                     b.HasOne("DataAccessLayer.Entities.Role", "Role")
                         .WithMany("Users")
@@ -199,7 +199,7 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.User", b =>
+            modelBuilder.Entity("DataAccessLayer.Entities.UserProfile", b =>
                 {
                     b.Navigation("Tasks");
                 });

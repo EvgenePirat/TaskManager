@@ -17,11 +17,11 @@ namespace BusinessLayer.ServiceImpl
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
-        private readonly IUserRepository _userRepository;
+        private readonly IUserProfileRepository _userRepository;
         private readonly ILogger<CategoryService> _logger;
         private readonly IMapper _mapper;
 
-        public CategoryService(ICategoryRepository categoryRepository, IUserRepository userRepository, ILogger<CategoryService> logger, IMapper mapper)
+        public CategoryService(ICategoryRepository categoryRepository, IUserProfileRepository userRepository, ILogger<CategoryService> logger, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
             _userRepository = userRepository;
@@ -66,7 +66,7 @@ namespace BusinessLayer.ServiceImpl
         {
             _logger.LogInformation("{service}.{method} - start, get category for user in service layer", nameof(CategoryService), nameof(GetCategoriesForUserAsync));
 
-            if ((await _userRepository.GetByUserIdAsync(userId)) != null)
+            if ((await _userRepository.GetUserProfileByIdAsync(userId)) != null)
             {
                 var categories = _mapper.Map<List<CategoryModel>>(await _categoryRepository.GetAllCategoriesAsync(userId));
 
@@ -76,8 +76,8 @@ namespace BusinessLayer.ServiceImpl
             }
             else
             {
-                _logger.LogError("{service}.{method} - User with id not found!", nameof(CategoryService), nameof(GetCategoriesForUserAsync));
-                throw new UserArgumentException("User with id not found!");
+                _logger.LogError("{service}.{method} - UserProfile with id not found!", nameof(CategoryService), nameof(GetCategoriesForUserAsync));
+                throw new UserArgumentException("UserProfile with id not found!");
             }  
         }
     }
