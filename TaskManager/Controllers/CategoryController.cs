@@ -3,6 +3,7 @@ using BusinessLayer.Models.Categories.Request;
 using BusinessLayer.ServiceContract;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Dto.Categories.Request;
+using TaskManager.Dto.Categories.Response;
 using TaskManager.Filteres.ActionFilter.CategoryFilters;
 using TaskManager.Filteres.ErrorFilteres.CategoryErrorFilteres;
 
@@ -30,17 +31,21 @@ namespace TaskManager.Controllers
         /// </summary>
         /// <returns>returned page for added new category</returns>
         [HttpGet("[action]")]
-        public IActionResult AddNewCategory()
+        public async Task<IActionResult> Categories()
         {
-            _logger.LogInformation("{controller}.{method} - Get add new category page, start", nameof(CategoryController), nameof(AddNewCategory));
+            _logger.LogInformation("{controller}.{method} - Get add new category page, start", nameof(CategoryController), nameof(Categories));
 
-            string errorMessage = HttpContext.Request.Query["error"].ToString();
+            string errorMessage = HttpContext.Request.Query["error"].ToString(); 
             if (errorMessage.Length > 0)
                 ViewBag.Errors = new List<string> { errorMessage };
 
-            _logger.LogInformation("{controller}.{method} - Get add new category page, finish", nameof(CategoryController), nameof(AddNewCategory));
+            string? userLogin = User.Identity?.Name;
 
-            return View("AddCategory");
+            ViewBag.Categories = _mapper.Map<List<CategoryDto>>(await _categoryService.GetCategoriesForUserAsync(userLogin));
+
+            _logger.LogInformation("{controller}.{method} - Get add new category page, finish", nameof(CategoryController), nameof(Categories));
+
+            return View("Categories");
         }
 
         /// <summary>
@@ -61,9 +66,11 @@ namespace TaskManager.Controllers
 
             await _categoryService.AddNewCategoryAsync(mappedModel, userLogin);
 
+            ViewBag.Categories = _mapper.Map<List<CategoryDto>>(await _categoryService.GetCategoriesForUserAsync(userLogin));
+
             _logger.LogInformation("{controller}.{method} - post category for save, finish", nameof(CategoryController), nameof(AddNewCategoryPost));
 
-            return RedirectToAction("Home","Task");
+            return View("Categories");
         }
     }
 }

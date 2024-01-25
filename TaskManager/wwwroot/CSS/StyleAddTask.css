@@ -22,6 +22,7 @@
     font-family: 'Lato', sans-serif;
     color: #4A4A4A;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
@@ -42,21 +43,42 @@ form {
     position: relative;
 }
 
-    form .form-field {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-        justify-content: space-between;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
-        margin-bottom: 1rem;
-        position: relative;
+.table-category {
+    margin-bottom: 30px;
+    margin-top: 30px;
+    flex-direction: column;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+    .table-category table {
+        font-size: 20px;
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 10px;
     }
 
-    form h1 {
+    .table-category th, td {
+        border: 2px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+form .form-field {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+    form h2 {
         margin-bottom: 20px;
     }
 

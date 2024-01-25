@@ -1,0 +1,81 @@
+﻿@using TaskManager.Dto.Categories.Request
+@using TaskManager.Dto.Categories.Response
+@model CategoryAddDto
+@{
+    ViewBag.Title = "Add Category";
+    Layout = "~/Views/Shared/_Layout_task.cshtml";
+}
+<link href="~/CSS/StyleAddTask.css" rel="stylesheet" />
+<div class="app">
+    <div class="body-add">
+            <div>
+                <h1>Categories</h1>
+            </div>
+
+            <div class="table-category">
+                @if (ViewBag.Categories.Count == 0)
+                {
+                    <p>You not have category</p>
+                }
+                else
+                {
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Count task</th>
+                                    <th>Options</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (CategoryDto category in ViewBag.Categories)
+                                {
+                                    <tr>
+                                        <td>@category.Name</td>
+                                        <td>@category.Tasks?.Count</td>
+                                        <td>
+                                            <a>Edit</a>
+
+                                            <form method="post" asp-controller="Category" asp-action="DeleteCategoryPost" asp-route-taskId="@category.Id">
+                                                <button type="submit">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                }
+            </div>
+
+        <form asp-controller="Category" asp-action="AddNewCategoryPost" method="post">
+
+            <h2>Add new category</h2>
+
+            <div class="form-field">
+                <input asp-for="Name" type="text" placeholder="Name" required />
+            </div>
+
+            <div>
+                @if (ViewBag.Errors != null)
+                {
+                    <div class="text-red">
+                        <ul>
+                            @foreach (string error in ViewBag.Errors)
+                            {
+                                <li class="ml">@error</li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+
+            <div class="form-field">
+                <button class="btn-reg"><a asp-controller="Task" asp-action="Home">Home</a></button>
+                <button class="btn" type="submit">Add</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
