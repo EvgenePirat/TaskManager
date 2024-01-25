@@ -54,7 +54,7 @@ namespace TaskManager.Controllers
         /// <returns>returned home page if good save or page create category with errors</returns>
         [HttpPost("[action]")]
         [TypeFilter(typeof(CategoryExceptionFilter))]
-        public async Task<IActionResult> AddNewCategoryPost(CategoryAddDto categoryAddDto) 
+        public async Task<IActionResult> AddNewCategoryPost([FromForm]CategoryAddDto categoryAddDto) 
         {
             _logger.LogInformation("{controller}.{method} - post category for save, start", nameof(CategoryController), nameof(AddNewCategoryPost));
 
@@ -88,7 +88,7 @@ namespace TaskManager.Controllers
         /// <param name="categoryUpdateDto">category with new data for update</param>
         /// <returns>returned page with updates categories</returns>
         
-        public async Task<IActionResult> UpdateCategoryPost(CategoryUpdateDto categoryUpdateDto)
+        public async Task<IActionResult> UpdateCategoryPost([FromForm]CategoryUpdateDto categoryUpdateDto)
         {
             _logger.LogInformation("{controller}.{method} - post category for update, start", nameof(CategoryController), nameof(UpdateCategoryPost));
 

@@ -91,7 +91,7 @@ namespace TaskManager.Controllers
         [HttpPost("[action]")]
         [TypeFilter(typeof(TaskValidationActionFilter))]
         [TypeFilter(typeof(TaskExceptionFilter))]
-        public async Task<IActionResult> AddNewTaskPost(TaskAddDto taskAddRequest)
+        public async Task<IActionResult> AddNewTaskPost([FromForm]TaskAddDto taskAddRequest)
         {
             _logger.LogInformation("{controller}.{method} - post task for save, start", nameof(TaskController), nameof(AddNewTaskPost));
 
@@ -190,6 +190,16 @@ namespace TaskManager.Controllers
             _logger.LogInformation("{controller}.{method} - post update task, finish", nameof(TaskController), nameof(TaskUpdatePost));
 
             return RedirectToAction("Home", "Task");
+        }
+
+        /// <summary>
+        /// Method for get page about application
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public IActionResult AboutApplication()
+        {
+            return View("About");
         }
 
     }
