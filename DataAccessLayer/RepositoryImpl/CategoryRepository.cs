@@ -51,5 +51,19 @@ namespace DataAccessLayer.RepositoryImpl
         {
             return await _context.Categories.FirstOrDefaultAsync(temp => temp.Name == categoryName);
         }
+
+        public async Task<Category?> UpdateCategoryAsync(Category category)
+        {
+            Category? categoryFromDB = await _context.Categories.FirstOrDefaultAsync(temp => temp.Id == category.Id);
+
+            if(categoryFromDB != null)
+            {
+                categoryFromDB.Name = category.Name;
+                _context.Categories.Update(categoryFromDB);
+                await _context.SaveChangesAsync();
+            }
+
+            return categoryFromDB;
+        }
     }
 }

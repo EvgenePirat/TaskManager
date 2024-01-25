@@ -1,5 +1,7 @@
 ﻿using BusinessLayer.Models.Categories.Request;
 using BusinessLayer.Models.Categories.Response;
+using BusinessLayer.Models.Tasks.Request;
+using BusinessLayer.Models.Tasks.Response;
 
 namespace BusinessLayer.ServiceContract
 {
@@ -28,5 +30,11 @@ namespace BusinessLayer.ServiceContract
         /// <param name="categoryId">guid id for check exist or not category</param>
         public Task DeleteByIdAsync(Guid categoryId);
 
+        /// <summary>
+        /// Method for add businnes logic before update category
+        /// </summary>
+        /// <param name="taskUpdate">category with data for update</param>
+        /// <returns>returned already updated category with new data</returns>
+        public Task<CategoryModel> UpdateCategoryAsync(CategoryUpdateModel categoryUpdateModel);
     }
 }

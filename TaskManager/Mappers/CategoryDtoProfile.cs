@@ -13,6 +13,8 @@ namespace TaskManager.Mappers
             CreateMap<CategoryAddDto, CategoryAddModel>();
 
             CreateMap<CategoryModel, CategoryDto>();
+
+            CreateMap<CategoryUpdateDto, CategoryUpdateModel>();
         }
     }
 }

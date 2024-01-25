@@ -8,11 +8,8 @@ using CustomExceptions.UserExceptions;
 using DataAccessLayer.Entities;
 using DataAccessLayer.IdentityEntities;
 using DataAccessLayer.RepositoryContract;
-using DataAccessLayer.RepositoryImpl;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using System.ComponentModel;
-using System.Threading.Tasks;
 
 namespace BusinessLayer.ServiceImpl
 {
@@ -111,6 +108,28 @@ namespace BusinessLayer.ServiceImpl
             {
                 _logger.LogError("{service}.{method} - not found category for delete", nameof(CategoryService), nameof(DeleteByIdAsync));
                 throw new CategoryArgumentException("category not found for delete");
+            }
+        }
+
+        public async Task<CategoryModel> UpdateCategoryAsync(CategoryUpdateModel categoryUpdateModel)
+        {
+            _logger.LogInformation("{service}.{method} - start, update category in service layer", nameof(CategoryService), nameof(UpdateCategoryAsync));
+
+            var categoryFromBD = await _categoryRepository.GetCategoryByIdAsync(categoryUpdateModel.Id);
+            if (categoryFromBD != null && categoryFromBD.Name == categoryUpdateModel.OldName)
+            {
+                var mappedCategory = _mapper.Map<Category>(categoryUpdateModel);
+                mappedCategory.Name = categoryUpdateModel.NewName;
+                var result = await _categoryRepository.UpdateCategoryAsync(mappedCategory);
+
+                _logger.LogInformation("{service}.{method} - finish, update category in service layer", nameof(CategoryUpdateModel), nameof(UpdateCategoryAsync));
+
+                return _mapper.Map<CategoryModel>(result);
+            }
+            else
+            {
+                _logger.LogError("{service}.{method} - not found category for update", nameof(CategoryService), nameof(UpdateCategoryAsync));
+                throw new TaskArgumentException("Category not found for update");
             }
         }
     }

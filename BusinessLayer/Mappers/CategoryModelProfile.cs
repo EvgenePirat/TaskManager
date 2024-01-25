@@ -17,6 +17,8 @@ namespace BusinessLayer.Mappers
             CreateMap<CategoryAddModel, Category>();
 
             CreateMap<Category, CategoryModel>();
+
+            CreateMap<CategoryUpdateModel, Category>();
         }
     }
 }

@@ -102,7 +102,8 @@ namespace TaskManager.Controllers
                 return View("Categories");
             }
 
-
+            var mappedModel = _mapper.Map<CategoryUpdateModel>(categoryUpdateDto);
+            await _categoryService.UpdateCategoryAsync(mappedModel);
 
             string? userLogin = User.Identity?.Name;
 

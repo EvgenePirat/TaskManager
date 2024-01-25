@@ -45,5 +45,12 @@ namespace DataAccessLayer.RepositoryContract
         /// </summary>
         /// <param name="categoryId">guid id for delete category</param>
         public System.Threading.Tasks.Task DeleteCategoryByIdAsync(Guid id);
+
+        /// <summary>
+        /// Method for update already exist category
+        /// </summary>
+        /// <param name="category">category with new data for update</param>
+        /// <returns>returned category with updates data</returns>
+        public Task<Category?> UpdateCategoryAsync(Category category);
     }
 }
