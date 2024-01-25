@@ -65,19 +65,19 @@ namespace BusinessLayer.ServiceImpl
             }
         }
 
-        public async System.Threading.Tasks.Task DeleteWithIdAsync(Guid taskId)
+        public async System.Threading.Tasks.Task DeleteByIdAsync(Guid taskId)
         {
-            _logger.LogInformation("{service}.{method} - start delete task in service layer", nameof(TaskService), nameof(DeleteWithIdAsync));
+            _logger.LogInformation("{service}.{method} - start delete task in service layer", nameof(TaskService), nameof(DeleteByIdAsync));
 
             if (await _taskRepository.GetTaskByIdAsync(taskId) != null)
             {
                 await _taskRepository.DeleteByIdAsync(taskId);
 
-                _logger.LogInformation("{service}.{method} - finish delete task in service layer", nameof(TaskService), nameof(DeleteWithIdAsync));
+                _logger.LogInformation("{service}.{method} - finish delete task in service layer", nameof(TaskService), nameof(DeleteByIdAsync));
             }
             else
             {
-                _logger.LogError("{service}.{method} - not found task for delete", nameof(TaskService), nameof(DeleteWithIdAsync));
+                _logger.LogError("{service}.{method} - not found task for delete", nameof(TaskService), nameof(DeleteByIdAsync));
                 throw new TaskArgumentException("task not found for delete");
             }
         }
@@ -99,21 +99,21 @@ namespace BusinessLayer.ServiceImpl
             }
         }
 
-        public async Task<TaskModel> GetTaskWithIdAsync(Guid taskId)
+        public async Task<TaskModel> GetTaskByIdAsync(Guid taskId)
         {
-            _logger.LogInformation("{service}.{method} - start get task by id in service layer", nameof(TaskService), nameof(GetTaskWithIdAsync));
+            _logger.LogInformation("{service}.{method} - start get task by id in service layer", nameof(TaskService), nameof(GetTaskByIdAsync));
 
             DataAccessLayer.Entities.Task? task = await _taskRepository.GetTaskByIdAsync(taskId);
 
             if (task != null)
             {
-                _logger.LogInformation("{service}.{method} - finish get all task for categories in service layer", nameof(TaskService), nameof(GetTaskWithIdAsync));
+                _logger.LogInformation("{service}.{method} - finish get all task for categories in service layer", nameof(TaskService), nameof(GetTaskByIdAsync));
 
                 return _mapper.Map<TaskModel>(task);
             }
             else
             {
-                _logger.LogError("{service}.{method} - task with id not found", nameof(TaskService), nameof(GetTaskWithIdAsync));
+                _logger.LogError("{service}.{method} - task with id not found", nameof(TaskService), nameof(GetTaskByIdAsync));
                 throw new TaskArgumentException("Task with id not found");
             }
         }

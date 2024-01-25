@@ -21,5 +21,12 @@ namespace BusinessLayer.ServiceContract
         /// <param name="userId">user id for search category</param>
         /// <returns>returned all categories for user</returns>
         public Task<List<CategoryModel>> GetCategoriesForUserAsync(string? userLogin);
+
+        /// <summary>
+        /// Method for add businnes logic before delete category
+        /// </summary>
+        /// <param name="categoryId">guid id for check exist or not category</param>
+        public Task DeleteByIdAsync(Guid categoryId);
+
     }
 }

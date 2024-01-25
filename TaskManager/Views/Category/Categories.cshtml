@@ -1,6 +1,6 @@
 ﻿@using TaskManager.Dto.Categories.Request
 @using TaskManager.Dto.Categories.Response
-@model CategoryAddDto
+@model CategoryOperationDto
 @{
     ViewBag.Title = "Add Category";
     Layout = "~/Views/Shared/_Layout_task.cshtml";
@@ -33,11 +33,11 @@
                                     <tr>
                                         <td>@category.Name</td>
                                         <td>@category.Tasks?.Count</td>
-                                        <td>
-                                            <a>Edit</a>
+                                        <td class="form-delete">
+                                    <button onclick="openEditPopup('@category.Id', '@category.Name')" class="delete-edit">Edit</button>
 
-                                            <form method="post" asp-controller="Category" asp-action="DeleteCategoryPost" asp-route-taskId="@category.Id">
-                                                <button type="submit">Delete</button>
+                                            <form class="form-delete" method="post" asp-controller="Category" asp-action="DeleteCategoryPost" asp-route-categoryId="@category.Id">
+                                                <button type="submit" class="delete-button">Delete</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -48,12 +48,28 @@
                 }
             </div>
 
-        <form asp-controller="Category" asp-action="AddNewCategoryPost" method="post">
+        <form id="form-1" method="post" asp-action="UpdateCategoryPost" asp-controller="Category">
+                <h2>Update category</h2>
+
+                <input type="hidden" asp-for="@Model.categoryUpdateDto.Id" />
+                <input type="hidden" asp-for="@Model.categoryUpdateDto.OldName" />
+
+                <input type="text" asp-for="@Model.categoryUpdateDto.OldName" id="categoryUpdateOldNameInput" disabled />
+
+                <input asp-for="@Model.categoryUpdateDto.NewName" placeholder="New Name" />
+
+                <div class="form-field">
+                    <button type="button" onclick="closeEditPopup()" class="btn-reg">Cancel</button>
+                    <button type="submit" class="btn">Update</button>
+                </div>
+        </form>
+
+        <form id="form-2" asp-controller="Category" asp-action="AddNewCategoryPost" method="post">
 
             <h2>Add new category</h2>
 
             <div class="form-field">
-                <input asp-for="Name" type="text" placeholder="Name" required />
+                <input asp-for="categoryAddDto.Name" type="text" placeholder="Name" required />
             </div>
 
             <div>
@@ -78,4 +94,31 @@
         </form>
     </div>
 </div>
+
+
+<script>
+    function openEditPopup(categoryId, oldName) {
+        var editPopup = document.getElementById('form-1');
+        editPopup.style.display = 'block';
+        console.log(oldName);
+
+        var categoryUpdateIdInput = document.getElementById('categoryUpdateOldNameInput');
+
+        categoryUpdateIdInput.value = oldName;
+
+        editPopup.querySelector('input[name="categoryUpdateDto.Id"]').value = categoryId;
+        editPopup.querySelector('input[name="categoryUpdateDto.OldName"]').value = oldName;
+
+        var form = document.getElementById('form-2');
+        form.style.display = 'none';
+    }
+
+    function closeEditPopup() {
+        var editPopup = document.getElementById('form-1');
+        editPopup.style.display = 'none';
+
+        var editPopup = document.getElementById('form-2');
+        editPopup.style.display = 'block';
+    }
+</script>
 

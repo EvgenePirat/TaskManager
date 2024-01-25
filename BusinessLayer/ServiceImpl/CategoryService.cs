@@ -3,13 +3,16 @@ using BusinessLayer.Models.Categories.Request;
 using BusinessLayer.Models.Categories.Response;
 using BusinessLayer.ServiceContract;
 using CustomExceptions.CategoryExceptions;
+using CustomExceptions.TaskExceptions;
 using CustomExceptions.UserExceptions;
 using DataAccessLayer.Entities;
 using DataAccessLayer.IdentityEntities;
 using DataAccessLayer.RepositoryContract;
+using DataAccessLayer.RepositoryImpl;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace BusinessLayer.ServiceImpl
 {
@@ -92,6 +95,23 @@ namespace BusinessLayer.ServiceImpl
                 _logger.LogError("{service}.{method} - User with login not found!", nameof(CategoryService), nameof(GetCategoriesForUserAsync));
                 throw new UserArgumentException("User with login not found!");
             }  
+        }
+
+        public async System.Threading.Tasks.Task DeleteByIdAsync(Guid categoryId)
+        {
+            _logger.LogInformation("{service}.{method} - start, delete category in service layer", nameof(CategoryService), nameof(DeleteByIdAsync));
+
+            if(await _categoryRepository.GetCategoryByIdAsync(categoryId) != null)
+            {
+                await _categoryRepository.DeleteCategoryByIdAsync(categoryId);
+
+                _logger.LogInformation("{service}.{method} - finish, delete category in service layer", nameof(CategoryService), nameof(DeleteByIdAsync));
+            }
+            else
+            {
+                _logger.LogError("{service}.{method} - not found category for delete", nameof(CategoryService), nameof(DeleteByIdAsync));
+                throw new CategoryArgumentException("category not found for delete");
+            }
         }
     }
 }

@@ -23,17 +23,17 @@ namespace BusinessLayer.ServiceContract
         public Task<List<TaskModel>> GetAllTaskForCategoriesAsync(Guid categoryId);
 
         /// <summary>
-        /// Method for get task with id
+        /// Method for get task by id
         /// </summary>
         /// <param name="taskId">task id for dound task in system</param>
         /// <returns>returned task response or throw argumetException()</returns>
-        public Task<TaskModel> GetTaskWithIdAsync(Guid taskId);
+        public Task<TaskModel> GetTaskByIdAsync(Guid taskId);
 
         /// <summary>
         /// Method for add businnes logic before delete task
         /// </summary>
         /// <param name="taskId">guid id for check exist or not</param>
-        public Task DeleteWithIdAsync(Guid taskId);
+        public Task DeleteByIdAsync(Guid taskId);
 
         /// <summary>
         /// Method for add businnes logic before update task

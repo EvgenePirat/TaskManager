@@ -27,17 +27,23 @@ namespace DataAccessLayer.RepositoryContract
         public Task<List<Category>> GetAllCategoriesAsync(Guid UserId);
 
         /// <summary>
-        /// Method for find and get category with category name
+        /// Method for find and get category by category name
         /// </summary>
         /// <param name="categoryName">string name for search category</param>
         /// <returns>returned category if find or null if not find</returns>
         public Task<Category?> GetCategoryByNameAsync(string categoryName);
 
         /// <summary>
-        /// Method for find and get category with category id
+        /// Method for find and get category with by id
         /// </summary>
         /// <param name="Id">guid id for search category</param>
         /// <returns>returned category if find or null if not find</returns>
         public Task<Category?> GetCategoryByIdAsync(Guid Id);
+
+        /// <summary>
+        /// Method for delete category by id
+        /// </summary>
+        /// <param name="categoryId">guid id for delete category</param>
+        public System.Threading.Tasks.Task DeleteCategoryByIdAsync(Guid id);
     }
 }

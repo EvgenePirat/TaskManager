@@ -114,7 +114,7 @@ namespace TaskManager.Controllers
         {
             _logger.LogInformation("{controller}.{method} - get task details page, start", nameof(TaskController), nameof(AddNewTaskPost));
 
-            TaskModel taskModel = await _taskService.GetTaskWithIdAsync(taskId);
+            TaskModel taskModel = await _taskService.GetTaskByIdAsync(taskId);
 
             var mappedTask = _mapper.Map<TaskDto>(taskModel);
 
@@ -127,13 +127,13 @@ namespace TaskManager.Controllers
         /// Method for delete task by id
         /// </summary>
         /// <param name="taskId">task</param>
-        /// <returns>returned page without tasks</returns>
+        /// <returns>returned page without task</returns>
         [HttpPost("[action]")]
         public async Task<IActionResult> DeleteTaskPost(Guid taskId)
         {
             _logger.LogInformation("{controller}.{method} - start post delete task if find", nameof(TaskController), nameof(AddNewTaskPost));
 
-            await _taskService.DeleteWithIdAsync(taskId);
+            await _taskService.DeleteByIdAsync(taskId);
 
             string? userLogin = User.Identity?.Name;
 
@@ -156,7 +156,7 @@ namespace TaskManager.Controllers
         {
             _logger.LogInformation("{controller}.{method} - get task update page, start", nameof(TaskController), nameof(TaskUpdate));
 
-            var taskToUpdateModel = await _taskService.GetTaskWithIdAsync(taskId);
+            var taskToUpdateModel = await _taskService.GetTaskByIdAsync(taskId);
 
             var mappedTask = _mapper.Map<TaskUpdateDto>(taskToUpdateModel);
 

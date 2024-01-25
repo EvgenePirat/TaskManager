@@ -26,14 +26,14 @@ namespace DataAccessLayer.RepositoryContract
         public Task<List<Entities.Task>> GetAllTasksAsync(Guid categoryId);  
 
         /// <summary>
-        /// Method for get task with id
+        /// Method for get task by id
         /// </summary>
         /// <param name="taskId">task if for search task in tasks</param>
         /// <returns>returned task if find or null if not exist</returns>
         public Task<Entities.Task?> GetTaskByIdAsync(Guid taskId);
 
         /// <summary>
-        /// Method for delete task with id
+        /// Method for delete task by id
         /// </summary>
         /// <param name="taskId">guid id for delete task</param>
         public Task DeleteByIdAsync(Guid taskId);

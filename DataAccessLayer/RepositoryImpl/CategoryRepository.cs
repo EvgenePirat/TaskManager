@@ -30,6 +30,13 @@ namespace DataAccessLayer.RepositoryImpl
             return await _context.Categories.Include("Tasks").FirstOrDefaultAsync(temp => temp.Id == category.Id);
         }
 
+        public async System.Threading.Tasks.Task DeleteCategoryByIdAsync(Guid categoryId)
+        {
+            var categoryDelete = await _context.Categories.FindAsync(categoryId);
+            _context.Categories.Remove(categoryDelete);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Category>> GetAllCategoriesAsync(Guid UserId)
         {
             return await _context.Categories.Include("Tasks").Where(temp => temp.UserId == UserId).ToListAsync();

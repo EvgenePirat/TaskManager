@@ -4,7 +4,6 @@ using BusinessLayer.ServiceContract;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Dto.Categories.Request;
 using TaskManager.Dto.Categories.Response;
-using TaskManager.Filteres.ActionFilter.CategoryFilters;
 using TaskManager.Filteres.ErrorFilteres.CategoryErrorFilteres;
 
 namespace TaskManager.Controllers
@@ -54,13 +53,23 @@ namespace TaskManager.Controllers
         /// <param name="categoryAddRequest">category data from user</param>
         /// <returns>returned home page if good save or page create category with errors</returns>
         [HttpPost("[action]")]
-        [TypeFilter(typeof(CategoryValidationActionFilter))]
         [TypeFilter(typeof(CategoryExceptionFilter))]
-        public async Task<IActionResult> AddNewCategoryPost(CategoryAddDto categoryAddRequest) 
+        public async Task<IActionResult> AddNewCategoryPost(CategoryAddDto categoryAddDto) 
         {
             _logger.LogInformation("{controller}.{method} - post category for save, start", nameof(CategoryController), nameof(AddNewCategoryPost));
 
-            var mappedModel = _mapper.Map<CategoryAddModel>(categoryAddRequest);
+
+            if (!ModelState.IsValid)
+            {
+                List<string> errorMessages = new List<string>();
+
+                errorMessages = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
+
+                ViewBag.Errors = errorMessages;
+                return View("Categories");
+            }
+
+            var mappedModel = _mapper.Map<CategoryAddModel>(categoryAddDto);
 
             string? userLogin = User.Identity?.Name;
 
@@ -69,6 +78,58 @@ namespace TaskManager.Controllers
             ViewBag.Categories = _mapper.Map<List<CategoryDto>>(await _categoryService.GetCategoriesForUserAsync(userLogin));
 
             _logger.LogInformation("{controller}.{method} - post category for save, finish", nameof(CategoryController), nameof(AddNewCategoryPost));
+
+            return View("Categories");
+        }
+
+        /// <summary>
+        /// Method for update exist task
+        /// </summary>
+        /// <param name="categoryUpdateDto">category with new data for update</param>
+        /// <returns>returned page with updates categories</returns>
+        
+        public async Task<IActionResult> UpdateCategoryPost(CategoryUpdateDto categoryUpdateDto)
+        {
+            _logger.LogInformation("{controller}.{method} - post category for update, start", nameof(CategoryController), nameof(UpdateCategoryPost));
+
+            if (!ModelState.IsValid)
+            {
+                List<string> errorMessages = new List<string>();
+
+                errorMessages = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
+
+                ViewBag.Errors = errorMessages;
+                return View("Categories");
+            }
+
+
+
+            string? userLogin = User.Identity?.Name;
+
+            ViewBag.Categories = _mapper.Map<List<CategoryDto>>(await _categoryService.GetCategoriesForUserAsync(userLogin));
+
+            _logger.LogInformation("{controller}.{method} - post category for update, finish", nameof(CategoryController), nameof(UpdateCategoryPost));
+
+            return View("Categories");
+        }
+
+        /// <summary>
+        /// Method for delete category by id
+        /// </summary>
+        /// <param name="categoryId">guid id for delete category</param>
+        /// <returns>returned categories page without category</returns>
+        [HttpPost("[action]")]
+        public async Task<IActionResult> DeleteCategoryPost(Guid categoryId)
+        {
+            _logger.LogInformation("{controller}.{method} - post delete category if exist, start", nameof(CategoryController), nameof(AddNewCategoryPost));
+
+            await _categoryService.DeleteByIdAsync(categoryId);
+
+            string? userLogin = User.Identity?.Name;
+
+            ViewBag.Categories = _mapper.Map<List<CategoryDto>>(await _categoryService.GetCategoriesForUserAsync(userLogin));
+
+            _logger.LogInformation("{controller}.{method} - post delete category if exist, finish", nameof(CategoryController), nameof(AddNewCategoryPost));
 
             return View("Categories");
         }
