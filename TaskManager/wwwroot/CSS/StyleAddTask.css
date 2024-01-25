@@ -18,6 +18,11 @@
     filter: blur(5px);
 }
 
+.result-contact{
+    color: forestgreen;
+    font-size: 18px;
+}
+
 .body-add {
     font-family: 'Lato', sans-serif;
     color: #4A4A4A;
@@ -34,6 +39,15 @@
 .app {
     background-image: url('/Pictures/background-reg.jpg');
     width: 95%;
+    margin-left: 5%;
+    min-height: 100vh;
+}
+
+.app-contact {
+    background-image: url('/Pictures/contact-fon.jpg');
+    width: 95%;
+    position: fixed;
+    background-size: cover;
     margin-left: 5%;
     min-height: 100vh;
 }
@@ -121,6 +135,7 @@ form .form-field {
     align-items: center;
     margin-bottom: 1rem;
     position: relative;
+    margin-top: 20px;
 }
 
     form h2 {

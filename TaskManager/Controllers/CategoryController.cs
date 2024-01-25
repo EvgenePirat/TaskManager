@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessLayer.Models.Categories.Request;
 using BusinessLayer.ServiceContract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Dto.Categories.Request;
 using TaskManager.Dto.Categories.Response;
@@ -12,6 +13,7 @@ namespace TaskManager.Controllers
     /// Controller with methods for working with category
     /// </summary>
     [Route("[controller]")]
+    [Authorize(Roles = "User")]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;

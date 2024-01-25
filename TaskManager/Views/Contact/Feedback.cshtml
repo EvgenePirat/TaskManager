@@ -1,0 +1,55 @@
+﻿@using TaskManager.Dto.Contact.Request
+@model ContactFormDto
+@{
+    ViewBag.Title = "Contact Form";
+    Layout = "~/Views/Shared/_Layout_task.cshtml";
+}
+<link href="~/CSS/StyleAddTask.css" rel="stylesheet" />
+<div class="app-contact">
+    <div class="body-add">
+        <form method="post" asp-controller="Contact" asp-action="FeedbackPost">
+
+            <div>
+                <h1><strong>Post Feedback</strong></h1>
+            </div>
+
+            <div class="form-field">
+                <input asp-for="Name" placeholder="Your Name" type="text"required />
+            </div>
+
+            <div class="form-field">
+                <input asp-for="Email" type="text" placeholder="Your Email" required />
+            </div>
+
+            <div class="form-field">
+                <textarea asp-for="Message" placeholder="Your feedback or request to our site" required></textarea>
+            </div>
+
+            <div>
+                @if (ViewBag.Errors != null)
+                {
+                    <div class="text-red">
+                        <ul>
+                            @foreach (string error in ViewBag.Errors)
+                            {
+                                <li class="ml">@error</li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+
+            <div class="form-field">
+                <button class="btn-reg"><a asp-controller="Task" asp-action="Home">Home</a></button>
+                <button class="btn" type="submit">Submit</button>
+            </div>
+        </form>
+        @if (ViewBag.Result != null)
+        {
+            <div class="result-contact">
+                <p><em>@ViewBag.Result</em></p>
+                <p><em>You can returne on home page</em></p>
+            </div>
+        }
+    </div>
+</div>

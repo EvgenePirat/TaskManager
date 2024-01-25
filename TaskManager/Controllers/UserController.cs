@@ -1,25 +1,28 @@
 ﻿
 
+using AutoMapper;
+using BusinessLayer.ServiceContract;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Mvc;
+
 namespace TaskManager.Controllers
 {
     /// <summary>
     /// controller for working with user entites
     /// </summary>
-    //[Route("[controller]")]
-    //public class UserController : Controller
-    //{
-    //    private readonly IRoleService _roleService;
-    //    private readonly IUserService _userService;
-    //    private readonly ILogger<UserController> _logger;
-    //    private readonly IMapper _mapper;
+    [Microsoft.AspNetCore.Mvc.Route("[controller]")]
+    public class UserController : Controller
+    {
+        private readonly IUserService _userService;
+        private readonly ILogger<UserController> _logger;
+        private readonly IMapper _mapper;
 
-    //    public UserController(IRoleService roleService, IUserService userService, ILogger<UserController> logger, IMapper mapper)
-    //    {
-    //        _roleService = roleService;
-    //        _userService = userService;
-    //        _logger = logger;
-    //        _mapper = mapper;
-    //    }
+        public UserController(IUserService userService, ILogger<UserController> logger, IMapper mapper)
+        {
+            _userService = userService;
+            _logger = logger;
+            _mapper = mapper;
+        }
 
-    //}
+    }
 }
