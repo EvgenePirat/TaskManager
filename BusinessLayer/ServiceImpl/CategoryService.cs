@@ -5,7 +5,9 @@ using BusinessLayer.ServiceContract;
 using CustomExceptions.CategoryExceptions;
 using CustomExceptions.UserExceptions;
 using DataAccessLayer.Entities;
+using DataAccessLayer.IdentityEntities;
 using DataAccessLayer.RepositoryContract;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel;
 
@@ -17,31 +19,37 @@ namespace BusinessLayer.ServiceImpl
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
-        private readonly IUserProfileRepository _userRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<CategoryService> _logger;
         private readonly IMapper _mapper;
 
-        public CategoryService(ICategoryRepository categoryRepository, IUserProfileRepository userRepository, ILogger<CategoryService> logger, IMapper mapper)
+        public CategoryService(ICategoryRepository categoryRepository, IUserProfileRepository userRepository, ILogger<CategoryService> logger, IMapper mapper, UserManager<ApplicationUser> userManager)
         {
             _categoryRepository = categoryRepository;
-            _userRepository = userRepository;
+            _userManager = userManager;
             _logger = logger;
             _mapper = mapper;
         }
 
-        public async Task<CategoryModel> AddNewCategoryAsync(CategoryAddModel categoryAddRequest)
+        public async Task<CategoryModel> AddNewCategoryAsync(CategoryAddModel categoryAddRequest, string? userLogin)
         {
             _logger.LogInformation("{service}.{method} - start, add new category in service layer", nameof(CategoryService), nameof(AddNewCategoryAsync));
 
+            if (userLogin == null)
+                throw new ArgumentException("User login equals null");
+
             if (categoryAddRequest != null)
             {
-                if (await CheckNameCategoryForUserAsync(categoryAddRequest.Name, categoryAddRequest.UserId))
+                if (await CheckNameCategoryForUserAsync(categoryAddRequest.Name, userLogin))
                 {
                     _logger.LogError("{service}.{method} - Category already exist", nameof(CategoryService), nameof(AddNewCategoryAsync));
                     throw new CategoryArgumentException("Category already exist!");
                 }
 
+                var user = await _userManager.FindByNameAsync(userLogin);
+
                 var mappedCategory = _mapper.Map<Category>(categoryAddRequest);
+                mappedCategory.UserId = user.Id;
                 Category category = await _categoryRepository.AddCategoryAsync(mappedCategory);
 
                 _logger.LogInformation("{service}.{method} - finish, add new category in service layer", nameof(CategoryService), nameof(AddNewCategoryAsync));
@@ -55,20 +63,25 @@ namespace BusinessLayer.ServiceImpl
             }
         }
 
-        private async Task<bool> CheckNameCategoryForUserAsync(string categoryName, Guid userId)
+        private async Task<bool> CheckNameCategoryForUserAsync(string categoryName, string? userLogin)
         {
-            var categories = await GetCategoriesForUserAsync(userId);
+            var categories = await GetCategoriesForUserAsync(userLogin);
             CategoryModel? categoryFind = categories.FirstOrDefault(temp =>  temp.Name == categoryName);
             return categoryFind != null;
         }
 
-        public async Task<List<CategoryModel>> GetCategoriesForUserAsync(Guid userId)
+        public async Task<List<CategoryModel>> GetCategoriesForUserAsync(string? userLogin)
         {
             _logger.LogInformation("{service}.{method} - start, get category for user in service layer", nameof(CategoryService), nameof(GetCategoriesForUserAsync));
 
-            if ((await _userRepository.GetUserProfileByIdAsync(userId)) != null)
+            if (userLogin == null)
+                throw new ArgumentException("User login equals null");
+
+            var user = await _userManager.FindByNameAsync(userLogin);
+
+            if (user != null)
             {
-                var categories = _mapper.Map<List<CategoryModel>>(await _categoryRepository.GetAllCategoriesAsync(userId));
+                var categories = _mapper.Map<List<CategoryModel>>(await _categoryRepository.GetAllCategoriesAsync(user.Id));
 
                 _logger.LogInformation("{service}.{method} - finish, get category for user in service layer", nameof(CategoryService), nameof(GetCategoriesForUserAsync));
 
@@ -76,8 +89,8 @@ namespace BusinessLayer.ServiceImpl
             }
             else
             {
-                _logger.LogError("{service}.{method} - UserProfile with id not found!", nameof(CategoryService), nameof(GetCategoriesForUserAsync));
-                throw new UserArgumentException("UserProfile with id not found!");
+                _logger.LogError("{service}.{method} - User with login not found!", nameof(CategoryService), nameof(GetCategoriesForUserAsync));
+                throw new UserArgumentException("User with login not found!");
             }  
         }
     }

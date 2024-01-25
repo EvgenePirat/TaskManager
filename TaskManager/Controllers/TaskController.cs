@@ -46,9 +46,9 @@ namespace TaskManager.Controllers
         {
             _logger.LogInformation("{controller}.{method} - Get home page, start", nameof(TaskController), nameof(Home));
 
-            string name = User.Identity.Name;
+            string? userLogin = User.Identity?.Name;
 
-            List<CategoryModel> categories = await _categoryService.GetCategoriesForUserAsync(Guid.NewGuid());
+            List<CategoryModel> categories = await _categoryService.GetCategoriesForUserAsync(userLogin);
 
             var mappedCategories = _mapper.Map<List<CategoryDto>>(categories);
 
@@ -70,9 +70,9 @@ namespace TaskManager.Controllers
             if (errorMessage.Length > 0)
                 ViewBag.Errors = new List<string> { errorMessage };
 
-            Guid userId = Guid.Parse(HttpContext.Session.GetString("UserId"));
+            string? userLogin = User.Identity?.Name;
 
-            List<CategoryModel> categories = await _categoryService.GetCategoriesForUserAsync(userId);
+            List<CategoryModel> categories = await _categoryService.GetCategoriesForUserAsync(userLogin);
 
             var mappedCategories = _mapper.Map<List<CategoryDto>>(categories);
 
@@ -135,8 +135,9 @@ namespace TaskManager.Controllers
 
             await _taskService.DeleteWithIdAsync(taskId);
 
-            Guid userId = Guid.Parse(HttpContext.Session.GetString("UserId"));
-            List<CategoryModel> categories = await _categoryService.GetCategoriesForUserAsync(userId);
+            string? userLogin = User.Identity?.Name;
+
+            List<CategoryModel> categories = await _categoryService.GetCategoriesForUserAsync(userLogin);
 
             var mappedCategories = _mapper.Map<List<CategoryDto>>(categories);
 
@@ -159,9 +160,9 @@ namespace TaskManager.Controllers
 
             var mappedTask = _mapper.Map<TaskUpdateDto>(taskToUpdateModel);
 
-            Guid userId = Guid.Parse(HttpContext.Session.GetString("UserId"));
+            string? userLogin = User.Identity?.Name;
 
-            List<CategoryModel> categories = await _categoryService.GetCategoriesForUserAsync(userId);
+            List<CategoryModel> categories = await _categoryService.GetCategoriesForUserAsync(userLogin);
 
             var mappedCategories = _mapper.Map<List<CategoryDto>>(categories);
 

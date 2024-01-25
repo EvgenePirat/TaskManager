@@ -38,8 +38,6 @@ namespace TaskManager.Controllers
             if (errorMessage.Length > 0)
                 ViewBag.Errors = new List<string> { errorMessage };
 
-            ViewBag.UserId = Guid.Parse(HttpContext.Session.GetString("UserId"));
-
             _logger.LogInformation("{controller}.{method} - Get add new category page, finish", nameof(CategoryController), nameof(AddNewCategory));
 
             return View("AddCategory");
@@ -59,7 +57,9 @@ namespace TaskManager.Controllers
 
             var mappedModel = _mapper.Map<CategoryAddModel>(categoryAddRequest);
 
-            await _categoryService.AddNewCategoryAsync(mappedModel);
+            string? userLogin = User.Identity?.Name;
+
+            await _categoryService.AddNewCategoryAsync(mappedModel, userLogin);
 
             _logger.LogInformation("{controller}.{method} - post category for save, finish", nameof(CategoryController), nameof(AddNewCategoryPost));
 

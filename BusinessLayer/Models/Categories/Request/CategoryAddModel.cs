@@ -11,8 +11,6 @@ namespace BusinessLayer.Models.Categories.Request
     /// </summary>
     public class CategoryAddModel
     {
-        public string Name { get; set; }
-
-        public Guid UserId { get; set; }
+        public string? Name { get; set; }
     }
 }

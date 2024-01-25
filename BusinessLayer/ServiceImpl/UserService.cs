@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BusinessLayer.Encrypted;
 using BusinessLayer.Enum;
 using BusinessLayer.Models.Users.Request;
 using BusinessLayer.Models.Users.Response;
@@ -120,8 +119,9 @@ namespace BusinessLayer.ServiceImpl
 
                 if(result.Succeeded)
                 {
+                    var user = _userManager.Users.FirstOrDefault(temp => temp.UserName == userEnterRequest.UserName);
                     _logger.LogInformation("{service}.{method} - finish, enter in system", nameof(UserService), nameof(EnterInSystemAsync));
-                    return _mapper.Map<UserModel>(userEnterRequest);
+                    return _mapper.Map<UserModel>(user);
                 }
                 else
                 {

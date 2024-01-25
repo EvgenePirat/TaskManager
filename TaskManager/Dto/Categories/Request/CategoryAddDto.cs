@@ -9,8 +9,5 @@ namespace TaskManager.Dto.Categories.Request
     {
         [Required(ErrorMessage = "Category name can't be blank")]
         public string? Name { get; set; }
-
-        [Required(ErrorMessage = "UserProfile id can't be blank")]
-        public Guid UserId { get; set; }
     }
 }

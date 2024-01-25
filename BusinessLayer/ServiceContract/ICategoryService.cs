@@ -13,13 +13,13 @@ namespace BusinessLayer.ServiceContract
         /// </summary>
         /// <param name="categoryAddRequest">data abount category from client</param>
         /// <returns>returned category with id after save</returns>
-        public Task<CategoryModel> AddNewCategoryAsync(CategoryAddModel categoryAddRequest);
+        public Task<CategoryModel> AddNewCategoryAsync(CategoryAddModel categoryAddRequest, string? userLogin);
 
         /// <summary>
         /// method for get all categories for user
         /// </summary>
         /// <param name="userId">user id for search category</param>
         /// <returns>returned all categories for user</returns>
-        public Task<List<CategoryModel>> GetCategoriesForUserAsync(Guid userId);
+        public Task<List<CategoryModel>> GetCategoriesForUserAsync(string? userLogin);
     }
 }

@@ -54,7 +54,7 @@ namespace TaskManager.Controllers
         /// </summary>
         /// <returns>return html css page for registration</returns>
         [HttpGet("[action]")]
-        public async Task<IActionResult> Registration()
+        public IActionResult Registration()
         {
             _logger.LogInformation("{controller}.{method} - start post user for enter in system", nameof(AccountController), nameof(Registration));
 
@@ -85,7 +85,7 @@ namespace TaskManager.Controllers
 
             var mappedModel = _mapper.Map<UserAddModel>(userAddRequest);
 
-            await _userService.AddUserAsync(mappedModel);
+            var user = _mapper.Map <UserDto>(await _userService.AddUserAsync(mappedModel));
 
             _logger.LogInformation("{controller}.{method} - finish post user for registration in system", nameof(AccountController), nameof(RegistrationPost));
 
@@ -107,7 +107,7 @@ namespace TaskManager.Controllers
 
             var mappedModel = _mapper.Map<UserEnterModel>(userEnterRequest);
 
-            _mapper.Map<UserDto>(await _userService.EnterInSystemAsync(mappedModel));
+            var user = _mapper.Map<UserDto>(await _userService.EnterInSystemAsync(mappedModel));
 
             _logger.LogInformation("{controller}.{method} - finish post user for enter in system", nameof(AccountController), nameof(EnterPost));
 
