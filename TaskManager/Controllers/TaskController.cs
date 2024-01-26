@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BusinessLayer.Enum;
 using BusinessLayer.Models.Categories.Response;
 using BusinessLayer.Models.Tasks.Request;
 using BusinessLayer.Models.Tasks.Response;
@@ -6,6 +7,7 @@ using BusinessLayer.ServiceContract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Drawing;
 using TaskManager.Dto.Categories.Response;
 using TaskManager.Dto.Tasks.Request;
 using TaskManager.Dto.Tasks.Response;
@@ -52,9 +54,56 @@ namespace TaskManager.Controllers
 
             var mappedCategories = _mapper.Map<List<CategoryDto>>(categories);
 
+            mappedCategories = GenerateColorForCategory(mappedCategories);
+
             _logger.LogInformation("{controller}.{method} - Get home page, finish", nameof(TaskController), nameof(Home));
 
             return View(mappedCategories);
+        }
+
+        /// <summary>
+        /// Method for generate color for category
+        /// </summary>
+        /// <param name="categories"></param>
+        /// <returns></returns>
+        private List<CategoryDto> GenerateColorForCategory(List<CategoryDto> categories)
+        {
+            for(int i=0; i<categories.Count; i++)
+            {
+                Random random = new Random();
+                Color color = Color.FromArgb(random.Next(200, 255), random.Next(200, 255), random.Next(200, 255));
+                string redHex = color.R.ToString("X2");
+                string greenHex = color.G.ToString("X2");
+                string blueHex = color.B.ToString("X2");
+                string colorString = $"#{redHex}{greenHex}{blueHex}";
+
+                categories[i].Color = colorString;
+            }
+
+            return categories;
+        }
+
+        /// <summary>
+        /// Method for change status for task
+        /// </summary>
+        /// <param name="newStatus">new status for set in task</param>
+        /// <param name="taskId">task if for search task</param>
+        /// <returns>returned home page with update task</returns>
+        [HttpPost("[action]")]
+        public async Task<IActionResult> ChangeStatusTaskAsync(Status newStatus, Guid taskId)
+        {
+            _logger.LogInformation("{controller}.{method} - start, post change status task if find", nameof(TaskController), nameof(ChangeStatusTaskAsync));
+
+
+            string? userLogin = User.Identity?.Name;
+
+            List<CategoryModel> categories = await _categoryService.GetCategoriesForUserAsync(userLogin);
+
+            var mappedCategories = _mapper.Map<List<CategoryDto>>(categories);
+
+            _logger.LogInformation("{controller}.{method} - finish, post change status task if find", nameof(TaskController), nameof(ChangeStatusTaskAsync));
+
+            return View("Home", mappedCategories);
         }
 
         /// <summary>

@@ -90,7 +90,7 @@ namespace BusinessLayer.ServiceImpl
             {
                 _logger.LogInformation("{service}.{method} - finish all task for categories in service layer", nameof(TaskService), nameof(GetAllTaskForCategoriesAsync));
 
-                return _mapper.Map<List<TaskModel>>(await _taskRepository.GetAllTasksAsync(categoryId));
+                return _mapper.Map<List<TaskModel>>(await _taskRepository.GetAllTasksByCategoryIdAsync(categoryId));
             }
             else
             {

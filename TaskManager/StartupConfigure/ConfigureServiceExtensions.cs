@@ -1,4 +1,4 @@
-﻿
+﻿using BusinessLayer.BackgroundServices;
 using BusinessLayer.ServiceContract;
 using BusinessLayer.ServiceImpl;
 using DataAccessLayer.DbContext;
@@ -33,6 +33,9 @@ namespace TaskManager.StartupConfigure
             services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<IContactService, ContactService>();
             services.AddControllersWithViews();
+
+            //registration our schedule service
+            services.AddHostedService<TaskSchedulerService>();
 
             //set string path for dbcontext
             services.AddDbContext<ApplicationDbContext>(option =>

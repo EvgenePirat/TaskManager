@@ -122,8 +122,8 @@ h1 {
 .project-tasks {
     margin-left:50px;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    width: 90%;
+    grid-template-columns: repeat(3, 1fr);
+    width: 95%;
     grid-column-gap: 4.5rem;
 }
 

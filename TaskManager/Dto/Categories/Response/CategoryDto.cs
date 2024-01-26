@@ -12,5 +12,7 @@ namespace TaskManager.Dto.Categories.Response
         public string? Name { get; set; }
 
         public List<TaskDto>? Tasks { get; set; }
+
+        public string? Color { get; set; }
     }
 }

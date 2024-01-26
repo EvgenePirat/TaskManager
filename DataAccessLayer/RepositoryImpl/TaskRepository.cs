@@ -1,10 +1,6 @@
 ﻿using DataAccessLayer.DbContext;
 using DataAccessLayer.RepositoryContract;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DataAccessLayer.RepositoryImpl
 {
@@ -34,7 +30,12 @@ namespace DataAccessLayer.RepositoryImpl
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Entities.Task>> GetAllTasksAsync(Guid categoryId)
+        public async Task<List<Entities.Task>> GetAllTasksAsync()
+        {
+            return await _context.Tasks.ToListAsync();
+        }
+
+        public async Task<List<Entities.Task>> GetAllTasksByCategoryIdAsync(Guid categoryId)
         {
             return await _context.Tasks.Where(temp =>  temp.CategoryId == categoryId).ToListAsync();
         }
