@@ -72,6 +72,9 @@
                                             <form method="post" asp-controller="Task" asp-action="DeleteTaskPost" asp-route-taskId="@task.Id">
                                                 <button type="submit">Delete</button>
                                             </form>
+                                            <form method="post" asp-controller="Task" asp-action="ChangeStatusTask" asp-route-taskId="@task.Id" asp-route-newStatus="@Status.Active">
+                                                <button type="submit">Need Make</button>
+                                            </form>
 
                                         </div>
                                     </div>
@@ -132,16 +135,15 @@
             @foreach (CategoryDto category in Model)
             {
                 var countDoneTasks = category.Tasks?.Where(temp => temp.Status == Status.Done).Count();
-                var countActiveTask = @category.Tasks?.Where(temp => temp.Status == Status.Active).Count();
+                var countTask = @category.Tasks?.Where(temp => temp.Status != Status.Overdue).Count();
 
-                if(countActiveTask != 0)
+                if ((countTask + countDoneTasks) != 0)
                 {
                     <div class='tag-progress'>
-                        <p>@category.Name <span>@countDoneTasks/@countActiveTask</span></p>
-                        <progress class="progress" style="background-color:@category.Color" max="@countActiveTask" value="@countDoneTasks"> @countDoneTasks </progress>
+                        <p>@category.Name <span>@countDoneTasks/@countTask</span></p>
+                        <progress class="progress" style="background-color:@category.Color" max="@countTask" value="@countDoneTasks"> @countDoneTasks </progress>
                     </div>
                 }
-
             }
         </div>
     </aside>

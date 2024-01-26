@@ -1,4 +1,5 @@
-﻿using BusinessLayer.Models.Tasks.Request;
+﻿using BusinessLayer.Enum;
+using BusinessLayer.Models.Tasks.Request;
 using BusinessLayer.Models.Tasks.Response;
 
 namespace BusinessLayer.ServiceContract
@@ -41,5 +42,13 @@ namespace BusinessLayer.ServiceContract
         /// <param name="taskUpdate">task with data for update</param>
         /// <returns>returned already updated task with new data</returns>
         public Task<TaskModel> UpdateTaskAsync(TaskUpdateModel taskUpdate);
+
+        /// <summary>
+        /// Method for add businnes logic before change status for task
+        /// </summary>
+        /// <param name="newStatus">new status for set in task</param>
+        /// <param name="taskId">task id for search task in bd</param>
+        /// <returns>returned task with new status</returns>
+        public Task<TaskModel> ChangeStatusForTask(Status newStatus,  Guid taskId);
     }
 }

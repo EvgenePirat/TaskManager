@@ -94,12 +94,15 @@ namespace TaskManager.Controllers
         {
             _logger.LogInformation("{controller}.{method} - start, post change status task if find", nameof(TaskController), nameof(ChangeStatusTaskAsync));
 
+            await _taskService.ChangeStatusForTask(newStatus, taskId);
 
             string? userLogin = User.Identity?.Name;
 
             List<CategoryModel> categories = await _categoryService.GetCategoriesForUserAsync(userLogin);
 
             var mappedCategories = _mapper.Map<List<CategoryDto>>(categories);
+
+            mappedCategories = GenerateColorForCategory(mappedCategories);
 
             _logger.LogInformation("{controller}.{method} - finish, post change status task if find", nameof(TaskController), nameof(ChangeStatusTaskAsync));
 

@@ -10,6 +10,8 @@ namespace BusinessLayer.Mappers
         {
             CreateMap<DataAccessLayer.Entities.Task, TaskModel>();
 
+            CreateMap<TaskModel, DataAccessLayer.Entities.Task>().ForMember(model => model.Status, task => task.MapFrom(src => src.Status.ToString()));
+
             CreateMap<TaskAddModel, DataAccessLayer.Entities.Task>();
 
             CreateMap<TaskUpdateModel, DataAccessLayer.Entities.Task>();

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BusinessLayer.Enum;
 using BusinessLayer.Models.Tasks.Request;
 using BusinessLayer.Models.Tasks.Response;
 using BusinessLayer.ServiceContract;
@@ -62,6 +63,30 @@ namespace BusinessLayer.ServiceImpl
             {
                 _logger.LogError("{service}.{method} - taskAddRequest equals null", nameof(TaskService), nameof(AddNewTaskAsync));
                 throw new ArgumentNullException("taskAddRequest equals null");
+            }
+        }
+
+        public async Task<TaskModel> ChangeStatusForTask(Status newStatus, Guid taskId)
+        {
+            _logger.LogInformation("{service}.{method} - start, change status task in service layer", nameof(TaskService), nameof(ChangeStatusForTask));
+
+            var taskFind = _mapper.Map<TaskModel>(await _taskRepository.GetTaskByIdAsync(taskId));
+
+            if (taskFind != null)
+            {
+                taskFind.Status = newStatus;
+
+                var mappedTask = _mapper.Map<DataAccessLayer.Entities.Task>(taskFind);
+
+                var result = await _taskRepository.UpdateTaskAsync(mappedTask);
+
+                _logger.LogInformation("{service}.{method} - finish, change status task in service layer", nameof(TaskService), nameof(ChangeStatusForTask));
+                return _mapper.Map<TaskModel>(result);
+            }
+            else
+            {
+                _logger.LogError("{service}.{method} - task with id not found", nameof(TaskService), nameof(ChangeStatusForTask));
+                throw new TaskArgumentException("Task with id not found");
             }
         }
 
