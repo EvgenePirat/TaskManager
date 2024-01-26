@@ -19,7 +19,12 @@
 }
 
 .result-contact{
-    color: forestgreen;
+    color: green;
+    font-size: 18px;
+}
+
+.result-contact-bad {
+    color: red;
     font-size: 18px;
 }
 

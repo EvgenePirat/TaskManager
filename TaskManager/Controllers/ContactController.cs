@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using BusinessLayer.Models.Contact.Request;
+using BusinessLayer.ServiceContract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Dto.Contact.Request;
 
@@ -12,10 +15,14 @@ namespace TaskManager.Controllers
     public class ContactController : Controller
     {
         private readonly ILogger<ContactController> _logger;
+        private readonly IContactService _contactService;
+        private readonly IMapper _mapper;
 
-        public ContactController(ILogger<ContactController> logger)
+        public ContactController(ILogger<ContactController> logger, IContactService contactService, IMapper mapper)
         {
             _logger = logger;
+            _contactService = contactService;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -40,10 +47,21 @@ namespace TaskManager.Controllers
         {
             _logger.LogInformation("{controller}.{method} - start, post message on email from client", nameof(ContactController), nameof(FeedbackPost));
 
+            var mappedModel = _mapper.Map<ContactFormModel>(contactFormDto);
 
+            var result = await _contactService.SendEmailAsync(mappedModel);
 
-            ViewBag.Result = "Message sent successfully!";
-
+            if (result)
+            {
+                ViewBag.Result = result;
+                ViewBag.ResultMessage = "Message sent successfully!";
+            }
+            else
+            {
+                ViewBag.Result = result;
+                ViewBag.ResultMessage = "We got error. Try later!";
+            }
+               
             _logger.LogInformation("{controller}.{method} - finish, post message on email from client", nameof(ContactController), nameof(FeedbackPost));
 
             return View("Feedback");

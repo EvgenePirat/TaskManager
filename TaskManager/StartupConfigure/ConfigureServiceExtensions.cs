@@ -31,6 +31,7 @@ namespace TaskManager.StartupConfigure
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<ITaskService, TaskService>();
+            services.AddScoped<IContactService, ContactService>();
             services.AddControllersWithViews();
 
             //set string path for dbcontext

@@ -46,10 +46,20 @@
         </form>
         @if (ViewBag.Result != null)
         {
-            <div class="result-contact">
-                <p><em>@ViewBag.Result</em></p>
-                <p><em>You can returne on home page</em></p>
-            </div>
+            if(ViewBag.Result == true)
+            {
+                <div class="result-contact">
+                    <p><em>@ViewBag.ResultMessage</em></p>
+                    <p><em>You can returne on home page</em></p>
+                </div>
+            }
+            else
+            {
+                <div class="result-contact-bad">
+                    <p>@ViewBag.ResultMessage</p>
+                </div>
+            }
         }
+
     </div>
 </div>

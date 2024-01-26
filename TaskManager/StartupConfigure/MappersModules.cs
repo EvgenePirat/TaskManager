@@ -20,6 +20,8 @@ namespace TaskManager.StartupConfigure
                 cfg.AddProfile(new TaskDtoProfile());
                 cfg.AddProfile(new TaskModelProfile());
 
+                cfg.AddProfile(new ContactDtoProfile());
+
             })).SingleInstance();
 
             builder.Register(c => c.Resolve<MapperConfiguration>().CreateMapper())
