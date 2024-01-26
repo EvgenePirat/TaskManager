@@ -27,8 +27,9 @@ namespace BusinessLayer.ServiceContract
         /// Method for get task by id
         /// </summary>
         /// <param name="taskId">task id for dound task in system</param>
+        /// <param name="include">bool type for include category object in task or not include</param>
         /// <returns>returned task response or throw argumetException()</returns>
-        public Task<TaskModel> GetTaskByIdAsync(Guid taskId);
+        public Task<TaskModel> GetTaskByIdAsync(Guid taskId,  bool include);
 
         /// <summary>
         /// Method for add businnes logic before delete task

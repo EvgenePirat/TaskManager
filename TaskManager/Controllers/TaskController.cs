@@ -13,6 +13,7 @@ using TaskManager.Dto.Tasks.Request;
 using TaskManager.Dto.Tasks.Response;
 using TaskManager.Filteres.ActionFilter.TaskFilteres;
 using TaskManager.Filteres.ErrorFilteres.TaskErrorFilteres;
+using TaskManager.Helpers;
 
 namespace TaskManager.Controllers
 {
@@ -164,15 +165,53 @@ namespace TaskManager.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> TaskDetails(Guid taskId)
         {
-            _logger.LogInformation("{controller}.{method} - get task details page, start", nameof(TaskController), nameof(AddNewTaskPost));
+            _logger.LogInformation("{controller}.{method} - get task details page, start", nameof(TaskController), nameof(TaskDetails));
 
-            TaskModel taskModel = await _taskService.GetTaskByIdAsync(taskId);
+            TaskModel taskModel = await _taskService.GetTaskByIdAsync(taskId, true);
 
             var mappedTask = _mapper.Map<TaskDto>(taskModel);
 
-            _logger.LogInformation("{controller}.{method} - get task details page, finish", nameof(TaskController), nameof(AddNewTaskPost));
+            _logger.LogInformation("{controller}.{method} - get task details page, finish", nameof(TaskController), nameof(TaskDetails));
 
             return View(mappedTask);
+        }
+
+        /// <summary>
+        /// Method in format web api for get task with id
+        /// </summary>
+        /// <param name="taskId">guid id for search task</param>
+        /// <returns>returned json format find task</returns>
+        [HttpGet("api/[action]")]
+        public async Task<IActionResult> GetTaskDetailsAsync([FromQuery]Guid taskId)
+        {
+            _logger.LogInformation("{controller}.{method} - get task details page, start", nameof(TaskController), nameof(GetTaskDetailsAsync));
+
+            TaskModel taskModel = await _taskService.GetTaskByIdAsync(taskId, false);
+
+            var mappedTask = _mapper.Map<TaskDto>(taskModel);
+
+            _logger.LogInformation("{controller}.{method} - get task details page, finish", nameof(TaskController), nameof(GetTaskDetailsAsync));
+
+            return Json(mappedTask);
+        }
+
+        /// <summary>
+        /// Method in web api format for change status for task
+        /// </summary>
+        /// <param name="newStatus"></param>
+        /// <param name="taskId"></param>
+        /// <returns></returns>
+        [HttpGet("api/[action]")]
+        public async Task<IActionResult> ChangeStatusAsync([FromQuery]int newStatus, [FromQuery]Guid taskId)
+        {
+            _logger.LogInformation("{controller}.{method} - start, post change status task if find", nameof(TaskController), nameof(ChangeStatusAsync));
+            Status status = StatusHelper.GetStatusByCode(newStatus);
+
+            await _taskService.ChangeStatusForTask(status, taskId);
+
+            _logger.LogInformation("{controller}.{method} - finish, post change status task if find", nameof(TaskController), nameof(ChangeStatusAsync));
+
+            return Ok();
         }
 
         /// <summary>
@@ -193,6 +232,8 @@ namespace TaskManager.Controllers
 
             var mappedCategories = _mapper.Map<List<CategoryDto>>(categories);
 
+            mappedCategories = GenerateColorForCategory(mappedCategories);
+
             _logger.LogInformation("{controller}.{method} - finish post delete task if find", nameof(TaskController), nameof(AddNewTaskPost));
 
             return View("Home", mappedCategories);
@@ -208,7 +249,7 @@ namespace TaskManager.Controllers
         {
             _logger.LogInformation("{controller}.{method} - get task update page, start", nameof(TaskController), nameof(TaskUpdate));
 
-            var taskToUpdateModel = await _taskService.GetTaskByIdAsync(taskId);
+            var taskToUpdateModel = await _taskService.GetTaskByIdAsync(taskId, true);
 
             var mappedTask = _mapper.Map<TaskUpdateDto>(taskToUpdateModel);
 

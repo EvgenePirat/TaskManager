@@ -40,9 +40,12 @@ namespace DataAccessLayer.RepositoryImpl
             return await _context.Tasks.Where(temp =>  temp.CategoryId == categoryId).ToListAsync();
         }
 
-        public async Task<Entities.Task?> GetTaskByIdAsync(Guid taskId)
+        public async Task<Entities.Task?> GetTaskByIdAsync(Guid taskId, bool include)
         {
-            return await _context.Tasks.Include("Category").FirstOrDefaultAsync(temp => temp.Id == taskId);
+            if(include)
+                return await _context.Tasks.Include("Category").FirstOrDefaultAsync(temp => temp.Id == taskId);
+            else
+                return await _context.Tasks.FirstOrDefaultAsync(temp => temp.Id == taskId);
         }
 
         public async Task<Entities.Task?> UpdateTaskAsync(Entities.Task task)

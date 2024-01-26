@@ -31,7 +31,7 @@ body {
     position: fixed;
     background-size: cover;
     width: 95%;
-    margin-left: 5%;
+    margin-left: 4%;
     min-height: 100vh;
 }
 
@@ -44,6 +44,7 @@ h1 {
     max-width: 75%;
     width: 100%;
     display: inline-block;
+    overflow-y: auto;
 }
 
 .mainmenubtn {
@@ -59,6 +60,26 @@ h1 {
     position: relative;
     display: inline-block;
 }
+
+.button_delete_task {
+    background-color: #ed6e57;
+    width: 100%;
+    height: 30px;
+}
+
+    .button_delete_task:hover {
+        background-color: #ff2020;
+    }
+
+.button_done_task {
+    background-color: #a7e05f;
+    width: 100%;
+    height:30px;
+}
+
+    .button_done_task:hover {
+        background-color: #3ba517;
+    }
 
 .dropdown-child {
     display: none;
@@ -86,7 +107,8 @@ h1 {
 .project-info {
     padding: 2rem 0;
     display: flex;
-    width: 100%;
+    margin-left: 55px;
+    width: 95%;
     justify-content: space-between;
     align-items: center;
 }
@@ -125,6 +147,10 @@ h1 {
     grid-template-columns: repeat(3, 1fr);
     width: 95%;
     grid-column-gap: 4.5rem;
+}
+
+.project-column {
+    max-height: 650px;
 }
 
 .project-column-heading {

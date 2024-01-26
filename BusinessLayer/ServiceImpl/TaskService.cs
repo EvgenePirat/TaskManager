@@ -70,7 +70,7 @@ namespace BusinessLayer.ServiceImpl
         {
             _logger.LogInformation("{service}.{method} - start, change status task in service layer", nameof(TaskService), nameof(ChangeStatusForTask));
 
-            var taskFind = _mapper.Map<TaskModel>(await _taskRepository.GetTaskByIdAsync(taskId));
+            var taskFind = _mapper.Map<TaskModel>(await _taskRepository.GetTaskByIdAsync(taskId, true));
 
             if (taskFind != null)
             {
@@ -94,7 +94,7 @@ namespace BusinessLayer.ServiceImpl
         {
             _logger.LogInformation("{service}.{method} - start delete task in service layer", nameof(TaskService), nameof(DeleteByIdAsync));
 
-            if (await _taskRepository.GetTaskByIdAsync(taskId) != null)
+            if (await _taskRepository.GetTaskByIdAsync(taskId, true) != null)
             {
                 await _taskRepository.DeleteByIdAsync(taskId);
 
@@ -124,11 +124,11 @@ namespace BusinessLayer.ServiceImpl
             }
         }
 
-        public async Task<TaskModel> GetTaskByIdAsync(Guid taskId)
+        public async Task<TaskModel> GetTaskByIdAsync(Guid taskId, bool include)
         {
             _logger.LogInformation("{service}.{method} - start get task by id in service layer", nameof(TaskService), nameof(GetTaskByIdAsync));
 
-            DataAccessLayer.Entities.Task? task = await _taskRepository.GetTaskByIdAsync(taskId);
+            DataAccessLayer.Entities.Task? task = await _taskRepository.GetTaskByIdAsync(taskId, include);
 
             if (task != null)
             {
@@ -147,7 +147,7 @@ namespace BusinessLayer.ServiceImpl
         {
             _logger.LogInformation("{service}.{method} - start update task in service layer", nameof(TaskService), nameof(UpdateTaskAsync));
 
-            if (await _taskRepository.GetTaskByIdAsync(taskUpdate.Id) != null)
+            if (await _taskRepository.GetTaskByIdAsync(taskUpdate.Id, true) != null)
             {
                 var mappedTask = _mapper.Map<DataAccessLayer.Entities.Task>(taskUpdate);
                 var result = await _taskRepository.UpdateTaskAsync(mappedTask);

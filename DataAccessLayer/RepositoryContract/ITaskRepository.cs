@@ -23,14 +23,15 @@ namespace DataAccessLayer.RepositoryContract
         /// </summary>
         /// <param name="categoryId">category id for find need tasks</param>
         /// <returns>returned list tasks for categories</returns>
-        public Task<List<Entities.Task>> GetAllTasksByCategoryIdAsync(Guid categoryId);  
+        public Task<List<Entities.Task>> GetAllTasksByCategoryIdAsync(Guid categoryId);
 
         /// <summary>
         /// Method for get task by id
         /// </summary>
         /// <param name="taskId">task if for search task in tasks</param>
-        /// <returns>returned task if find or null if not exist</returns>
-        public Task<Entities.Task?> GetTaskByIdAsync(Guid taskId);
+        /// <param name="include">bool type for include category object in task or not include</param>
+        /// <returns>returned task if find or null if not exist</returns> 
+        public Task<Entities.Task?> GetTaskByIdAsync(Guid taskId, bool include);
 
         /// <summary>
         /// Method for delete task by id
