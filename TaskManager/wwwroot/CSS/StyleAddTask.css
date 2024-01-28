@@ -62,20 +62,27 @@
     min-height: 100vh;
 }
 
-form {
+#form-main {
     width: 350px;
     position: relative;
 }
 
 #form-1 {
     display: none;
+    width: 300px;
 }
 
 #form-2{
     padding: 10px;
+    width:300px;
 }
 
 #form-1 input{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#form-2 input {
     margin-top: 20px;
     margin-bottom: 20px;
 }
@@ -133,7 +140,7 @@ form {
         text-align: center;
     }
 
-form .form-field {
+#form-main .form-field {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -148,87 +155,189 @@ form .form-field {
     margin-top: 20px;
 }
 
-    form h2 {
-        margin-bottom: 20px;
-    }
+#form-main h2 {
+    margin-bottom: 20px;
+}
 
-    form input {
-        font-family: inherit;
-        width: 100%;
-        outline: none;
-        background-color: #fff;
-        border-radius: 4px;
-        border: none;
-        display: block;
-        padding: 0.9rem 0.7rem;
-        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-        font-size: 17px;
-        color: #4A4A4A;
-        text-indent: 5px;
-    }
+#form-main input {
+    font-family: inherit;
+    width: 100%;
+    outline: none;
+    background-color: #fff;
+    border-radius: 4px;
+    border: none;
+    display: block;
+    padding: 0.9rem 0.7rem;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+    font-size: 17px;
+    color: #4A4A4A;
+    text-indent: 5px;
+}
+#form-2 input {
+    font-family: inherit;
+    width: 100%;
+    outline: none;
+    background-color: #fff;
+    border-radius: 4px;
+    border: none;
+    display: block;
+    padding: 0.9rem 0.7rem;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+    font-size: 17px;
+    color: #4A4A4A;
+    text-indent: 5px;
+}
 
-    form textarea {
-        max-width: 1000px;
-        min-height: 130px;
-        width: 100%;
-        background-color: #fff;
-        border-radius: 4px;
-        border: none;
-        outline: none;
-        display: block;
-        padding: 0.9rem 0.7rem;
-        font-size: 17px;
-        color: #4A4A4A;
-        text-indent: 5px;
-        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-    }
 
-    form .btn {
-        outline: none;
-        border: none;
-        cursor: pointer;
-        display: inline-block;
-        margin: 0 auto;
-        padding: 0.9rem 2.5rem;
-        text-align: center;
-        background-color: #47AB11;
-        color: #fff;
-        border-radius: 4px;
-        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-        font-size: 17px;
-    }
+#form-1 input {
+    font-family: inherit;
+    width: 100%;
+    outline: none;
+    background-color: #fff;
+    border-radius: 4px;
+    border: none;
+    display: block;
+    padding: 0.9rem 0.7rem;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+    font-size: 17px;
+    color: #4A4A4A;
+    text-indent: 5px;
+}
 
-    form .btn-reg {
-        outline: none;
-        border: none;
-        cursor: pointer;
-        display: inline-block;
-        margin: 0 auto;
-        padding: 0.9rem 2.5rem;
-        text-align: center;
-        background-color: #6495ed;
-        color: #fff;
-        border-radius: 4px;
-        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-        font-size: 17px;
-    }
+#form-main textarea {
+    max-width: 1000px;
+    min-height: 130px;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+    display: block;
+    padding: 0.9rem 0.7rem;
+    font-size: 17px;
+    color: #4A4A4A;
+    text-indent: 5px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+}
 
-    form a {
-        text-decoration: none;
-        color: inherit;
-    }
+#form-1 .btn {
+    outline: none;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 auto;
+    padding: 0.9rem 2.5rem;
+    text-align: center;
+    background-color: #47AB11;
+    color: #fff;
+    border-radius: 4px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+    font-size: 17px;
+}
 
-    form select {
-        font-family: inherit;
-        width: 100%;
-        outline: none;
-        background-color: #fff;
-        border-radius: 4px;
-        border: none;
-        display: block;
-        padding: 0.9rem 0.7rem;
-        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-        font-size: 17px;
-        color: #4A4A4A;
-        text-indent: 5px;
-    }
+#form-1 .btn-reg {
+    outline: none;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0px auto;
+    margin-right: 20px;
+    padding: 0.9rem 2.5rem;
+    text-align: center;
+    background-color: #6495ed;
+    color: #fff;
+    border-radius: 4px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+    font-size: 17px;
+}
+
+#form-2 .btn {
+    outline: none;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 auto;
+    padding: 0.9rem 2.5rem;
+    text-align: center;
+    background-color: #47AB11;
+    color: #fff;
+    border-radius: 4px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+    font-size: 17px;
+}
+
+#form-2 .btn-reg {
+    outline: none;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 auto;
+    margin-right: 20px;
+    padding: 0.9rem 2.5rem;
+    text-align: center;
+    background-color: #6495ed;
+    color: #fff;
+    border-radius: 4px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+    font-size: 17px;
+}
+
+#form-main .btn {
+    outline: none;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 auto;
+    padding: 0.9rem 2.5rem;
+    text-align: center;
+    background-color: #47AB11;
+    color: #fff;
+    border-radius: 4px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+    font-size: 17px;
+}
+
+#form-main .btn-reg {
+    outline: none;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 auto;
+    padding: 0.9rem 2.5rem;
+    text-align: center;
+    background-color: #6495ed;
+    color: #fff;
+    border-radius: 4px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+    font-size: 17px;
+}
+
+#form-1 a {
+    text-decoration: none;
+    color: inherit;
+}
+
+#form-2 a {
+    text-decoration: none;
+    color: inherit;
+}
+
+#form-main a {
+    text-decoration: none;
+    color: inherit;
+}
+
+#form-main select {
+    font-family: inherit;
+    width: 100%;
+    outline: none;
+    background-color: #fff;
+    border-radius: 4px;
+    border: none;
+    display: block;
+    padding: 0.9rem 0.7rem;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+    font-size: 17px;
+    color: #4A4A4A;
+    text-indent: 5px;
+}

@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
-
-namespace TaskManager.Middleware
+﻿namespace TaskManager.Middleware
 {
     /// <summary>
     /// Global exception handler for get errors and redirect to view error
