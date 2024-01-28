@@ -163,15 +163,15 @@ namespace TaskManager.Controllers
         /// <param name="taskId">guid task id for filter</param>
         /// <returns>returned task if finded or exceptions</returns>
         [HttpGet("[action]")]
-        public async Task<IActionResult> TaskDetails(Guid taskId)
+        public async Task<IActionResult> TaskDetailsById(Guid taskId)
         {
-            _logger.LogInformation("{controller}.{method} - get task details page, start", nameof(TaskController), nameof(TaskDetails));
+            _logger.LogInformation("{controller}.{method} - get task details page, start", nameof(TaskController), nameof(TaskDetailsById));
 
             TaskModel taskModel = await _taskService.GetTaskByIdAsync(taskId, true);
 
             var mappedTask = _mapper.Map<TaskDto>(taskModel);
 
-            _logger.LogInformation("{controller}.{method} - get task details page, finish", nameof(TaskController), nameof(TaskDetails));
+            _logger.LogInformation("{controller}.{method} - get task details page, finish", nameof(TaskController), nameof(TaskDetailsById));
 
             return View(mappedTask);
         }
@@ -181,16 +181,16 @@ namespace TaskManager.Controllers
         /// </summary>
         /// <param name="taskId">guid id for search task</param>
         /// <returns>returned json format find task</returns>
-        [HttpGet("api/[action]")]
-        public async Task<IActionResult> GetTaskDetailsAsync([FromQuery]Guid taskId)
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetTaskDetails(Guid taskId)
         {
-            _logger.LogInformation("{controller}.{method} - get task details page, start", nameof(TaskController), nameof(GetTaskDetailsAsync));
+            _logger.LogInformation("{controller}.{method} - get task details page, start", nameof(TaskController), nameof(GetTaskDetails));
 
             TaskModel taskModel = await _taskService.GetTaskByIdAsync(taskId, false);
 
             var mappedTask = _mapper.Map<TaskDto>(taskModel);
 
-            _logger.LogInformation("{controller}.{method} - get task details page, finish", nameof(TaskController), nameof(GetTaskDetailsAsync));
+            _logger.LogInformation("{controller}.{method} - get task details page, finish", nameof(TaskController), nameof(GetTaskDetails));
 
             return Json(mappedTask);
         }
@@ -201,15 +201,15 @@ namespace TaskManager.Controllers
         /// <param name="newStatus"></param>
         /// <param name="taskId"></param>
         /// <returns></returns>
-        [HttpGet("api/[action]")]
-        public async Task<IActionResult> ChangeStatusAsync([FromQuery]int newStatus, [FromQuery]Guid taskId)
+        [HttpGet("[action]")]
+        public async Task<IActionResult> ChangeStatusApi([FromQuery]int newStatus, [FromQuery]Guid taskId)
         {
-            _logger.LogInformation("{controller}.{method} - start, post change status task if find", nameof(TaskController), nameof(ChangeStatusAsync));
+            _logger.LogInformation("{controller}.{method} - start, post change status task if find", nameof(TaskController), nameof(ChangeStatusApi));
             Status status = StatusHelper.GetStatusByCode(newStatus);
 
             await _taskService.ChangeStatusForTask(status, taskId);
 
-            _logger.LogInformation("{controller}.{method} - finish, post change status task if find", nameof(TaskController), nameof(ChangeStatusAsync));
+            _logger.LogInformation("{controller}.{method} - finish, post change status task if find", nameof(TaskController), nameof(ChangeStatusApi));
 
             return Ok();
         }

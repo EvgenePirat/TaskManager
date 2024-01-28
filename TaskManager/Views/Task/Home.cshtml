@@ -14,11 +14,10 @@
         </div>
         <div class='project-tasks'>
             <div class='project-column' >
-                <div class='project-column-heading' id="heading_top">
+                <div class='project-column-heading'>
                     <h2 class='project-column-heading__title'>Need make</h2>
                 </div>
 
-                <div class="scrollable-container">
                     @foreach (CategoryDto category in Model)
                     {
                         foreach (TaskDto task in category.Tasks)
@@ -31,7 +30,7 @@
                                         <div class="dropdown">
                                             <button class="mainmenubtn"></button>
                                             <div class="dropdown-child">
-                                                <a asp-action="TaskDetails" asp-controller="Task" asp-route-taskId="@task.Id">Details</a>
+                                            <a asp-action="TaskDetailsById" asp-controller="Task" asp-route-taskId="@task.Id">Details</a>
                                                 <a asp-action="TaskUpdate" asp-controller="Task" asp-route-taskId="@task.Id">Edit</a>
                                                 <form method="post" asp-controller="Task" asp-action="DeleteTaskPost" asp-route-taskId="@task.Id">
                                                     <button type="submit" class="button_delete_task">Delete</button>
@@ -50,15 +49,13 @@
                             }
                         }
                     }
-                </div>
                 
             </div>
             <div class='project-column'>
-                <div class='project-column-heading' id="heading_top">
+                <div class='project-column-heading'>
                     <h2 class='project-column-heading__title'>Done</h2>
                 </div>
 
-                <div class="scrollable-container">
                     @foreach (CategoryDto category in Model)
                     {
                         foreach (TaskDto task in category.Tasks)
@@ -71,7 +68,7 @@
                                         <div class="dropdown">
                                             <button class="mainmenubtn"></button>
                                             <div class="dropdown-child">
-                                                <a asp-action="TaskDetails" asp-controller="Task" asp-route-taskId="@task.Id">Details</a>
+                                            <a asp-action="TaskDetailsById" asp-controller="Task" asp-route-taskId="@task.Id">Details</a>
                                                 <a asp-action="TaskUpdate" asp-controller="Task" asp-route-taskId="@task.Id">Edit</a>
                                                 <form method="post" asp-controller="Task" asp-action="DeleteTaskPost" asp-route-taskId="@task.Id">
                                                     <button type="submit" class="button_delete_task">Delete</button>
@@ -90,7 +87,6 @@
                             }
                         }
                     }
-                </div>
                 
             </div>
 
@@ -98,8 +94,6 @@
                 <div class='project-column-heading'>
                     <h2 class='project-column-heading__title'>Overdue</h2>
                 </div>
-
-                <div class="scrollable-container">
                     @foreach (CategoryDto category in Model)
                     {
                         foreach (TaskDto task in category.Tasks)
@@ -112,7 +106,7 @@
                                         <div class="dropdown">
                                             <button class="mainmenubtn"></button>
                                             <div class="dropdown-child">
-                                                <a asp-action="TaskDetails" asp-controller="Task" asp-route-taskId="@task.Id">Details</a>
+                                            <a asp-action="TaskDetailsById" asp-controller="Task" asp-route-taskId="@task.Id">Details</a>
                                                 <a asp-action="TaskUpdate" asp-controller="Task" asp-route-taskId="@task.Id">Edit</a>
                                                 <form method="post" asp-controller="Task" asp-action="DeleteTaskPost" asp-route-taskId="@task.Id">
                                                     <button type="submit" class="button_delete_task">Delete</button>
@@ -129,8 +123,7 @@
                             }
                         }
                     }
-                </div>
-               
+            
             </div>
         </div>
     </main>
@@ -155,8 +148,6 @@
 </div>
 
 <script>
-
-    window.scrollTo(0, 1500);
 
     document.addEventListener('DOMContentLoaded', (event) => {
         var dragSrcEl = null;
@@ -197,12 +188,12 @@
                 var draggedTaskId = dragSrcEl.getAttribute('data-task-id');
                 var droppedTaskId = this.getAttribute('data-task-id');
 
-                fetch(`/Task/api/GetTaskDetailsAsync?taskId=${draggedTaskId}`)
+                fetch(`/Task/GetTaskDetails?taskId=${draggedTaskId}`)
                     .then(response => response.json())
                     .then(data => {
                         taskOne = data;
 
-                        return fetch(`/Task/api/GetTaskDetailsAsync?taskId=${droppedTaskId}`);
+                        return fetch(`/Task/GetTaskDetails?taskId=${droppedTaskId}`);
                     })
                     .then(response => response.json())
                     .then(data => {
@@ -212,13 +203,13 @@
                         console.log('Полученные данные taskTwo:', taskTwo);
 
                         if (taskOne.status != taskTwo.status) {
-                            return fetch(`/Task/api/ChangeStatusAsync?newStatus=${taskTwo.status}&taskId=${draggedTaskId}`);
+                            return fetch(`/Task/ChangeStatusApi?newStatus=${taskTwo.status}&taskId=${draggedTaskId}`);
                         }
 
                     })
                     .then(data => {
                         if (taskOne.status != taskTwo.status) {
-                            return fetch(`/Task/api/ChangeStatusAsync?newStatus=${taskOne.status}&taskId=${droppedTaskId}`);
+                            return fetch(`/Task/ChangeStatusApi?newStatus=${taskOne.status}&taskId=${droppedTaskId}`);
                         }
 
                     })

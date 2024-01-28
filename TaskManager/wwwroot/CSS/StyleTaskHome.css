@@ -30,7 +30,7 @@ body {
     background-image: url('/Pictures/background-reg.jpg');
     position: fixed;
     background-size: cover;
-    width: 95%;
+    width: 96%;
     margin-left: 4%;
     min-height: 100vh;
 }

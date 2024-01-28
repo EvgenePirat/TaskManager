@@ -36,6 +36,7 @@ namespace BusinessLayer.ServiceImpl
             {
                 if (await _categoryRepository.GetCategoryByIdAsync(taskAddRequest.CategoryId) != null)
                 {
+
                     if (taskAddRequest.FinishTime > DateTime.Now)
                     {
                         DataAccessLayer.Entities.Task mappedTask = _mapper.Map<DataAccessLayer.Entities.Task>(taskAddRequest);

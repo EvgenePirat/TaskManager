@@ -1,4 +1,63 @@
 @import url("//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css");
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+
+.for_search {
+    height: 50px;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.search-box {
+    transform: translate(5%, 10%);
+    background: #3b92c4;
+    border-radius: 50px;
+    height: 40px;
+    box-shadow: 0px 0px 10px 0px rbg(0,0,0,0.2);
+    margin-right: 10px;
+}
+
+.search-btn {
+    border: none;
+    background: #0431b0;
+    border-radius: 50%;
+    float: left;
+    display: flex;
+    width: 40px;
+    height: 40px;
+    margin-right: 30px;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+    transition: 0.6s;
+    font-weight: bold;
+    color: #FFFFFF;
+    box-shadow: 0px 0px 10px 0px crimson;
+}
+
+.search-txt {
+    background: none;
+    border: none;
+    outline: none;
+    float: left;
+    padding: 0px;
+    font-size: 16px;
+    transition: 0.6s;
+    color: white;
+    font-weight: bold;
+    line-height: 30px;
+    width: 0px;
+}
+
+.search-box:hover > .search-txt {
+    width: 130px;
+    padding: 0 6px;
+}
+
+.search-box:hover > .search-btn {
+    background: #e18f1c;
+    color: #FFFFFF;
+    box-shadow: 0px 5px 20px 0px crimson;
+}
 
 .menu, .menu-bar {
     position: fixed;
@@ -18,7 +77,7 @@
         display: block;
         text-indent: -500em;
         height: 5em;
-        width: 5em;
+        width: 6em;
         line-height: 5em;
         text-align: center;
         color: #72739f;
