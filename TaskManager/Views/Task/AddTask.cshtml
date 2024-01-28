@@ -4,7 +4,9 @@
     ViewBag.Title = "Add Task";
     Layout = "~/Views/Shared/_Layout_task.cshtml";
 }
+
 <link href="~/CSS/StyleAddTask.css" rel="stylesheet" />
+
 <div class="app">
     <div class="body-add">
         <form asp-controller="Task" asp-action="AddNewTaskPost" method="post">
@@ -34,13 +36,16 @@
             <input asp-for="Status" type="hidden" value="@Status.Active" />
 
             <div>
+
+                <strong><span asp-validation-for="Title" style="color:red;"></span></strong>
+
                 @if (ViewBag.Errors != null)
                 {
-                    <div class="text-red">
+                    <div>
                         <ul>
                             @foreach (string error in ViewBag.Errors)
                             {
-                                <li class="ml">@error</li>
+                                <li class="ml"><strong style="color:red;">@error</strong></li>
                             }
                         </ul>
                     </div>
@@ -55,3 +60,9 @@
         </form>
     </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.4/jquery.validate.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>

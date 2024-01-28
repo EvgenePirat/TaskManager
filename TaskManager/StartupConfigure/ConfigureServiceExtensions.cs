@@ -32,6 +32,7 @@ namespace TaskManager.StartupConfigure
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<IContactService, ContactService>();
+            services.AddScoped<IRemoteValidationService, RemoteValidationService>();
             services.AddControllersWithViews();
 
             //registration our schedule service

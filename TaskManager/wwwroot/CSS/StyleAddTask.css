@@ -23,6 +23,11 @@
     font-size: 18px;
 }
 
+.text-red {
+    color: red;
+    font-weight: bold;
+}
+
 .result-contact-bad {
     color: red;
     font-size: 18px;

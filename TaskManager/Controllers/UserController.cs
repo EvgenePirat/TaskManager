@@ -2,15 +2,17 @@
 
 using AutoMapper;
 using BusinessLayer.ServiceContract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TaskManager.Controllers
 {
     /// <summary>
-    /// controller for working with user entites
+    /// controller for working with user application
     /// </summary>
     [Microsoft.AspNetCore.Mvc.Route("[controller]")]
+    [Authorize(Roles = "User")]
     public class UserController : Controller
     {
         private readonly IUserService _userService;
