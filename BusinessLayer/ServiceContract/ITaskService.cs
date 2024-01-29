@@ -26,10 +26,18 @@ namespace BusinessLayer.ServiceContract
         /// <summary>
         /// Method for get task by id
         /// </summary>
-        /// <param name="taskId">task id for dound task in system</param>
+        /// <param name="taskId">task id for found task in system</param>
         /// <param name="include">bool type for include category object in task or not include</param>
         /// <returns>returned task response or throw argumetException()</returns>
         public Task<TaskModel> GetTaskByIdAsync(Guid taskId,  bool include);
+
+        /// <summary>
+        /// Method for get task by title
+        /// </summary>
+        /// <param name="titleTask">task title for found task in system  for user</param>
+        /// <param name="loginUser">string login for find all tasks for user</param>
+        /// <returns>returned task response or throw exception</returns>
+        public Task<TaskModel?> GetTaskByTitleAsync(string titleTask, string? loginUser);
 
         /// <summary>
         /// Method for add businnes logic before delete task

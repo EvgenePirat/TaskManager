@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace TaskManager.Controllers
+namespace TaskManager.Controllers.Exceptions
 {
     public class ExceptionController : Controller
     {

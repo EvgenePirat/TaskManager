@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 
-namespace TaskManager.Controllers
+namespace TaskManager.Controllers.Mains
 {
     /// <summary>
     /// controller for working with user application

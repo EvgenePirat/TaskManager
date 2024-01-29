@@ -4,10 +4,10 @@ using BusinessLayer.Models.Categories.Response;
 using BusinessLayer.Models.Tasks.Request;
 using BusinessLayer.Models.Tasks.Response;
 using BusinessLayer.ServiceContract;
+using CustomExceptions.TaskExceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Drawing;
 using TaskManager.Dto.Categories.Response;
 using TaskManager.Dto.Tasks.Request;
 using TaskManager.Dto.Tasks.Response;
@@ -15,7 +15,7 @@ using TaskManager.Filteres.ActionFilter.TaskFilteres;
 using TaskManager.Filteres.ErrorFilteres.TaskErrorFilteres;
 using TaskManager.Helpers;
 
-namespace TaskManager.Controllers
+namespace TaskManager.Controllers.Mains
 {
     /// <summary>
     /// controller for working with task logic
@@ -55,33 +55,11 @@ namespace TaskManager.Controllers
 
             var mappedCategories = _mapper.Map<List<CategoryDto>>(categories);
 
-            mappedCategories = GenerateColorForCategory(mappedCategories);
+            mappedCategories = ColorCategoriesHelper.GenerateColorForCategory(mappedCategories);
 
             _logger.LogInformation("{controller}.{method} - Get home page, finish", nameof(TaskController), nameof(Home));
 
             return View(mappedCategories);
-        }
-
-        /// <summary>
-        /// Method for generate color for category
-        /// </summary>
-        /// <param name="categories"></param>
-        /// <returns></returns>
-        private List<CategoryDto> GenerateColorForCategory(List<CategoryDto> categories)
-        {
-            for(int i=0; i<categories.Count; i++)
-            {
-                Random random = new Random();
-                Color color = Color.FromArgb(random.Next(200, 255), random.Next(200, 255), random.Next(200, 255));
-                string redHex = color.R.ToString("X2");
-                string greenHex = color.G.ToString("X2");
-                string blueHex = color.B.ToString("X2");
-                string colorString = $"#{redHex}{greenHex}{blueHex}";
-
-                categories[i].Color = colorString;
-            }
-
-            return categories;
         }
 
         /// <summary>
@@ -103,7 +81,7 @@ namespace TaskManager.Controllers
 
             var mappedCategories = _mapper.Map<List<CategoryDto>>(categories);
 
-            mappedCategories = GenerateColorForCategory(mappedCategories);
+            mappedCategories = ColorCategoriesHelper.GenerateColorForCategory(mappedCategories);
 
             _logger.LogInformation("{controller}.{method} - finish, post change status task if find", nameof(TaskController), nameof(ChangeStatusTaskAsync));
 
@@ -144,7 +122,7 @@ namespace TaskManager.Controllers
         [HttpPost("[action]")]
         [TypeFilter(typeof(TaskValidationActionFilter))]
         [TypeFilter(typeof(TaskExceptionFilter))]
-        public async Task<IActionResult> AddNewTaskPost([FromForm]TaskAddDto taskAddRequest)
+        public async Task<IActionResult> AddNewTaskPost([FromForm] TaskAddDto taskAddRequest)
         {
             _logger.LogInformation("{controller}.{method} - post task for save, start", nameof(TaskController), nameof(AddNewTaskPost));
 
@@ -165,15 +143,39 @@ namespace TaskManager.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> TaskDetailsById(Guid taskId)
         {
-            _logger.LogInformation("{controller}.{method} - get task details page, start", nameof(TaskController), nameof(TaskDetailsById));
+            _logger.LogInformation("{controller}.{method} - get task details page by id, start", nameof(TaskController), nameof(TaskDetailsById));
 
             TaskModel taskModel = await _taskService.GetTaskByIdAsync(taskId, true);
 
             var mappedTask = _mapper.Map<TaskDto>(taskModel);
 
-            _logger.LogInformation("{controller}.{method} - get task details page, finish", nameof(TaskController), nameof(TaskDetailsById));
+            _logger.LogInformation("{controller}.{method} - get task details page by id, finish", nameof(TaskController), nameof(TaskDetailsById));
 
-            return View(mappedTask);
+            return View("TaskDetails", mappedTask);
+        }
+
+        /// <summary>
+        /// Method for get task by id
+        /// </summary>
+        /// <param name="taskId">guid task id for filter</param>
+        /// <returns>returned task if finded or exceptions</returns>
+        [HttpPost("[action]")]
+        public async Task<IActionResult> TaskDetailsByTitle(string titleTask)
+        {
+            _logger.LogInformation("{controller}.{method} - get task details page by title task, start", nameof(TaskController), nameof(TaskDetailsByTitle));
+
+            string? userLogin = User.Identity?.Name;
+
+            TaskModel? taskModel = await _taskService.GetTaskByTitleAsync(titleTask, userLogin);
+
+            if (taskModel == null)
+                throw new TaskArgumentException("Task not found!");
+
+            var mappedTask = _mapper.Map<TaskDto>(taskModel);
+
+            _logger.LogInformation("{controller}.{method} - get task details page, finish", nameof(TaskController), nameof(TaskDetailsByTitle));
+
+            return View("TaskDetails",mappedTask);
         }
 
         /// <summary>
@@ -202,7 +204,7 @@ namespace TaskManager.Controllers
         /// <param name="taskId"></param>
         /// <returns></returns>
         [HttpGet("[action]")]
-        public async Task<IActionResult> ChangeStatusApi([FromQuery]int newStatus, [FromQuery]Guid taskId)
+        public async Task<IActionResult> ChangeStatusApi([FromQuery] int newStatus, [FromQuery] Guid taskId)
         {
             _logger.LogInformation("{controller}.{method} - start, post change status task if find", nameof(TaskController), nameof(ChangeStatusApi));
             Status status = StatusHelper.GetStatusByCode(newStatus);
@@ -232,7 +234,7 @@ namespace TaskManager.Controllers
 
             var mappedCategories = _mapper.Map<List<CategoryDto>>(categories);
 
-            mappedCategories = GenerateColorForCategory(mappedCategories);
+            mappedCategories = ColorCategoriesHelper.GenerateColorForCategory(mappedCategories);
 
             _logger.LogInformation("{controller}.{method} - finish post delete task if find", nameof(TaskController), nameof(AddNewTaskPost));
 
@@ -272,7 +274,7 @@ namespace TaskManager.Controllers
         /// <param name="taskUpdate">task with data for update</param>
         /// <returns>returned home page with updates task</returns>
         [HttpPost("[action]")]
-        public async Task<IActionResult> TaskUpdatePost([FromForm]TaskUpdateDto taskUpdate)
+        public async Task<IActionResult> TaskUpdatePost([FromForm] TaskUpdateDto taskUpdate)
         {
             _logger.LogInformation("{controller}.{method} - post update task, start", nameof(TaskController), nameof(TaskUpdatePost));
 

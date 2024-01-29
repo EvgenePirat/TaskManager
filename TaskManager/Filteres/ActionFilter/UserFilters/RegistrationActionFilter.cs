@@ -4,7 +4,7 @@ using BusinessLayer.ServiceContract;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
-using TaskManager.Controllers;
+using TaskManager.Controllers.Authorization;
 
 namespace TaskManager.Filteres.ActionFilter.UserFilters
 {

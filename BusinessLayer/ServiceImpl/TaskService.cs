@@ -3,6 +3,7 @@ using BusinessLayer.Enum;
 using BusinessLayer.Models.Tasks.Request;
 using BusinessLayer.Models.Tasks.Response;
 using BusinessLayer.ServiceContract;
+using CustomExceptions.AuthorizationExceptions;
 using CustomExceptions.CategoryExceptions;
 using CustomExceptions.TaskExceptions;
 using DataAccessLayer.RepositoryContract;
@@ -17,15 +18,17 @@ namespace BusinessLayer.ServiceImpl
     {
         private readonly ITaskRepository _taskRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly ICategoryService _categoryService;
         private readonly ILogger<TaskService> _logger;
         private readonly IMapper _mapper;
 
-        public TaskService(ITaskRepository taskRepository, ICategoryRepository categoryRepository, ILogger<TaskService> logger, IMapper mapper)
+        public TaskService(ICategoryService categoryService, ITaskRepository taskRepository, ICategoryRepository categoryRepository, ILogger<TaskService> logger, IMapper mapper)
         {
             _taskRepository = taskRepository;
             _categoryRepository = categoryRepository;
             _logger = logger;
             _mapper = mapper;
+            _categoryService = categoryService;
         }
 
         public async Task<TaskModel?> AddNewTaskAsync(TaskAddModel taskAddRequest)
@@ -142,6 +145,24 @@ namespace BusinessLayer.ServiceImpl
                 _logger.LogError("{service}.{method} - task with id not found", nameof(TaskService), nameof(GetTaskByIdAsync));
                 throw new TaskArgumentException("Task with id not found");
             }
+        }
+
+        public async Task<TaskModel?> GetTaskByTitleAsync(string titleTask, string? loginUser)
+        {
+            _logger.LogInformation("{service}.{method} - start, get task by title for user in service layer", nameof(TaskService), nameof(GetTaskByIdAsync));
+
+            if (loginUser == null)
+                throw new AuthorizationArgumentException("You need authorization in application");
+
+            var categories = await _categoryService.GetCategoriesForUserAsync(loginUser);
+
+            var listAllTasks = categories.SelectMany(temp => temp.Tasks).ToList();
+
+            var taskResult = listAllTasks.FirstOrDefault(temp => temp.Title == titleTask);
+
+            _logger.LogInformation("{service}.{method} - finish, get task by title for user in service layer", nameof(TaskService), nameof(GetTaskByIdAsync));
+
+            return taskResult;
         }
 
         public async Task<TaskModel> UpdateTaskAsync(TaskUpdateModel taskUpdate)

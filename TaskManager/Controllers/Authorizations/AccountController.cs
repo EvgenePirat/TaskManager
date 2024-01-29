@@ -11,7 +11,7 @@ using TaskManager.Dto.Users.Response;
 using TaskManager.Filteres.ActionFilter.UserFilters;
 using TaskManager.Filteres.ErrorFilteres.UserErrorFilteres;
 
-namespace TaskManager.Controllers
+namespace TaskManager.Controllers.Authorization
 {
     /// <summary>registration and enter in system working with user entites
     /// </summary>
@@ -85,7 +85,7 @@ namespace TaskManager.Controllers
 
             var mappedModel = _mapper.Map<UserAddModel>(userAddRequest);
 
-            var user = _mapper.Map <UserDto>(await _userService.AddUserAsync(mappedModel));
+            var user = _mapper.Map<UserDto>(await _userService.AddUserAsync(mappedModel));
 
             _logger.LogInformation("{controller}.{method} - finish post user for registration in system", nameof(AccountController), nameof(RegistrationPost));
 

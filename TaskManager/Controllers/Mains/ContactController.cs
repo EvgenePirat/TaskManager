@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Dto.Contact.Request;
 
-namespace TaskManager.Controllers
+namespace TaskManager.Controllers.Mains
 {
     /// <summary>
     /// Class for working with feedback about application from client
@@ -61,7 +61,7 @@ namespace TaskManager.Controllers
                 ViewBag.Result = result;
                 ViewBag.ResultMessage = "We got error. Try later!";
             }
-               
+
             _logger.LogInformation("{controller}.{method} - finish, post message on email from client", nameof(ContactController), nameof(FeedbackPost));
 
             return View("Feedback");

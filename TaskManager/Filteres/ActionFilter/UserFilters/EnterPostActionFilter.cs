@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using TaskManager.Controllers;
+using TaskManager.Controllers.Authorization;
 
 namespace TaskManager.Filteres.ActionFilter.UserFilters
 {

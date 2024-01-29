@@ -7,7 +7,7 @@ using TaskManager.Dto.Categories.Request;
 using TaskManager.Dto.Categories.Response;
 using TaskManager.Filteres.ErrorFilteres.CategoryErrorFilteres;
 
-namespace TaskManager.Controllers
+namespace TaskManager.Controllers.Mains
 {
     /// <summary>
     /// Controller with methods for working with category
@@ -36,7 +36,7 @@ namespace TaskManager.Controllers
         {
             _logger.LogInformation("{controller}.{method} - Get add new category page, start", nameof(CategoryController), nameof(Categories));
 
-            string errorMessage = HttpContext.Request.Query["error"].ToString(); 
+            string errorMessage = HttpContext.Request.Query["error"].ToString();
             if (errorMessage.Length > 0)
                 ViewBag.Errors = new List<string> { errorMessage };
 
@@ -56,7 +56,7 @@ namespace TaskManager.Controllers
         /// <returns>returned home page if good save or page create category with errors</returns>
         [HttpPost("[action]")]
         [TypeFilter(typeof(CategoryExceptionFilter))]
-        public async Task<IActionResult> AddNewCategoryPost([FromForm]CategoryAddDto categoryAddDto) 
+        public async Task<IActionResult> AddNewCategoryPost([FromForm] CategoryAddDto categoryAddDto)
         {
             _logger.LogInformation("{controller}.{method} - post category for save, start", nameof(CategoryController), nameof(AddNewCategoryPost));
 
@@ -89,8 +89,8 @@ namespace TaskManager.Controllers
         /// </summary>
         /// <param name="categoryUpdateDto">category with new data for update</param>
         /// <returns>returned page with updates categories</returns>
-        
-        public async Task<IActionResult> UpdateCategoryPost([FromForm]CategoryUpdateDto categoryUpdateDto)
+
+        public async Task<IActionResult> UpdateCategoryPost([FromForm] CategoryUpdateDto categoryUpdateDto)
         {
             _logger.LogInformation("{controller}.{method} - post category for update, start", nameof(CategoryController), nameof(UpdateCategoryPost));
 

@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.ServiceContract;
+using CustomExceptions.AuthorizationExceptions;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace BusinessLayer.ServiceImpl
             _logger.LogInformation("{service}.{method} - start, check exist title task for user in service layer", nameof(RemoteValidationService), nameof(IsNameTaskAlreadyCreateAsync));
 
             if (loginUser == null)
-                throw new ArgumentNullException("You need authorization in application");
+                throw new AuthorizationArgumentException("You need authorization in application");
 
             var categories = await _categoryService.GetCategoriesForUserAsync(loginUser);
 
