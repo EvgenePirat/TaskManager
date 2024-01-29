@@ -26,5 +26,12 @@ namespace TaskManager.Controllers.Mains
             _mapper = mapper;
         }
 
+        [HttpGet("[action]")]
+        public ActionResult UserProfileSetting()
+        {
+            
+            return View();
+        }
+
     }
 }
