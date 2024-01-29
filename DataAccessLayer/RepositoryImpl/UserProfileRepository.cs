@@ -34,5 +34,25 @@ namespace DataAccessLayer.RepositoryImpl
         {
             return await _context.Users.FirstOrDefaultAsync(temp => temp.UserProfileId == userId);
         }
+
+        public async Task<UserProfile?> UpdateUserProfileAsync(UserProfile userProfile)
+        {
+            UserProfile? userProfileForUpdate = await _context.UserProfiles.FirstOrDefaultAsync(temp => temp.UserProfileId == userProfile.UserProfileId);
+
+            if (userProfileForUpdate != null)
+            {
+                userProfileForUpdate.IsShowWeather = userProfileForUpdate.IsShowWeather;
+                userProfileForUpdate.NumberPhone = userProfileForUpdate.NumberPhone;
+                userProfileForUpdate.FirstName = userProfileForUpdate.FirstName;
+                userProfileForUpdate.LastName = userProfileForUpdate.LastName;
+                userProfileForUpdate.Age = userProfileForUpdate.Age;
+                userProfileForUpdate.City = userProfileForUpdate.City;
+                userProfileForUpdate.Country = userProfileForUpdate.Country;
+
+                _context.SaveChanges();
+            }
+
+            return userProfileForUpdate;
+        }
     }
 }

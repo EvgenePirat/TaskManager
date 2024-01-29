@@ -25,5 +25,12 @@ namespace DataAccessLayer.RepositoryContract
         /// <param name="userId">guid id for search user in bd</param>
         /// <returns>returned user if find or null if not find</returns>
         public Task<UserProfile?> GetUserProfileByIdAsync(Guid userId);
+
+        /// <summary>
+        /// Method for update user profile 
+        /// </summary>
+        /// <param name="userProfile">User profile with new data for update</param>
+        /// <returns>returned user profile with updated data</returns>
+        public Task<UserProfile?> UpdateUserProfileAsync(UserProfile userProfile);
     }
 }
