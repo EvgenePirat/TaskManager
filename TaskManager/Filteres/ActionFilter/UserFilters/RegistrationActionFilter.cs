@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BusinessLayer.Enum;
+using BusinessLayer.Models.Enum;
 using BusinessLayer.ServiceContract;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;

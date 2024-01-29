@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BusinessLayer.Enum;
+using BusinessLayer.Models.Enum;
 using DataAccessLayer.RepositoryContract;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;

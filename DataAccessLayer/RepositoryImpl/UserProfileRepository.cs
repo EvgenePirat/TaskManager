@@ -32,7 +32,7 @@ namespace DataAccessLayer.RepositoryImpl
 
         public async Task<UserProfile?> GetUserProfileByIdAsync(Guid userId)
         {
-            return await _context.Users.Include("Categories").FirstOrDefaultAsync(temp => temp.UserProfileId == userId);
+            return await _context.Users.FirstOrDefaultAsync(temp => temp.UserProfileId == userId);
         }
     }
 }

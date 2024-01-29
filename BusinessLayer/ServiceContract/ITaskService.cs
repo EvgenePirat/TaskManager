@@ -1,4 +1,4 @@
-﻿using BusinessLayer.Enum;
+﻿using BusinessLayer.Models.Enum;
 using BusinessLayer.Models.Tasks.Request;
 using BusinessLayer.Models.Tasks.Response;
 

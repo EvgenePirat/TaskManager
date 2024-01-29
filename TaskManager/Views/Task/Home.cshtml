@@ -1,5 +1,4 @@
 ﻿@using TaskManager.Dto.Categories.Response
-@using TaskManager.Dto.Tasks.Response
 @model IEnumerable<CategoryDto>
 @{
     ViewBag.Title = "Tasks";
@@ -22,7 +21,7 @@
                     {
                         foreach (TaskDto task in category.Tasks)
                         {
-                            @if (task.Status == Status.Active)
+                            @if (task.Status == StatusTask.Active)
                             {
                                 <div id="taskElem" class='task' draggable='true' data-task-id="@task.Id">
                                     <div class='task__tags'>
@@ -35,7 +34,7 @@
                                                 <form method="post" asp-controller="Task" asp-action="DeleteTaskPost" asp-route-taskId="@task.Id">
                                                     <button type="submit" class="button_delete_task">Delete</button>
                                                 </form>
-                                                <form method="post" asp-controller="Task" asp-action="ChangeStatusTask" asp-route-taskId="@task.Id" asp-route-newStatus="@Status.Done">
+                                                <form method="post" asp-controller="Task" asp-action="ChangeStatusTask" asp-route-taskId="@task.Id" asp-route-newStatus="@StatusTask.Done">
                                                     <button type="submit" class="button_done_task">Done</button>
                                                 </form>
                                             </div>
@@ -60,7 +59,7 @@
                     {
                         foreach (TaskDto task in category.Tasks)
                         {
-                            @if (task.Status == Status.Done)
+                            @if (task.Status == StatusTask.Done)
                             {
                                 <div id="taskElem" class='task' draggable='true' data-task-id="@task.Id">
                                     <div class='task__tags'>
@@ -73,7 +72,7 @@
                                                 <form method="post" asp-controller="Task" asp-action="DeleteTaskPost" asp-route-taskId="@task.Id">
                                                     <button type="submit" class="button_delete_task">Delete</button>
                                                 </form>
-                                                <form method="post" asp-controller="Task" asp-action="ChangeStatusTask" asp-route-taskId="@task.Id" asp-route-newStatus="@Status.Active">
+                                                <form method="post" asp-controller="Task" asp-action="ChangeStatusTask" asp-route-taskId="@task.Id" asp-route-newStatus="@StatusTask.Active">
                                                     <button type="submit" class="button_done_task">Need Make</button>
                                                 </form>
                                             </div>
@@ -98,7 +97,7 @@
                     {
                         foreach (TaskDto task in category.Tasks)
                         {
-                            @if (task.Status == Status.Overdue)
+                            @if (task.Status == StatusTask.Overdue)
                             {
                                 <div class='task' draggable='true' data-task-id="@task.Id">
                                     <div class='task__tags'>
@@ -132,8 +131,8 @@
             <h2>Task Progress</h2>
             @foreach (CategoryDto category in Model)
             {
-                var countDoneTasks = category.Tasks?.Where(temp => temp.Status == Status.Done).Count();
-                var countTask = @category.Tasks?.Where(temp => temp.Status != Status.Overdue).Count();
+                var countDoneTasks = category.Tasks?.Where(temp => temp.Status == StatusTask.Done).Count();
+                var countTask = @category.Tasks?.Where(temp => temp.Status != StatusTask.Overdue).Count();
 
                 if ((countTask + countDoneTasks) != 0)
                 {

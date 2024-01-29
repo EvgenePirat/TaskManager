@@ -1,5 +1,4 @@
-﻿@using TaskManager.Dto.Tasks.Request
-@model TaskAddDto
+﻿@model TaskAddDto
 @{
     ViewBag.Title = "Add Task";
     Layout = "~/Views/Shared/_Layout_task.cshtml";
@@ -33,7 +32,7 @@
                 </select>
             </div>
 
-            <input asp-for="Status" type="hidden" value="@Status.Active" />
+            <input asp-for="Status" type="hidden" value="@StatusTask.Active" />
 
             <div>
 

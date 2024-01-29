@@ -1,5 +1,6 @@
-﻿using BusinessLayer.Enum;
+﻿using BusinessLayer.Models.Enum;
 using System.ComponentModel.DataAnnotations;
+using TaskManager.Dto.Enums;
 
 namespace TaskManager.Dto.Tasks.Request
 {
@@ -20,7 +21,7 @@ namespace TaskManager.Dto.Tasks.Request
         public DateTime FinishTime { get; set; }
 
         [Required(ErrorMessage = "Task status can't be blank")]
-        public Status Status { get; set; }
+        public StatusTask Status { get; set; }
 
         [Required(ErrorMessage = "Category id can't be blank")]
         public Guid CategoryId { get; set; }

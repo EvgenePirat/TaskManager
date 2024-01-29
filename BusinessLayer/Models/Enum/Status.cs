@@ -1,8 +1,8 @@
-﻿namespace BusinessLayer.Enum
+﻿namespace BusinessLayer.Models.Enum
 {
     public enum Status
     {
-        Done, 
+        Done,
         Active,
         Overdue
     }

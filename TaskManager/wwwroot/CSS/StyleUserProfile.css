@@ -1,14 +1,21 @@
-body{
-    background: rgb(99, 39, 120)
+body {
+    background-image: url('/Pictures/tropic-profile.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 .custom-container {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: #fff5e1;
+}
+
+.scrollable-list {
+    max-height: 50px;
+    overflow-y: auto;
 }
 
 .form-control:focus {
     box-shadow: none;
-    border-color: #BA68C8
 }
 
 .profile-button {
@@ -37,7 +44,7 @@ body{
 }
 
 .labels {
-    font-size: 11px
+    font-size: 14px
 }
 
 .add-experience:hover {

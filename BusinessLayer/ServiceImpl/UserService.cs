@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
-using BusinessLayer.Enum;
+using BusinessLayer.Models.Enum;
 using BusinessLayer.Models.Users.Request;
 using BusinessLayer.Models.Users.Response;
 using BusinessLayer.ServiceContract;
+using CustomExceptions.AuthorizationExceptions;
 using CustomExceptions.UserExceptions;
 using DataAccessLayer.Entities;
 using DataAccessLayer.IdentityEntities;
@@ -134,6 +135,38 @@ namespace BusinessLayer.ServiceImpl
                 _logger.LogError("{service}.{method} - userEnterRequest equals null", nameof(UserService), nameof(EnterInSystemAsync));
                 throw new ArgumentNullException(nameof(userEnterRequest));
             }
+        }
+
+        public async Task<UserProfileModel> GetUserProfileAsync(string? userLogin)
+        {
+            _logger.LogInformation("{service}.{method} - start, get user profile by user login", nameof(UserService), nameof(GetUserProfileAsync));
+
+            if (userLogin == null)
+                throw new AuthorizationArgumentException("You need authorization in application");
+
+            var userApplication = await _userManager.FindByNameAsync(userLogin);
+            var userProfile = await _userProfileRepository.GetUserProfileByIdAsync(userApplication.Id);
+
+            if(userApplication == null || userProfile == null)
+                throw new AuthorizationArgumentException("You need authorization in application");
+
+            var userProfileModel = new UserProfileModel()
+            {
+                Age = userProfile.Age,
+                City = userProfile.City,
+                Country = userProfile.Country,
+                CreateAccount = userProfile.CreateAccount,
+                DateOfBirth = userApplication.DateOfBirth,
+                Email = userApplication.Email,
+                Id = userApplication.Id,
+                UserName = userApplication.UserName,
+                FirstName = userProfile.FirstName,
+                LastName = userProfile.LastName,
+                NumberPhone = userProfile.NumberPhone,
+                IsShowWeather = userProfile.IsShowWeather ?? false,  
+            };
+
+            return userProfileModel;
         }
     }
 }

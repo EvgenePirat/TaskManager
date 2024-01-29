@@ -1,4 +1,4 @@
-﻿using BusinessLayer.Enum;
+﻿using BusinessLayer.Models.Enum;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 

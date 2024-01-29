@@ -1,4 +1,4 @@
-﻿using BusinessLayer.Enum;
+﻿using BusinessLayer.Models.Enum;
 using DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;

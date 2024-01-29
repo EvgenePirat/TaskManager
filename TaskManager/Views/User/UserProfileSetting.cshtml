@@ -1,4 +1,5 @@
-﻿@{
+﻿@model UserProfileDto
+@{
     ViewBag.Title = "User Profile";
     Layout = "~/Views/Shared/_Layout_task.cshtml";
 }
@@ -10,36 +11,68 @@
 <link href="~/Css/StyleUserProfile.css" rel="stylesheet" />
 
 <div>
-    <div class="container rounded bg-white mt-5 mb-5">
-        <div class="row">
-            <div class="col-md-4 border-right custom-container">
-                <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">Edogaru</span><span class="text-black-50">edogaru@mail.com.my</span><span> </span></div>
-            </div>
-            <div class="col-md-8 border-right custom-container">
-                <div class="p-3 py-5">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h4 class="text-right">Profile Settings</h4>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" placeholder="first name" value=""></div>
-                        <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control" value="" placeholder="surname"></div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="enter phone number" value=""></div>
-                        <div class="col-md-12"><label class="labels">Address Line 1</label><input type="text" class="form-control" placeholder="enter address line 1" value=""></div>
-                        <div class="col-md-12"><label class="labels">Address Line 2</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                        <div class="col-md-12"><label class="labels">Postcode</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control" placeholder="country" value=""></div>
-                        <div class="col-md-6"><label class="labels">State/Region</label><input type="text" class="form-control" value="" placeholder="state"></div>
-                    </div>
-                    <div class="d-flex flex-row justify-content-center mt-5">
-                        <div class="ml-2"><button class="btn btn-danger mr-5" type="button">Delete Profile</button></div>
-                        <div class="mr-2"><button class="btn btn-success" type="button">Save Profile</button></div>
+    <form>
+        <div class="container rounded-md bg-white mt-3" style="opacity: 0.95;">
+            <div class="row">
+                <div class="col-md-4 border-right custom-container">
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                        <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+                        <span class="font-weight-bold">@Model.UserName</span><span class="text-black-50">@Model.Email</span><span> </span></div>
+                </div>
+                <div class="col-md-8 border-right custom-container">
+                    <div class="p-3 py-5">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="text-right font-weight-bold">Profile Settings</h4>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-6"><label class="labels" asp-for="FirstName">Name</label><input type="text" class="form-control font-weight-bold" placeholder="first name" asp-for="FirstName"></div>
+                            <div class="col-md-6"><label class="labels" asp-for="LastName">Surname</label><input type="text" class="form-control font-weight-bold" asp-for="LastName" placeholder="surname"></div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12"><label class="labels" asp-for="UserName">UserName</label><input type="text" class="form-control font-weight-bold" placeholder="UserName" asp-for="UserName" required></div>
+                            <div class="col-md-12"><label class="labels" asp-for="NumberPhone">Mobile Number</label><input type="number" class="form-control font-weight-bold" placeholder="enter phone number" asp-for="NumberPhone"></div>
+                            <div class="col-md-12"><label class="labels" asp-for="Age">Age</label><input type="number" class="form-control font-weight-bold" placeholder="Age" asp-for="Age"></div>
+                            <div class="col-md-12"><label class="labels" asp-for="DateOfBirth">Date of birth</label><input type="date" class="form-control font-weight-bold" placeholder="Date of birth" asp-for="DateOfBirth"></div>
+                            <div class="col-md-12"><label class="labels" asp-for="Email">Email</label><input type="email" class="form-control font-weight-bold" placeholder="Email" asp-for="Email"></div>
+                            <input type="hidden" asp-for="Id" required />
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label class="labels" asp-for="Country">Country</label>
+                                <select class="form-control font-weight-bold" asp-for="Country">
+                                    @foreach (var country in ViewBag.Countries)
+                                    {
+                                        <option>@country</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="labels" asp-for="City">State/Region</label>
+                                <select class="form-control font-weight-bold" asp-for="City">
+                                    @foreach (var city in ViewBag.Cities)
+                                    {
+                                        <option>@city</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mt-3">
+                                <div class="form-check">
+                                    <label class="form-check-label font-weight-bold" asp-for="IsShowWeather">
+                                        Show Weather Information
+                                    </label>
+                                    <input class="form-check-input ml-3" type="checkbox" asp-for="IsShowWeather" id="showWeatherCheckbox">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row justify-content-center mt-3 mb-n2">
+                            <div class="ml-2"><button class="btn btn-danger mr-5" type="button">Delete Profile</button></div>
+                            <div class="mr-2"><button class="btn btn-success" type="submit">Save Profile</button></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>

@@ -5,6 +5,8 @@ using BusinessLayer.ServiceContract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
+using TaskManager.Dto.Enums;
+using TaskManager.Dto.Users.Response;
 
 namespace TaskManager.Controllers.Mains
 {
@@ -27,10 +29,22 @@ namespace TaskManager.Controllers.Mains
         }
 
         [HttpGet("[action]")]
-        public ActionResult UserProfileSetting()
+        public async Task<ActionResult> UserProfileSetting()
         {
-            
-            return View();
+            _logger.LogInformation("{controller}.{method} - Get user profile page, start", nameof(UserController), nameof(UserProfileSetting));
+
+            string? userLogin = User.Identity?.Name;
+
+            var model = await _userService.GetUserProfileAsync(userLogin);
+
+            ViewBag.Cities = Enum.GetNames(typeof(Cities)).ToList();
+            ViewBag.Countries = Enum.GetNames(typeof(Countries)).ToList();
+
+            var mappedResult = _mapper.Map<UserProfileDto>(model);
+
+            _logger.LogInformation("{controller}.{method} - Get user profile page, finish", nameof(UserController), nameof(UserProfileSetting));
+
+            return View(mappedResult);
         }
 
     }

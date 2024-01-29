@@ -1,5 +1,5 @@
-﻿using BusinessLayer.Enum;
-using DataAccessLayer.Entities;
+﻿using DataAccessLayer.Entities;
+using TaskManager.Dto.Enums;
 
 namespace TaskManager.Dto.Tasks.Response
 {
@@ -16,7 +16,7 @@ namespace TaskManager.Dto.Tasks.Response
 
         public DateTime FinishTime { get; set; }
 
-        public Status Status { get; set; }
+        public StatusTask Status { get; set; }
 
         public Category? Category { get; set; }
     }

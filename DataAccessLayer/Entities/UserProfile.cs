@@ -33,6 +33,14 @@ namespace DataAccessLayer.Entities
 
         public DateTime CreateAccount { get; set; } = DateTime.Now;
 
+        [StringLength(50)]
+        public string? Country { get; set; }
+
+        [StringLength(50)]
+        public string? City { get; set; }
+
+        public bool? IsShowWeather { get; set; }
+
         [Required]
         public ApplicationUser? ApplicationUser { get; set; }
     }

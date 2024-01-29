@@ -1,4 +1,4 @@
-﻿using BusinessLayer.Enum;
+﻿using BusinessLayer.Models.Enum;
 
 namespace TaskManager.Helpers
 {

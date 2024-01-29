@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BusinessLayer.Enum;
+using BusinessLayer.Models.Enum;
 using BusinessLayer.Models.Users.Request;
 using BusinessLayer.ServiceContract;
 using CustomExceptions.UserExceptions;
