@@ -28,5 +28,12 @@ namespace BusinessLayer.ServiceContract
         /// <param name="userLogin">user login for search user</param>
         /// <returns>returned user profile model with all information about user</returns>
         public Task<UserProfileModel> GetUserProfileAsync(string? userLogin);
+
+        /// <summary>
+        /// Method for update user profile and user application
+        /// </summary>
+        /// <param name="userProfileModel">User profile model with new data for update</param>
+        /// <returns>returned model with updated data</returns>
+        public Task<UserProfileModel> UpdateUserProfileAsync(UserProfileModel userProfileModel);
     }
 }

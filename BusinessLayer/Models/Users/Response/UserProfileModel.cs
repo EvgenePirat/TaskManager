@@ -22,8 +22,6 @@ namespace BusinessLayer.Models.Users.Response
 
         public int Age { get; set; }
 
-        public DateTime CreateAccount { get; set; }
-
         public DateTime DateOfBirth { get; set; }
 
         public string? UserName { get; set; }

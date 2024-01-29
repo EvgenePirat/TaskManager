@@ -8,7 +8,7 @@ using CustomExceptions.UserExceptions;
 using DataAccessLayer.Entities;
 using DataAccessLayer.IdentityEntities;
 using DataAccessLayer.RepositoryContract;
-using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
@@ -22,11 +22,11 @@ namespace BusinessLayer.ServiceImpl
         private readonly IUserProfileRepository _userProfileRepository;
         private readonly ILogger<UserService> _logger;
         private readonly IMapper _mapper;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly Microsoft.AspNetCore.Identity.RoleManager<ApplicationRole> _roleManager;
 
-        public UserService(IUserProfileRepository userProfileRepository, ILogger<UserService> logger, IMapper mapper, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager)
+        public UserService(IUserProfileRepository userProfileRepository, ILogger<UserService> logger, IMapper mapper, Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, Microsoft.AspNetCore.Identity.RoleManager<ApplicationRole> roleManager)
         {
             _userProfileRepository = userProfileRepository;
             _logger = logger;
@@ -62,7 +62,7 @@ namespace BusinessLayer.ServiceImpl
                 }
             };
 
-            IdentityResult result = await _userManager.CreateAsync(user, userRequest.Password);
+            Microsoft.AspNetCore.Identity.IdentityResult result = await _userManager.CreateAsync(user, userRequest.Password);
 
             if (result.Succeeded)
             {
@@ -144,18 +144,14 @@ namespace BusinessLayer.ServiceImpl
             if (userLogin == null)
                 throw new AuthorizationArgumentException("You need authorization in application");
 
-            var userApplication = await _userManager.FindByNameAsync(userLogin);
-            var userProfile = await _userProfileRepository.GetUserProfileByIdAsync(userApplication.Id);
-
-            if(userApplication == null || userProfile == null)
-                throw new AuthorizationArgumentException("You need authorization in application");
+            var userApplication = await _userManager.FindByNameAsync(userLogin) ?? throw new AuthorizationArgumentException("You need authorization in application"); ;
+            var userProfile = await _userProfileRepository.GetUserProfileByIdAsync(userApplication.Id) ?? throw new AuthorizationArgumentException("You need authorization in application"); ;  
 
             var userProfileModel = new UserProfileModel()
             {
                 Age = userProfile.Age,
                 City = userProfile.City,
                 Country = userProfile.Country,
-                CreateAccount = userProfile.CreateAccount,
                 DateOfBirth = userApplication.DateOfBirth,
                 Email = userApplication.Email,
                 Id = userApplication.Id,
@@ -166,7 +162,40 @@ namespace BusinessLayer.ServiceImpl
                 IsShowWeather = userProfile.IsShowWeather ?? false,  
             };
 
+            _logger.LogInformation("{service}.{method} - finish, get user profile by user login", nameof(UserService), nameof(GetUserProfileAsync));
+
             return userProfileModel;
+        }
+
+        public async Task<UserProfileModel> UpdateUserProfileAsync(UserProfileModel userProfileModel)
+        {
+            _logger.LogInformation("{service}.{method} - start, update user profile and user application", nameof(UserService), nameof(UpdateUserProfileAsync));
+
+            var mapperUserProfile = _mapper.Map<UserProfile>(userProfileModel);
+
+            mapperUserProfile.UserProfileId = userProfileModel.Id;
+
+            var updatedUserProfile = await _userProfileRepository.UpdateUserProfileAsync(mapperUserProfile);
+
+            var applicationUserForUpdate = await _userManager.FindByIdAsync(userProfileModel.Id.ToString()) ?? throw new AuthorizationArgumentException("You need authorization in application");
+
+            applicationUserForUpdate.UserName = userProfileModel.UserName;
+            applicationUserForUpdate.Email = userProfileModel.Email;
+            applicationUserForUpdate.DateOfBirth = userProfileModel.DateOfBirth;
+
+            var result = await _userManager.UpdateAsync(applicationUserForUpdate);
+
+            if (result.Succeeded)
+            {
+                _logger.LogInformation("{service}.{method} - finish, update user profile and user application", nameof(UserService), nameof(UpdateUserProfileAsync));
+                return userProfileModel;
+            }
+            else
+            {
+                _logger.LogError("{service}.{method} - We can not update application user", nameof(UserService), nameof(UpdateUserProfileAsync));
+                throw new UserArgumentException("We can not update application user");
+            }
+               
         }
     }
 }

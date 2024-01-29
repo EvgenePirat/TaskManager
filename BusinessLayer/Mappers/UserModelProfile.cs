@@ -24,6 +24,10 @@ namespace BusinessLayer.Mappers
             CreateMap<ApplicationUser, UserModel>();
 
             CreateMap<UserEnterModel, UserModel>();
+
+            CreateMap<UserProfileModel, UserProfile>();
+
+            CreateMap<UserProfileModel, ApplicationUser>();
         }
     }
 }
