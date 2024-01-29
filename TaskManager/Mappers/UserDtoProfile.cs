@@ -23,7 +23,7 @@ namespace TaskManager.Mappers
 
             CreateMap<UserProfileDto, UserProfileModel>()
                 .ForMember(dto => dto.Country, model => model.MapFrom(src => src.Country.ToString()))
-                .ForMember(dto => dto.Country, model => model.MapFrom(src => src.City.ToString()));
+                .ForMember(dto => dto.City, model => model.MapFrom(src => src.City.ToString()));
         }
     }
 }

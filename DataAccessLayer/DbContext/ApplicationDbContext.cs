@@ -14,7 +14,7 @@ namespace DataAccessLayer.DbContext
     {
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
-        public DbSet<UserProfile> Users { get; set; }
+        public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Entities.Task> Tasks { get; set; }
 

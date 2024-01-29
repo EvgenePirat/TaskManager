@@ -2,11 +2,6 @@
 using DataAccessLayer.Entities;
 using DataAccessLayer.RepositoryContract;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer.RepositoryImpl
 {
@@ -24,15 +19,15 @@ namespace DataAccessLayer.RepositoryImpl
 
         public async Task<UserProfile?> AddUserProfileAsync(UserProfile user)
         {
-            _context.Users.Add(user);
+            _context.UserProfiles.Add(user);
             await _context.SaveChangesAsync();
 
-            return await _context.Users.FirstOrDefaultAsync(temp => temp.UserProfileId == user.UserProfileId);
+            return await _context.UserProfiles.FirstOrDefaultAsync(temp => temp.UserProfileId == user.UserProfileId);
         }
 
         public async Task<UserProfile?> GetUserProfileByIdAsync(Guid userId)
         {
-            return await _context.Users.FirstOrDefaultAsync(temp => temp.UserProfileId == userId);
+            return await _context.UserProfiles.FirstOrDefaultAsync(temp => temp.UserProfileId == userId);
         }
 
         public async Task<UserProfile?> UpdateUserProfileAsync(UserProfile userProfile)
@@ -41,13 +36,13 @@ namespace DataAccessLayer.RepositoryImpl
 
             if (userProfileForUpdate != null)
             {
-                userProfileForUpdate.IsShowWeather = userProfileForUpdate.IsShowWeather;
-                userProfileForUpdate.NumberPhone = userProfileForUpdate.NumberPhone;
-                userProfileForUpdate.FirstName = userProfileForUpdate.FirstName;
-                userProfileForUpdate.LastName = userProfileForUpdate.LastName;
-                userProfileForUpdate.Age = userProfileForUpdate.Age;
-                userProfileForUpdate.City = userProfileForUpdate.City;
-                userProfileForUpdate.Country = userProfileForUpdate.Country;
+                userProfileForUpdate.IsShowWeather = userProfile.IsShowWeather;
+                userProfileForUpdate.NumberPhone = userProfile.NumberPhone;
+                userProfileForUpdate.FirstName = userProfile.FirstName;
+                userProfileForUpdate.LastName = userProfile.LastName;
+                userProfileForUpdate.Age = userProfile.Age;
+                userProfileForUpdate.City = userProfile.City;
+                userProfileForUpdate.Country = userProfile.Country;
 
                 _context.SaveChanges();
             }
