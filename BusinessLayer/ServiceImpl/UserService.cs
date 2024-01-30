@@ -170,9 +170,14 @@ namespace BusinessLayer.ServiceImpl
 
             var mapperUserProfile = _mapper.Map<UserProfile>(userProfileModel);
 
+            int age = DateTime.Today.Year - userProfileModel.DateOfBirth.Year;
+
             mapperUserProfile.UserProfileId = userProfileModel.Id;
+            mapperUserProfile.Age = age;
 
             var updatedUserProfile = await _userProfileRepository.UpdateUserProfileAsync(mapperUserProfile);
+
+            userProfileModel.Age = age;
 
             var applicationUserForUpdate = await _signInManager.UserManager.FindByIdAsync(userProfileModel.Id.ToString()) ?? throw new AuthorizationArgumentException("You need authorization in application");
 
