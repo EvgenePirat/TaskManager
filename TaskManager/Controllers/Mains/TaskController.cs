@@ -98,6 +98,17 @@ namespace TaskManager.Controllers.Mains
 
             mappedCategories = ColorCategoriesHelper.GenerateColorForCategory(mappedCategories);
 
+            var mappedWeatherUser = _mapper.Map<UserWeatherProfileDto>(await _userService.GetUserWeatherProfileAsync(userLogin));
+
+            if (mappedWeatherUser.IsShowWeather)
+            {
+                var weatherModel = await _weatherService.GetWeatherForUser(_mapper.Map<UserWeatherProfileModel>(mappedWeatherUser));
+
+                var mappedResult = _mapper.Map<WeatherDto>(weatherModel);
+
+                ViewBag.Weather = mappedResult;
+            }
+
             _logger.LogInformation("{controller}.{method} - finish, post change status task if find", nameof(TaskController), nameof(ChangeStatusTaskAsync));
 
             return View("Home", mappedCategories);
@@ -184,7 +195,10 @@ namespace TaskManager.Controllers.Mains
             TaskModel? taskModel = await _taskService.GetTaskByTitleAsync(titleTask, userLogin);
 
             if (taskModel == null)
-                throw new TaskArgumentException("Task not found!");
+            {
+
+            }
+                
 
             var mappedTask = _mapper.Map<TaskDto>(taskModel);
 
@@ -250,6 +264,17 @@ namespace TaskManager.Controllers.Mains
             var mappedCategories = _mapper.Map<List<CategoryDto>>(categories);
 
             mappedCategories = ColorCategoriesHelper.GenerateColorForCategory(mappedCategories);
+
+            var mappedWeatherUser = _mapper.Map<UserWeatherProfileDto>(await _userService.GetUserWeatherProfileAsync(userLogin));
+
+            if (mappedWeatherUser.IsShowWeather)
+            {
+                var weatherModel = await _weatherService.GetWeatherForUser(_mapper.Map<UserWeatherProfileModel>(mappedWeatherUser));
+
+                var mappedResult = _mapper.Map<WeatherDto>(weatherModel);
+
+                ViewBag.Weather = mappedResult;
+            }
 
             _logger.LogInformation("{controller}.{method} - finish post delete task if find", nameof(TaskController), nameof(AddNewTaskPost));
 
