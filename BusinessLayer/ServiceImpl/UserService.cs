@@ -8,7 +8,6 @@ using CustomExceptions.UserExceptions;
 using DataAccessLayer.Entities;
 using DataAccessLayer.IdentityEntities;
 using DataAccessLayer.RepositoryContract;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
@@ -22,16 +21,14 @@ namespace BusinessLayer.ServiceImpl
         private readonly IUserProfileRepository _userProfileRepository;
         private readonly ILogger<UserService> _logger;
         private readonly IMapper _mapper;
-        private readonly Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly Microsoft.AspNetCore.Identity.RoleManager<ApplicationRole> _roleManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
 
-        public UserService(IUserProfileRepository userProfileRepository, ILogger<UserService> logger, IMapper mapper, Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, Microsoft.AspNetCore.Identity.RoleManager<ApplicationRole> roleManager)
+        public UserService(IUserProfileRepository userProfileRepository, ILogger<UserService> logger, IMapper mapper, SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager)
         {
             _userProfileRepository = userProfileRepository;
             _logger = logger;
             _mapper = mapper;
-            _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
         }
@@ -62,19 +59,19 @@ namespace BusinessLayer.ServiceImpl
                 }
             };
 
-            Microsoft.AspNetCore.Identity.IdentityResult result = await _userManager.CreateAsync(user, userRequest.Password);
+            IdentityResult result = await _signInManager.UserManager.CreateAsync(user, userRequest.Password);
 
             if (result.Succeeded)
             {
                 if (userRequest.UserType == UserTypes.Admin)
                 {
                     await CheckExistRole(UserTypes.Admin);
-                    await _userManager.AddToRoleAsync(user, UserTypes.Admin.ToString());
+                    await _signInManager.UserManager.AddToRoleAsync(user, UserTypes.Admin.ToString());
                 }
                 else
                 {
                     await CheckExistRole(UserTypes.User);
-                    await _userManager.AddToRoleAsync(user, UserTypes.User.ToString());
+                    await _signInManager.UserManager.AddToRoleAsync(user, UserTypes.User.ToString());
                 }
 
                 await _signInManager.SignInAsync(user, false);
@@ -120,7 +117,7 @@ namespace BusinessLayer.ServiceImpl
 
                 if(result.Succeeded)
                 {
-                    var user = _userManager.Users.FirstOrDefault(temp => temp.UserName == userEnterRequest.UserName);
+                    var user = _signInManager.UserManager.Users.FirstOrDefault(temp => temp.UserName == userEnterRequest.UserName);
                     _logger.LogInformation("{service}.{method} - finish, enter in system", nameof(UserService), nameof(EnterInSystemAsync));
                     return _mapper.Map<UserModel>(user);
                 }
@@ -144,7 +141,7 @@ namespace BusinessLayer.ServiceImpl
             if (userLogin == null)
                 throw new AuthorizationArgumentException("You need authorization in application");
 
-            var userApplication = await _userManager.FindByNameAsync(userLogin) ?? throw new AuthorizationArgumentException("You need authorization in application"); ;
+            var userApplication = await _signInManager.UserManager.FindByNameAsync(userLogin) ?? throw new AuthorizationArgumentException("You need authorization in application"); ;
             var userProfile = await _userProfileRepository.GetUserProfileByIdAsync(userApplication.Id) ?? throw new AuthorizationArgumentException("You need authorization in application"); ;  
 
             var userProfileModel = new UserProfileModel()
@@ -177,13 +174,13 @@ namespace BusinessLayer.ServiceImpl
 
             var updatedUserProfile = await _userProfileRepository.UpdateUserProfileAsync(mapperUserProfile);
 
-            var applicationUserForUpdate = await _userManager.FindByIdAsync(userProfileModel.Id.ToString()) ?? throw new AuthorizationArgumentException("You need authorization in application");
+            var applicationUserForUpdate = await _signInManager.UserManager.FindByIdAsync(userProfileModel.Id.ToString()) ?? throw new AuthorizationArgumentException("You need authorization in application");
 
             applicationUserForUpdate.UserName = userProfileModel.UserName;
             applicationUserForUpdate.Email = userProfileModel.Email;
             applicationUserForUpdate.DateOfBirth = userProfileModel.DateOfBirth;
 
-            var result = await _userManager.UpdateAsync(applicationUserForUpdate);
+            var result = await _signInManager.UserManager.UpdateAsync(applicationUserForUpdate);
 
             if (result.Succeeded)
             {
@@ -196,6 +193,22 @@ namespace BusinessLayer.ServiceImpl
                 throw new UserArgumentException("We can not update application user");
             }
                
+        }
+
+        public async Task<bool> CheckIsShowWeatherForUser(string? userLogin)
+        {
+            _logger.LogInformation("{service}.{method} - start, check field isShowWeather for user", nameof(UserService), nameof(CheckIsShowWeatherForUser));
+
+            if (userLogin == null)
+                throw new AuthorizationArgumentException("You need authorization in application");
+
+            var applicationUser = await _signInManager.UserManager.FindByNameAsync(userLogin);
+
+            var userProfile = await _userProfileRepository.GetUserProfileByIdAsync(applicationUser.Id);
+
+            _logger.LogInformation("{service}.{method} - finish, check field isShowWeather for user", nameof(UserService), nameof(CheckIsShowWeatherForUser));
+
+            return userProfile?.IsShowWeather ?? false;
         }
     }
 }

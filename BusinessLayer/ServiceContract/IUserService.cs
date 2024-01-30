@@ -35,5 +35,12 @@ namespace BusinessLayer.ServiceContract
         /// <param name="userProfileModel">User profile model with new data for update</param>
         /// <returns>returned model with updated data</returns>
         public Task<UserProfileModel> UpdateUserProfileAsync(UserProfileModel userProfileModel);
+
+        /// <summary>
+        /// Method for chec field isShowWeather for user
+        /// </summary>
+        /// <param name="userLogin">login user for search</param>
+        /// <returns>returned true or false</returns>
+        public Task<bool> CheckIsShowWeatherForUser(string? userLogin);
     }
 }

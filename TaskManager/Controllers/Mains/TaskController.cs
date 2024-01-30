@@ -25,19 +25,18 @@ namespace TaskManager.Controllers.Mains
     public class TaskController : Controller
     {
         private readonly ICategoryService _categoryService;
-
         private readonly ITaskService _taskService;
-
         private readonly ILogger<TaskController> _logger;
-
         private readonly IMapper _mapper;
+        private readonly IUserService _userService;
 
-        public TaskController(ICategoryService categoryService, ITaskService taskService, ILogger<TaskController> logger, IMapper mapper)
+        public TaskController(IUserService userService, ICategoryService categoryService, ITaskService taskService, ILogger<TaskController> logger, IMapper mapper)
         {
             _categoryService = categoryService;
             _taskService = taskService;
             _logger = logger;
             _mapper = mapper;
+            _userService = userService;
         }
 
         /// <summary>
@@ -56,6 +55,8 @@ namespace TaskManager.Controllers.Mains
             var mappedCategories = _mapper.Map<List<CategoryDto>>(categories);
 
             mappedCategories = ColorCategoriesHelper.GenerateColorForCategory(mappedCategories);
+
+            var isShowWeather = _userService.CheckIsShowWeatherForUser(userLogin);
 
             _logger.LogInformation("{controller}.{method} - Get home page, finish", nameof(TaskController), nameof(Home));
 
