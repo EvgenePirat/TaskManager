@@ -136,9 +136,15 @@ namespace BusinessLayer.ServiceImpl
 
             if (task != null)
             {
+                var mappedTask = _mapper.Map<TaskModel>(task);
+
+                TimeSpan timeUntilFinish = mappedTask.FinishTime - DateTime.Now;
+
+                mappedTask.DaysLeft = timeUntilFinish.Days;
+
                 _logger.LogInformation("{service}.{method} - finish get all task for categories in service layer", nameof(TaskService), nameof(GetTaskByIdAsync));
 
-                return _mapper.Map<TaskModel>(task);
+                return mappedTask;
             }
             else
             {
@@ -159,6 +165,13 @@ namespace BusinessLayer.ServiceImpl
             var listAllTasks = categories.SelectMany(temp => temp.Tasks).ToList();
 
             var taskResult = listAllTasks.FirstOrDefault(temp => temp.Title == titleTask);
+
+            if(taskResult != null)
+            {
+                TimeSpan timeUntilFinish = taskResult.FinishTime - DateTime.Now;
+
+                taskResult.DaysLeft = timeUntilFinish.Days;
+            }
 
             _logger.LogInformation("{service}.{method} - finish, get task by title for user in service layer", nameof(TaskService), nameof(GetTaskByIdAsync));
 

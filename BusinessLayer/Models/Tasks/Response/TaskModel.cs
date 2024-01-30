@@ -22,6 +22,8 @@ namespace BusinessLayer.Models.Tasks.Response
 
         public DateTime FinishTime { get; set; }
 
+        public int DaysLeft { get; set; }
+
         public Status Status { get; set; }
 
         public Category? Category { get; set; }

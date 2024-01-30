@@ -16,6 +16,8 @@ namespace TaskManager.Dto.Tasks.Response
 
         public DateTime FinishTime { get; set; }
 
+        public int DaysLeft { get; set; }
+
         public StatusTask Status { get; set; }
 
         public Category? Category { get; set; }
