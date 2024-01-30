@@ -128,22 +128,25 @@
         </div>
     </main>
     <aside class='task-details'>
-        <div class='tag-progress'>
-            <h2>Task Progress</h2>
-            @foreach (CategoryDto category in Model)
-            {
-                var countDoneTasks = category.Tasks?.Where(temp => temp.Status == StatusTask.Done).Count();
-                var countTask = @category.Tasks?.Where(temp => temp.Status != StatusTask.Overdue).Count();
-
-                if ((countTask + countDoneTasks) != 0)
+        @if(Model.Count() != 0)
+        {
+            <div class='tag-progress'>
+                <h2>Task Progress</h2>
+                @foreach (CategoryDto category in Model)
                 {
-                    <div class='tag-progress'>
-                        <p>@category.Name <span>@countDoneTasks/@countTask</span></p>
-                        <progress class="progress" style="background-color:@category.Color" max="@countTask" value="@countDoneTasks"> @countDoneTasks </progress>
-                    </div>
+                    var countDoneTasks = category.Tasks?.Where(temp => temp.Status == StatusTask.Done).Count();
+                    var countTask = @category.Tasks?.Where(temp => temp.Status != StatusTask.Overdue).Count();
+
+                    if ((countTask + countDoneTasks) != 0)
+                    {
+                        <div class='tag-progress'>
+                            <p>@category.Name <span>@countDoneTasks/@countTask</span></p>
+                            <progress class="progress" style="background-color:@category.Color" max="@countTask" value="@countDoneTasks"> @countDoneTasks </progress>
+                        </div>
+                    }
                 }
-            }
-        </div>
+            </div>
+        }
 
         @if(ViewBag.Weather != null)
         {
