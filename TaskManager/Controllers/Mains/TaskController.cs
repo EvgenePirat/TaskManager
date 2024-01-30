@@ -84,9 +84,9 @@ namespace TaskManager.Controllers.Mains
         /// <param name="taskId">task if for search task</param>
         /// <returns>returned home page with update task</returns>
         [HttpPost("[action]")]
-        public async Task<IActionResult> ChangeStatusTaskAsync(Status newStatus, Guid taskId)
+        public async Task<IActionResult> ChangeStatusTask(Status newStatus, Guid taskId)
         {
-            _logger.LogInformation("{controller}.{method} - start, post change status task if find", nameof(TaskController), nameof(ChangeStatusTaskAsync));
+            _logger.LogInformation("{controller}.{method} - start, post change status task if find", nameof(TaskController), nameof(ChangeStatusTask));
 
             await _taskService.ChangeStatusForTask(newStatus, taskId);
 
@@ -109,9 +109,9 @@ namespace TaskManager.Controllers.Mains
                 ViewBag.Weather = mappedResult;
             }
 
-            _logger.LogInformation("{controller}.{method} - finish, post change status task if find", nameof(TaskController), nameof(ChangeStatusTaskAsync));
+            _logger.LogInformation("{controller}.{method} - finish, post change status task if find", nameof(TaskController), nameof(ChangeStatusTask));
 
-            return View("Home", mappedCategories);
+            return RedirectToAction("Home", "Task");
         }
 
         /// <summary>
@@ -133,7 +133,10 @@ namespace TaskManager.Controllers.Mains
 
             var mappedCategories = _mapper.Map<List<CategoryDto>>(categories);
 
-            ViewBag.Categories = mappedCategories.Select(temp => new SelectListItem() { Text = temp.Name, Value = temp.Id.ToString() });
+            var itemCategories = mappedCategories.Select(temp => new SelectListItem() { Text = temp.Name, Value = temp.Id.ToString() });
+
+            ViewBag.Categories = itemCategories;
+            ViewBag.CountCategories = itemCategories.Count();
 
             _logger.LogInformation("{controller}.{method} - Get add new task page, finish", nameof(TaskController), nameof(AddNewTask));
 
@@ -278,7 +281,7 @@ namespace TaskManager.Controllers.Mains
 
             _logger.LogInformation("{controller}.{method} - finish post delete task if find", nameof(TaskController), nameof(AddNewTaskPost));
 
-            return View("Home", mappedCategories);
+            return RedirectToAction("Home", "Task");
         }
 
         /// <summary>

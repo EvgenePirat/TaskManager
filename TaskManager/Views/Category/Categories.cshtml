@@ -15,7 +15,7 @@
             <div class="table-category">
                 @if (ViewBag.Categories.Count == 0)
                 {
-                    <p>You not have category</p>
+                    <p>You not have categories</p>
                 }
                 else
                 {
@@ -59,7 +59,7 @@
                 <input asp-for="@Model.categoryUpdateDto.NewName" placeholder="New Name" />
 
                 <div class="form-field">
-                    <button type="button" onclick="closeEditPopup()" class="btn-reg">Cancel</button>
+                <button type="button" onclick="closeEditPopup()" class="btn-cnl">Cancel</button>
                     <button type="submit" class="btn">Update</button>
                 </div>
         </form>

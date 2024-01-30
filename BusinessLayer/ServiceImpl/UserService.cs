@@ -176,11 +176,16 @@ namespace BusinessLayer.ServiceImpl
 
             var applicationUserForUpdate = await _signInManager.UserManager.FindByIdAsync(userProfileModel.Id.ToString()) ?? throw new AuthorizationArgumentException("You need authorization in application");
 
+            string currentUserName = applicationUserForUpdate.UserName;
+
             applicationUserForUpdate.UserName = userProfileModel.UserName;
             applicationUserForUpdate.Email = userProfileModel.Email;
             applicationUserForUpdate.DateOfBirth = userProfileModel.DateOfBirth;
 
             var result = await _signInManager.UserManager.UpdateAsync(applicationUserForUpdate);
+
+            if(currentUserName != applicationUserForUpdate.UserName)
+                await _signInManager.SignInAsync(applicationUserForUpdate, false);
 
             if (result.Succeeded)
             {

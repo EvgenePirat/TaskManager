@@ -32,7 +32,8 @@ body {
     background-size: cover;
     width: 96%;
     margin-left: 4%;
-    min-height: 110vh;
+    min-height: 100vh;
+    overflow-y: auto;
 }
 
 h1 {
@@ -44,7 +45,6 @@ h1 {
     max-width: 75%;
     width: 100%;
     display: inline-block;
-    overflow-y: auto;
 }
 
 .mainmenubtn {
@@ -107,16 +107,16 @@ h1 {
 .project-info {
     padding: 2rem 0;
     display: flex;
-    margin-left: 55px;
+    margin-left: 5%;
     width: 95%;
     justify-content: space-between;
     align-items: center;
 }
 
-.project-participants {
-    display: flex;
-    align-items: center;
-}
+    .project-participants {
+        display: flex;
+        align-items: center;
+    }
 
     .project-participants span, .project-participants__add {
         width: 30px;
@@ -261,11 +261,11 @@ h1 {
 
 .task-details {
     width: 24%;
-    border-left: 1px solid #2e2e2f;
     display: inline-block;
     height: 100%;
     vertical-align: top;
     padding: 3rem 2rem;
+    padding-top: 100px;
 }
 
 .tag-progress {
@@ -273,7 +273,7 @@ h1 {
 }
 
     .tag-progress h2 {
-        font-size: 16px;
+        font-size: 20px;
         margin-bottom: 1rem;
     }
 

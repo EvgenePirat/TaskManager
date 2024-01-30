@@ -36,6 +36,11 @@
 
             <div>
 
+                @if (ViewBag.CountCategories == 0)
+                {
+                    <strong style="color:red;">You need at first add category before create task</strong>
+                }
+
                 <strong><span asp-validation-for="Title" style="color:red;"></span></strong>
 
                 @if (ViewBag.Errors != null)
