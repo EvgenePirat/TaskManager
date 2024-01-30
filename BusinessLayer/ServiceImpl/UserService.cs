@@ -195,9 +195,9 @@ namespace BusinessLayer.ServiceImpl
                
         }
 
-        public async Task<bool> CheckIsShowWeatherForUser(string? userLogin)
+        public async Task<UserWeatherProfileModel> GetUserWeatherProfileAsync(string? userLogin)
         {
-            _logger.LogInformation("{service}.{method} - start, check field isShowWeather for user", nameof(UserService), nameof(CheckIsShowWeatherForUser));
+            _logger.LogInformation("{service}.{method} - start, check field isShowWeather for user", nameof(UserService), nameof(GetUserWeatherProfileAsync));
 
             if (userLogin == null)
                 throw new AuthorizationArgumentException("You need authorization in application");
@@ -206,9 +206,17 @@ namespace BusinessLayer.ServiceImpl
 
             var userProfile = await _userProfileRepository.GetUserProfileByIdAsync(applicationUser.Id);
 
-            _logger.LogInformation("{service}.{method} - finish, check field isShowWeather for user", nameof(UserService), nameof(CheckIsShowWeatherForUser));
+            var result = new UserWeatherProfileModel()
+            {
+                Id = applicationUser.Id,
+                City = userProfile?.City,
+                Country = userProfile?.Country,
+                IsShowWeather = userProfile?.IsShowWeather ?? false
+            };
 
-            return userProfile?.IsShowWeather ?? false;
+            _logger.LogInformation("{service}.{method} - finish, check field isShowWeather for user", nameof(UserService), nameof(GetUserWeatherProfileAsync));
+
+            return result;
         }
     }
 }

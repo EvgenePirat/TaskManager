@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using TaskManager.Dto.Categories.Response;
 using TaskManager.Dto.Tasks.Request;
 using TaskManager.Dto.Tasks.Response;
+using TaskManager.Dto.Users.Response;
 using TaskManager.Filteres.ActionFilter.TaskFilteres;
 using TaskManager.Filteres.ErrorFilteres.TaskErrorFilteres;
 using TaskManager.Helpers;
@@ -56,7 +57,12 @@ namespace TaskManager.Controllers.Mains
 
             mappedCategories = ColorCategoriesHelper.GenerateColorForCategory(mappedCategories);
 
-            var isShowWeather = _userService.CheckIsShowWeatherForUser(userLogin);
+            var mappedWeatherUser = _mapper.Map<UserWeatherProfileDto>(await _userService.GetUserWeatherProfileAsync(userLogin));
+
+            if (mappedWeatherUser.IsShowWeather)
+            {
+
+            }
 
             _logger.LogInformation("{controller}.{method} - Get home page, finish", nameof(TaskController), nameof(Home));
 

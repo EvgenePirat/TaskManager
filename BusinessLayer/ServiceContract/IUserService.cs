@@ -41,6 +41,6 @@ namespace BusinessLayer.ServiceContract
         /// </summary>
         /// <param name="userLogin">login user for search</param>
         /// <returns>returned true or false</returns>
-        public Task<bool> CheckIsShowWeatherForUser(string? userLogin);
+        public Task<UserWeatherProfileModel> GetUserWeatherProfileAsync(string? userLogin);
     }
 }
