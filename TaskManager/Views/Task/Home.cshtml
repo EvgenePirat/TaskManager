@@ -145,9 +145,91 @@
             }
         </div>
 
-        <div icon="sunny" data-label="Sunny">
-            <span class="sun"></span>
-        </div>
+        @if(ViewBag.Weather != null)
+        {
+            WeatherDto weather = ViewBag.Weather;
+
+            if (weather.Description.Contains("clouds"))
+            {
+                <div icon="cloudy">
+                    <span class="cloud"></span>
+                    <span class="cloud"></span>
+                </div>
+                <div id="weather_text">
+                    <h3>@weather.Description</h3>
+                    <h3>@weather.Temperature 'C</h3>
+                    <h3>@weather.City</h3>
+                </div>
+            }
+            else if (weather.Description.Contains("rain"))
+            {
+                <div icon="stormy" data-label="@weather.Description">
+                    <span class="cloud"></span>
+                    <ul>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </div>
+                <div id="weather_text">
+                    <h3>@weather.Description</h3>
+                    <h3>@weather.Temperature 'C</h3>
+                    <h3>@weather.City</h3>
+                </div>
+            }
+            else if (weather.Description.Contains("snow"))
+            {
+                <div icon="snowy" data-label="@weather.Description">
+                    <span class="snowman"></span>
+                    <ul>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </div>
+                <div id="weather_text">
+                    <h3>@weather.Description</h3>
+                    <h3>@weather.Temperature 'C</h3>
+                    <h3>@weather.City</h3>
+                </div>
+            }
+            else if (weather.Description.Contains("mist") || weather.Description.Contains("fog"))
+            {
+                <div icon="supermoon" data-label="@weather.Description">
+                    <span class="moon"></span>
+                    <span class="meteor"></span>
+                </div>
+                <div id="weather_text">
+                    <h3>@weather.Description</h3>
+                    <h3>@weather.Temperature 'C</h3>
+                    <h3>@weather.City</h3>
+                </div>
+            }
+            else
+            {
+                <div icon="sunny" data-label="@weather.Description">
+                    <span class="sun"></span>
+                </div>
+                <div id="weather_text">
+                    <h3>@weather.Description</h3>
+                    <h3>@weather.Temperature 'C</h3>
+                    <h3>@weather.City</h3>
+                </div>
+            }
+        }
+
     </aside>
 </div>
 

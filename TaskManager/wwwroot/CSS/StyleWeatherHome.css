@@ -79,6 +79,17 @@
     --blend-dir: bottom right;
 }
 
+#weather_text {
+    margin-top: -40px;
+    background-color: white;
+    text-align: center;
+    width: 70%;
+    margin-left: 10%;
+    opacity: 0.9;
+    border-radius: 18px;
+    text-transform: capitalize;
+}
+
 /* SUNNY */
 /* --------------------- */
 .sun {

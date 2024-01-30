@@ -22,6 +22,8 @@ namespace TaskManager.StartupConfigure
 
                 cfg.AddProfile(new ContactDtoProfile());
 
+                cfg.AddProfile(new WeatherDtoProfile());
+
             })).SingleInstance();
 
             builder.Register(c => c.Resolve<MapperConfiguration>().CreateMapper())

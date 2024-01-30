@@ -17,6 +17,8 @@ namespace TaskManager.Mappers
 
             CreateMap<UserWeatherProfileModel, UserWeatherProfileDto>();
 
+            CreateMap<UserWeatherProfileDto, UserWeatherProfileModel>();
+
             CreateMap<UserAddDto, UserAddModel>();
 
             CreateMap<UserProfileModel, UserProfileDto>()

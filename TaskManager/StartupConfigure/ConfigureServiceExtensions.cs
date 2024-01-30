@@ -33,7 +33,11 @@ namespace TaskManager.StartupConfigure
             services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<IContactService, ContactService>();
             services.AddScoped<IRemoteValidationService, RemoteValidationService>();
+            services.AddScoped<IWeatherService, WeatherService>();
             services.AddControllersWithViews();
+
+            //set http client
+            services.AddHttpClient("OpenWeather");
 
             //registration our schedule service
             services.AddHostedService<TaskSchedulerService>();

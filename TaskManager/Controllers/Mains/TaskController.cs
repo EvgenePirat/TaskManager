@@ -3,6 +3,7 @@ using BusinessLayer.Models.Categories.Response;
 using BusinessLayer.Models.Enum;
 using BusinessLayer.Models.Tasks.Request;
 using BusinessLayer.Models.Tasks.Response;
+using BusinessLayer.Models.Users.Response;
 using BusinessLayer.ServiceContract;
 using CustomExceptions.TaskExceptions;
 using Microsoft.AspNetCore.Authorization;
@@ -12,6 +13,7 @@ using TaskManager.Dto.Categories.Response;
 using TaskManager.Dto.Tasks.Request;
 using TaskManager.Dto.Tasks.Response;
 using TaskManager.Dto.Users.Response;
+using TaskManager.Dto.Weather.Response;
 using TaskManager.Filteres.ActionFilter.TaskFilteres;
 using TaskManager.Filteres.ErrorFilteres.TaskErrorFilteres;
 using TaskManager.Helpers;
@@ -30,14 +32,16 @@ namespace TaskManager.Controllers.Mains
         private readonly ILogger<TaskController> _logger;
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
+        private readonly IWeatherService _weatherService;
 
-        public TaskController(IUserService userService, ICategoryService categoryService, ITaskService taskService, ILogger<TaskController> logger, IMapper mapper)
+        public TaskController(IUserService userService, ICategoryService categoryService, ITaskService taskService, ILogger<TaskController> logger, IMapper mapper, IWeatherService weatherService)
         {
             _categoryService = categoryService;
             _taskService = taskService;
             _logger = logger;
             _mapper = mapper;
             _userService = userService;
+            _weatherService = weatherService;
         }
 
         /// <summary>
@@ -61,7 +65,11 @@ namespace TaskManager.Controllers.Mains
 
             if (mappedWeatherUser.IsShowWeather)
             {
+                var weatherModel = await _weatherService.GetWeatherForUser(_mapper.Map<UserWeatherProfileModel>(mappedWeatherUser));
+                
+                var mappedResult = _mapper.Map<WeatherDto>(weatherModel);
 
+                ViewBag.Weather = mappedResult;
             }
 
             _logger.LogInformation("{controller}.{method} - Get home page, finish", nameof(TaskController), nameof(Home));
