@@ -58,9 +58,10 @@ namespace TaskManager.Controllers.Authorization
         {
             _logger.LogInformation("{controller}.{method} - start post user for enter in system", nameof(AccountController), nameof(Registration));
 
-            string errorMessage = HttpContext.Request.Query["error"].ToString();
-            if (errorMessage.Length > 0)
-                ViewBag.Errors = new List<string> { errorMessage };
+            var errorMessages = HttpContext.Request.Query["error"];
+
+            if (errorMessages.Count > 0)
+                ViewBag.Errors = errorMessages;
 
             List<RoleTypes> allRoles = Enum.GetValues(typeof(RoleTypes)).Cast<RoleTypes>().ToList();
 

@@ -4,6 +4,7 @@ using BusinessLayer.ServiceContract;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
+using System.Data;
 using TaskManager.Controllers.Authorization;
 
 namespace TaskManager.Filteres.ActionFilter.UserFilters
@@ -39,22 +40,27 @@ namespace TaskManager.Filteres.ActionFilter.UserFilters
                     accountController.ViewBag.Roles = allRoles.ConvertAll(role => new SelectListItem { Value = ((int)role).ToString(), Text = role.ToString() });
 
                     errorMessages = context.ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
-
-                    accountController.ViewBag.Errors = errorMessages;
-                    context.Result = accountController.View("Registration");
-                    return;
                 }
 
-                var formCollection = context.HttpContext.Request.Form;
-
-                if (formCollection["UserType"] == "Unknown")
+                if (context.HttpContext.Request.Path.Value.Contains("Registration"))
                 {
-                    errorMessages.Add("Please, choose your role");
+                    var formCollection = context.HttpContext.Request.Form;
 
-                    accountController.ViewBag.Errors = errorMessages;
-                    context.Result = accountController.View("Registration");
+                    if (formCollection["UserType"] == "Unknown")
+                        errorMessages.Add("Please, choose your role");
+
+                    var age = DateTime.Now.Year - DateTime.Parse(formCollection["DateOfBirth"]).Year;
+
+                    if (age < 14 || age > 99)
+                        errorMessages.Add("Your age can more 14 but less then 99");
+                }
+
+                if(errorMessages.Count > 0)
+                {
+                    context.Result = accountController.RedirectToAction("Registration", "Account", new { error = errorMessages });
                     return;
                 }
+                
             }
 
             await next();

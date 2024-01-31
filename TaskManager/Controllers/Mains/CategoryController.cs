@@ -36,9 +36,9 @@ namespace TaskManager.Controllers.Mains
         {
             _logger.LogInformation("{controller}.{method} - Get add new category page, start", nameof(CategoryController), nameof(Categories));
 
-            string errorMessage = HttpContext.Request.Query["error"].ToString();
-            if (errorMessage.Length > 0)
-                ViewBag.Errors = new List<string> { errorMessage };
+            var errorMessages = HttpContext.Request.Query["error"];
+            if (errorMessages.Count > 0)
+                ViewBag.Errors = new List<string> { errorMessages };
 
             string? userLogin = User.Identity?.Name;
 
