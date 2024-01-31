@@ -31,9 +31,10 @@ namespace TaskManager.Filteres.ActionFilter.UserFilters
             if (context.Controller is AccountController accountController)
             {
                 List<string> errorMessages = new List<string>();
+
                 if (!context.ModelState.IsValid)
                 {
-                    List<UserTypes> allRoles = Enum.GetValues(typeof(UserTypes)).Cast<UserTypes>().ToList();
+                    List<RoleTypes> allRoles = Enum.GetValues(typeof(RoleTypes)).Cast<RoleTypes>().ToList();
 
                     accountController.ViewBag.Roles = allRoles.ConvertAll(role => new SelectListItem { Value = ((int)role).ToString(), Text = role.ToString() });
 
@@ -41,12 +42,22 @@ namespace TaskManager.Filteres.ActionFilter.UserFilters
 
                     accountController.ViewBag.Errors = errorMessages;
                     context.Result = accountController.View("Registration");
+                    return;
                 }
-                else
-                    await next();
+
+                var formCollection = context.HttpContext.Request.Form;
+
+                if (formCollection["UserType"] == "Unknown")
+                {
+                    errorMessages.Add("Please, choose your role");
+
+                    accountController.ViewBag.Errors = errorMessages;
+                    context.Result = accountController.View("Registration");
+                    return;
+                }
             }
-            else
-                await next();
+
+            await next();
         }
     }
 }

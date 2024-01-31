@@ -62,7 +62,7 @@ namespace TaskManager.Controllers.Authorization
             if (errorMessage.Length > 0)
                 ViewBag.Errors = new List<string> { errorMessage };
 
-            List<UserTypes> allRoles = Enum.GetValues(typeof(UserTypes)).Cast<UserTypes>().ToList();
+            List<RoleTypes> allRoles = Enum.GetValues(typeof(RoleTypes)).Cast<RoleTypes>().ToList();
 
             ViewBag.Roles = allRoles.ConvertAll(role => new SelectListItem { Value = ((int)role).ToString(), Text = role.ToString() });
 

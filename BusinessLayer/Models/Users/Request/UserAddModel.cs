@@ -20,6 +20,6 @@ namespace BusinessLayer.Models.Users.Request
 
         public DateTime DateOfBirth { get; set; }
 
-        public UserTypes UserType { get; set; } = UserTypes.User;
+        public RoleTypes UserType { get; set; } = RoleTypes.User;
     }
 }

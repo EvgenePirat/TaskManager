@@ -1,6 +1,5 @@
-﻿using BusinessLayer.Models.Enum;
-using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using TaskManager.Dto.Enums;
 
 namespace TaskManager.Dto.Users.Request
 {
@@ -29,6 +28,6 @@ namespace TaskManager.Dto.Users.Request
         [Required(ErrorMessage = "Date of birth can't be blank")]
         public DateTime DateOfBirth { get; set; }
 
-        public UserTypes UserType { get; set; } = UserTypes.User;
+        public RoleTypes UserType { get; set; } = RoleTypes.User;
     }
 }

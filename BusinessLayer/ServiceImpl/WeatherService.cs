@@ -37,7 +37,10 @@ namespace BusinessLayer.ServiceImpl
             {
                 string jsonResult = await response.Content.ReadAsStringAsync();
 
-                WeatherResponse weatherResponse = JsonConvert.DeserializeObject<WeatherResponse>(jsonResult);
+                WeatherResponse? weatherResponse = JsonConvert.DeserializeObject<WeatherResponse>(jsonResult);
+
+                if (weatherResponse == null)
+                    throw new WeatherArgumentException("Get error from web api open weather. Try later");
 
                 var weatherModel = new WeatherModel()
                 {

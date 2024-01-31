@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Models.Enum
 {
-    public enum UserTypes
+    public enum RoleTypes
     {
         User,
         Admin

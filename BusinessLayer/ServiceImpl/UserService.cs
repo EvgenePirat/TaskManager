@@ -63,15 +63,15 @@ namespace BusinessLayer.ServiceImpl
 
             if (result.Succeeded)
             {
-                if (userRequest.UserType == UserTypes.Admin)
+                if (userRequest.UserType == RoleTypes.Admin)
                 {
-                    await CheckExistRole(UserTypes.Admin);
-                    await _signInManager.UserManager.AddToRoleAsync(user, UserTypes.Admin.ToString());
+                    await CheckExistRole(RoleTypes.Admin);
+                    await _signInManager.UserManager.AddToRoleAsync(user, RoleTypes.Admin.ToString());
                 }
                 else
                 {
-                    await CheckExistRole(UserTypes.User);
-                    await _signInManager.UserManager.AddToRoleAsync(user, UserTypes.User.ToString());
+                    await CheckExistRole(RoleTypes.User);
+                    await _signInManager.UserManager.AddToRoleAsync(user, RoleTypes.User.ToString());
                 }
 
                 await _signInManager.SignInAsync(user, false);
@@ -92,7 +92,7 @@ namespace BusinessLayer.ServiceImpl
             return _mapper.Map<UserModel>(user);
         }
 
-        private async Task<bool> CheckExistRole(UserTypes userTypes)
+        private async Task<bool> CheckExistRole(RoleTypes userTypes)
         {
             if (await _roleManager.FindByNameAsync(userTypes.ToString()) is null)
             {
@@ -232,9 +232,9 @@ namespace BusinessLayer.ServiceImpl
         public async System.Threading.Tasks.Task LogoutFromSystemAsync()
         {
             _logger.LogInformation("{service}.{method} - start, logout from system in service layer", nameof(UserService), nameof(LogoutFromSystemAsync));
-            
+
             await _signInManager.SignOutAsync();
-            
+
             _logger.LogInformation("{service}.{method} - finish, logout from system in service layer", nameof(UserService), nameof(LogoutFromSystemAsync));
         }
     }
