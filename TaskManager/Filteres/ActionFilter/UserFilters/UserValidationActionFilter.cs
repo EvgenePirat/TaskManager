@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using TaskManager.Controllers.Mains;
+using TaskManager.Dto.Users.Response;
 using TaskManager.Filteres.ActionFilter.TaskFilteres;
 
 namespace TaskManager.Filteres.ActionFilter.UserFilters
@@ -33,6 +34,18 @@ namespace TaskManager.Filteres.ActionFilter.UserFilters
                         userController.ViewBag.Errors = errorMessages;
                         context.Result = userController.View("UserProfileSetting");
                         return;
+                    }
+
+                    var formCollection = context.HttpContext.Request.Form;
+
+                    string country = formCollection["Country"];
+                    string city = formCollection["City"];
+                    bool isShowWeather = formCollection["IsShowWeather"].Contains("true");
+
+                    if((isShowWeather == true) && (country == "Unknown" || city == "Unknown"))
+                    {
+                        errorMessages.Add("For show weather you need choose country and city");
+                        userController.ViewBag.Errors = errorMessages;
                     }
                 }
             }

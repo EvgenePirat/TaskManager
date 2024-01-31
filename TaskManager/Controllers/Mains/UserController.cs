@@ -68,6 +68,14 @@ namespace TaskManager.Controllers.Mains
         {
             _logger.LogInformation("{controller}.{method} - Post user profile for update, start", nameof(UserController), nameof(UserProfileSetting));
 
+            if(ViewBag.Errors != null)
+            {
+                ViewBag.Cities = Enum.GetNames(typeof(Cities)).ToList();
+                ViewBag.Countries = Enum.GetNames(typeof(Countries)).ToList();
+
+                return View("UserProfileSetting", userProfileDto);
+            }
+                
             var mappedModel = _mapper.Map<UserProfileModel>(userProfileDto);
 
             var modelResult = await _userService.UpdateUserProfileAsync(mappedModel);

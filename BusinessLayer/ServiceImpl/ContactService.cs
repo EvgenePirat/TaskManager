@@ -12,7 +12,7 @@ namespace BusinessLayer.ServiceImpl
     public class ContactService : IContactService
     {
         private readonly string? _systemEmail = "y.y.brekhunchenko@student.khai.edu";
-        private readonly string? _systempPassword = "EvgeneMaks2002";
+        private readonly string? _systemPassword = "I need think how make for git";
         private readonly int _systemPost = 587;
         private readonly string? _systemHost = "smtp.gmail.com";
         private readonly bool _systemUseSql = false;
@@ -41,7 +41,7 @@ namespace BusinessLayer.ServiceImpl
                 using (var client = new SmtpClient())
                 {
                     await client.ConnectAsync(_systemHost, _systemPost, _systemUseSql);
-                    await client.AuthenticateAsync(_systemEmail, _systempPassword);
+                    await client.AuthenticateAsync(_systemEmail, _systemPassword);
                     await client.SendAsync(mensaje);
                     await client.DisconnectAsync(true);
                 }

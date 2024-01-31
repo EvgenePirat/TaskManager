@@ -197,9 +197,10 @@ namespace TaskManager.Controllers.Mains
 
             TaskModel? taskModel = await _taskService.GetTaskByTitleAsync(titleTask, userLogin);
 
+            //i need add logic if not found task
             if (taskModel == null)
             {
-
+                
             }
                 
 
