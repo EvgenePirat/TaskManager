@@ -27,10 +27,14 @@ namespace TaskManager
             builder.Services.ConfigureService(builder.Configuration);
 
             var app = builder.Build();
-
+            
             app.UseExceptionHandler("/Error");
             app.UseExceptionHandingMiddleware();
             app.UseSerilogRequestLogging();
+
+            app.UseHsts();
+            app.UseHttpsRedirection();
+
             app.UseHttpLogging();
             app.UseStaticFiles();
             app.UseRouting();

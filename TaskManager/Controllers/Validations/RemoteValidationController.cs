@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace TaskManager.Controllers.Mains
+namespace TaskManager.Controllers.Validations
 {
     /// <summary>
     /// Controller for remote validation any data in application

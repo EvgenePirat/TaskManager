@@ -24,6 +24,12 @@ namespace TaskManager.StartupConfigure
         /// <returns>returned IServiceCollection with all options</returns>
         public static IServiceCollection ConfigureService(this IServiceCollection services, IConfiguration configuration)
         {
+            //set https
+            services.AddHttpsRedirection(options =>
+            {
+                options.HttpsPort = 443;
+            });
+
             //set link for DI
             services.AddScoped<IUserProfileRepository, UserProfileRepository>();
             services.AddScoped<IUserService, UserService>();
