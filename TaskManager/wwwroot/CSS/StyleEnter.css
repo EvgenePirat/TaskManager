@@ -1,14 +1,13 @@
 @import url("https://fonts.googleapis.com/css?family=Lato:400,700");
 
 #bg {
-    background-image: url('/Pictures/backround-enter.jpg');
+    background-image: url('/Pictures/backround_enter_pro.jpg');
     position: fixed;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     background-size: cover;
-    filter: blur(5px);
 }
 
 body {
@@ -94,4 +93,5 @@ form {
     form a {
         text-decoration: none;
         color: inherit;
+        margin-left: 5%;
     }
