@@ -48,5 +48,11 @@ namespace BusinessLayer.ServiceContract
         /// </summary>
         public Task LogoutFromSystemAsync();
 
+        /// <summary>
+        /// Method for delete application user
+        /// </summary>
+        /// <param name="id">guid id for search and delete user</param>
+        public Task<bool> DeleteUserById(Guid id);
+
     }
 }

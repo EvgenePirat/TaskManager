@@ -66,5 +66,15 @@ namespace TaskManager.Controllers.Mains
 
             return View("Feedback");
         }
+
+        /// <summary>
+        /// Method for get page about application
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public IActionResult AboutApplication()
+        {
+            return View("About");
+        }
     }
 }

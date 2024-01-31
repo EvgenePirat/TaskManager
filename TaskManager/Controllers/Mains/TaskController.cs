@@ -305,7 +305,7 @@ namespace TaskManager.Controllers.Mains
 
             var mappedCategories = _mapper.Map<List<CategoryDto>>(categories);
 
-            ViewBag.Categories = mappedCategories.Select(temp => new SelectListItem() { Text = temp.Name, Value = temp.Id.ToString() });
+            ViewBag.Categories = mappedCategories.Where(temp => temp.Name != mappedTask.CategoryName).Select(temp => new SelectListItem() { Text = temp.Name, Value = temp.Id.ToString() });
 
             _logger.LogInformation("{controller}.{method} - get task update page, finish", nameof(TaskController), nameof(TaskUpdate));
 
@@ -329,16 +329,6 @@ namespace TaskManager.Controllers.Mains
             _logger.LogInformation("{controller}.{method} - post update task, finish", nameof(TaskController), nameof(TaskUpdatePost));
 
             return RedirectToAction("Home", "Task");
-        }
-
-        /// <summary>
-        /// Method for get page about application
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("[action]")]
-        public IActionResult AboutApplication()
-        {
-            return View("About");
         }
 
     }

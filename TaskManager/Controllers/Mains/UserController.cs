@@ -90,5 +90,22 @@ namespace TaskManager.Controllers.Mains
             return View("UserProfileSetting", mappedResult);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public async Task<IActionResult> DeleteUserById(Guid userId)
+        {
+            _logger.LogInformation("{controller}.{method} -  delete user by id, start", nameof(UserController), nameof(UserProfileSetting));
+
+            await _userService.DeleteUserById(userId);
+
+            _logger.LogInformation("{controller}.{method} -  delete user by id, start", nameof(UserController), nameof(UserProfileSetting));
+
+            return RedirectToAction("Logout", "Account");
+        }
+
     }
 }
