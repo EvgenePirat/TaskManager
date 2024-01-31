@@ -34,7 +34,7 @@ namespace TaskManager.Controllers.Authorization
         /// return html css page for enter in system for get request
         /// </summary>
         /// <returns>return html css page for enter</returns>
-        [HttpGet("[action]")]
+        [HttpGet("Login")]
         [HttpGet("/")]
         public IActionResult Enter()
         {
@@ -112,6 +112,23 @@ namespace TaskManager.Controllers.Authorization
             _logger.LogInformation("{controller}.{method} - finish post user for enter in system", nameof(AccountController), nameof(EnterPost));
 
             return RedirectToAction("Home", "Task");
+        }
+
+        /// <summary>
+        /// Method for logout user from system
+        /// </summary>
+        /// <returns>redirect to page login</returns>
+        public async Task<IActionResult> Logout()
+        {
+            _logger.LogInformation("{controller}.{method} - start, logout user from system", nameof(AccountController), nameof(Logout));
+
+            await _userService.LogoutFromSystemAsync();
+
+            HttpContext.Session.Clear();
+
+            _logger.LogInformation("{controller}.{method} - finish, logout user from system", nameof(AccountController), nameof(Logout));
+
+            return RedirectToAction("Enter", "Account");
         }
     }
 }

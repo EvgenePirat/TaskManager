@@ -35,6 +35,8 @@ namespace TaskManager
             app.UseHsts();
             app.UseHttpsRedirection();
 
+            app.UseSession();
+
             app.UseHttpLogging();
             app.UseStaticFiles();
             app.UseRouting();

@@ -42,5 +42,11 @@ namespace BusinessLayer.ServiceContract
         /// <param name="userLogin">login user for search</param>
         /// <returns>returned true or false</returns>
         public Task<UserWeatherProfileModel> GetUserWeatherProfileAsync(string? userLogin);
+
+        /// <summary>
+        /// Method for logout from system for user
+        /// </summary>
+        public Task LogoutFromSystemAsync();
+
     }
 }

@@ -54,6 +54,9 @@ namespace TaskManager.StartupConfigure
                 option.UseSqlServer(configuration["ConnectionStrings:DefaultConnection"].ToString());
             });
 
+            //add posibility use session
+            services.AddSession();
+
             //on http serilog 
             services.AddHttpLogging(options =>
             {

@@ -228,5 +228,14 @@ namespace BusinessLayer.ServiceImpl
 
             return result;
         }
+
+        public async System.Threading.Tasks.Task LogoutFromSystemAsync()
+        {
+            _logger.LogInformation("{service}.{method} - start, logout from system in service layer", nameof(UserService), nameof(LogoutFromSystemAsync));
+            
+            await _signInManager.SignOutAsync();
+            
+            _logger.LogInformation("{service}.{method} - finish, logout from system in service layer", nameof(UserService), nameof(LogoutFromSystemAsync));
+        }
     }
 }
