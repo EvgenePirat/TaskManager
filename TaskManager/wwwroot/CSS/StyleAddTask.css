@@ -325,6 +325,7 @@
 #form-main a {
     text-decoration: none;
     color: inherit;
+    margin-left: 10%;
 }
 
 #form-main select {
