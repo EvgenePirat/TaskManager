@@ -11,6 +11,25 @@
     z-index: -1; 
 }
 
+.color-red{
+    color:red;
+}
+
+.color-black {
+    color: black;
+}
+
+#bgi-error {
+    background-image: url('/Pictures/5336751.jpg');
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    z-index: -1;
+}
+
 #bg_about {
     background-image: url('/Pictures/tropic-about.jpg');
     position: fixed;

@@ -200,7 +200,7 @@ namespace TaskManager.Controllers.Mains
             //i need add logic if not found task
             if (taskModel == null)
             {
-                
+                throw new TaskArgumentException("Task by title not found");
             }
                 
 
