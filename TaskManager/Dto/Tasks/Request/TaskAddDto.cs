@@ -10,7 +10,7 @@ namespace TaskManager.Dto.Tasks.Request
     public class TaskAddDto
     {
         [Required(ErrorMessage = "Task title can't be blank")]
-        [Remote(action: "CheckExistNameTask", controller: "RemoteValidation", ErrorMessage = "Task with title already exist")]
+        [Remote(action: "CheckExistUserName", controller: "RemoteValidation", ErrorMessage = "Task with title already exist")]
         public string? Title { get; set; }
 
         public string? Description { get; set; }

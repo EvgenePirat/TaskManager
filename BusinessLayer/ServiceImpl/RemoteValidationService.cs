@@ -1,11 +1,8 @@
 ﻿using BusinessLayer.ServiceContract;
 using CustomExceptions.AuthorizationExceptions;
+using DataAccessLayer.IdentityEntities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLayer.ServiceImpl
 {
@@ -16,11 +13,13 @@ namespace BusinessLayer.ServiceImpl
     {
         private readonly ICategoryService _categoryService;
         private readonly ILogger<RemoteValidationService> _logger;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public RemoteValidationService(ICategoryService categoryService, ILogger<RemoteValidationService> logger)
+        public RemoteValidationService(ICategoryService categoryService, ILogger<RemoteValidationService> logger, SignInManager<ApplicationUser> signInManager)
         {
             _categoryService = categoryService;
             _logger = logger;
+            _signInManager = signInManager;
         }
 
         public async Task<bool?> IsNameTaskAlreadyCreateAsync(string titleTask, string? loginUser)
@@ -39,6 +38,17 @@ namespace BusinessLayer.ServiceImpl
             _logger.LogInformation("{service}.{method} - finish, check exist title task for user in service layer", nameof(RemoteValidationService), nameof(IsNameTaskAlreadyCreateAsync));
 
             return !result;
+        }
+
+        public async Task<bool> IsUserNameAlreadyExist(string userName)
+        {
+            _logger.LogInformation("{service}.{method} - start, check exist username in system in service layer", nameof(RemoteValidationService), nameof(IsNameTaskAlreadyCreateAsync));
+            
+            var user = await _signInManager.UserManager.FindByNameAsync(userName);
+            
+            _logger.LogInformation("{service}.{method} - finish, check exist username in system in service layer", nameof(RemoteValidationService), nameof(IsNameTaskAlreadyCreateAsync));
+
+            return user == null;
         }
     }
 }

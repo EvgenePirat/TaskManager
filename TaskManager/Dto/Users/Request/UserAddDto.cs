@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using TaskManager.Dto.Enums;
 
 namespace TaskManager.Dto.Users.Request
@@ -9,6 +10,7 @@ namespace TaskManager.Dto.Users.Request
     public class UserAddDto
     {
         [Required(ErrorMessage = "UserName can't be blank")]
+        [Remote(action: "CheckExistUserName", controller: "RemoteValidation", ErrorMessage = "UserName already busy")]
         public string? UserName { get; set; }
 
         [Required(ErrorMessage = "Email can't be blank")]

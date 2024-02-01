@@ -19,7 +19,7 @@ namespace BusinessLayer.ServiceImpl
         private readonly ILogger<ContactService> _logger;
         private readonly IHostEnvironment _env;
 
-        private const string RELATIVE_PATH = "PersonalData.txt";
+        //private const string RELATIVE_PATH = "PersonalData.txt";
 
         public ContactService(ILogger<ContactService> logger, IHostEnvironment env)
         {
@@ -42,14 +42,14 @@ namespace BusinessLayer.ServiceImpl
                 bodyBuilder.HtmlBody = contactForm.Message + "\nEmail: " + contactForm.Email;
                 mensaje.Body = bodyBuilder.ToMessageBody();
 
-                string filePath = Path.Combine(_env.ContentRootPath, RELATIVE_PATH);
+                //string filePath = Path.Combine(_env.ContentRootPath, RELATIVE_PATH);
 
-                var needDate = File.ReadAllText(filePath);
+                //var needDate = File.ReadAllText(filePath);
 
                 using (var client = new SmtpClient())
                 {
                     await client.ConnectAsync(_systemHost, _systemPost, _systemUseSql);
-                    await client.AuthenticateAsync(_systemEmail, needDate);
+                    await client.AuthenticateAsync(_systemEmail, "EvgeneXai2024");
                     await client.SendAsync(mensaje);
                     await client.DisconnectAsync(true);
                 }

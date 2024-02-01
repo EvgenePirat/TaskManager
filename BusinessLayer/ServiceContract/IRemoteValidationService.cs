@@ -19,5 +19,12 @@ namespace BusinessLayer.ServiceContract
         /// <param name="loginUser">string login for find all tasks for user</param>
         /// <returns>returned true if not exist and false if exist</returns>
         Task<bool?> IsNameTaskAlreadyCreateAsync(string titleTask, string loginUser);
+
+        /// <summary>
+        /// Method for check exist username in system
+        /// </summary>
+        /// <param name="userName">string userName for search</param>
+        /// <returns>returned true if find or false if not find</returns>
+        Task<bool> IsUserNameAlreadyExist(string userName);
     }
 }
