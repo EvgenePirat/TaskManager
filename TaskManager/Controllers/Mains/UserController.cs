@@ -33,7 +33,7 @@ namespace TaskManager.Controllers.Mains
         /// <summary>
         /// Method for get page with data about user and for edit user data
         /// </summary>
-        /// <returns></returns>
+        /// <returns>returned page for edit user account</returns>
         [HttpGet("[action]")]
         public async Task<ActionResult> UserProfileSetting()
         {
@@ -45,10 +45,12 @@ namespace TaskManager.Controllers.Mains
 
             string? userLogin = User.Identity?.Name;
 
-            var model = await _userService.GetUserProfileAsync(userLogin);
+            var model = await _userService.GetUserProfileByLoginAsync(userLogin);
 
             ViewBag.Cities = Enum.GetNames(typeof(Cities)).ToList();
             ViewBag.Countries = Enum.GetNames(typeof(Countries)).ToList();
+
+            ViewBag.Type = "Manager user";
 
             var mappedResult = _mapper.Map<UserProfileDto>(model);
 
@@ -58,13 +60,41 @@ namespace TaskManager.Controllers.Mains
         }
 
         /// <summary>
+        /// Method for get page with data about user and for edit user data by user id
+        /// </summary>
+        /// <param name="userId">guid id for search user</param>
+        /// <returns>returned page with data abount find user</returns>
+        [HttpGet("[action]")]
+        public async Task<ActionResult> UserProfileSettingAdmin(Guid userId)
+        {
+            _logger.LogInformation("{controller}.{method} - Get user profile page for admin manager, start", nameof(UserController), nameof(UserProfileSetting));
+
+            string errorMessage = HttpContext.Request.Query["error"].ToString();
+            if (errorMessage.Length > 0)
+                ViewBag.Errors = new List<string> { errorMessage };
+
+            var model = await _userService.GetUserProfileByIdAsync(userId);
+
+            ViewBag.Cities = Enum.GetNames(typeof(Cities)).ToList();
+            ViewBag.Countries = Enum.GetNames(typeof(Countries)).ToList();
+
+            ViewBag.Type = "Manager admin";
+
+            var mappedResult = _mapper.Map<UserProfileDto>(model);
+
+            _logger.LogInformation("{controller}.{method} - Get user profile page for admin manager, finish", nameof(UserController), nameof(UserProfileSetting));
+
+            return View("UserProfileSetting", mappedResult);
+        }
+
+        /// <summary>
         /// Method for update information about User 
         /// </summary>
         /// <param name="userProfileDto">user with new data for update</param>
         /// <returns>returned user profile page with updated data</returns>
         [HttpPost("[action]")]
         [TypeFilter(typeof(UserValidationActionFilter))]
-        public async Task<IActionResult> UserProfileSettingPost(UserProfileDto userProfileDto)
+        public async Task<IActionResult> UserProfileSettingPost(UserProfileDto userProfileDto, string? typeOperation = "userType")
         {
             _logger.LogInformation("{controller}.{method} - Post user profile for update, start", nameof(UserController), nameof(UserProfileSetting));
 
@@ -86,6 +116,11 @@ namespace TaskManager.Controllers.Mains
             ViewBag.Countries = Enum.GetNames(typeof(Countries)).ToList();
 
             _logger.LogInformation("{controller}.{method} - Post user profile for update, finish", nameof(UserController), nameof(UserProfileSetting));
+
+            if(typeOperation == "adminType")
+            {
+                ViewBag.Type = "Manager admin";
+            }
 
             return View("UserProfileSetting", mappedResult);
         }

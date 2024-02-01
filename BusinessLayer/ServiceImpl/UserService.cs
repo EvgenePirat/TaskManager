@@ -134,9 +134,9 @@ namespace BusinessLayer.ServiceImpl
             }
         }
 
-        public async Task<UserProfileModel> GetUserProfileAsync(string? userLogin)
+        public async Task<UserProfileModel> GetUserProfileByLoginAsync(string? userLogin)
         {
-            _logger.LogInformation("{service}.{method} - start, get user profile by user login", nameof(UserService), nameof(GetUserProfileAsync));
+            _logger.LogInformation("{service}.{method} - start, get user profile by user login", nameof(UserService), nameof(GetUserProfileByLoginAsync));
 
             if (userLogin == null)
             {
@@ -162,7 +162,7 @@ namespace BusinessLayer.ServiceImpl
                 IsShowWeather = userProfile.IsShowWeather ?? false,  
             };
 
-            _logger.LogInformation("{service}.{method} - finish, get user profile by user login", nameof(UserService), nameof(GetUserProfileAsync));
+            _logger.LogInformation("{service}.{method} - finish, get user profile by user login", nameof(UserService), nameof(GetUserProfileByLoginAsync));
 
             return userProfileModel;
         }
@@ -286,6 +286,33 @@ namespace BusinessLayer.ServiceImpl
             _logger.LogInformation("{service}.{method} - finish, get all application user in service layer", nameof(UserService), nameof(DeleteUserById));
 
             return _mapper.Map<List<ApplicationUserModel>>(allUsers);
+        }
+
+        public async Task<UserProfileModel> GetUserProfileByIdAsync(Guid userId)
+        {
+            _logger.LogInformation("{service}.{method} - start, get user profile by id", nameof(UserService), nameof(GetUserProfileByIdAsync));
+
+            var userApplication = await _signInManager.UserManager.FindByIdAsync(userId.ToString()) ?? throw new AuthorizationArgumentException("You need authorization in application");
+            var userProfile = await _userProfileRepository.GetUserProfileByIdAsync(userId) ?? throw new AuthorizationArgumentException("You need authorization in application");
+
+            var userProfileModel = new UserProfileModel()
+            {
+                Age = userProfile.Age,
+                City = userProfile.City,
+                Country = userProfile.Country,
+                DateOfBirth = userApplication.DateOfBirth,
+                Email = userApplication.Email,
+                Id = userApplication.Id,
+                UserName = userApplication.UserName,
+                FirstName = userProfile.FirstName,
+                LastName = userProfile.LastName,
+                NumberPhone = userProfile.NumberPhone,
+                IsShowWeather = userProfile.IsShowWeather ?? false,
+            };
+
+            _logger.LogInformation("{service}.{method} - finish, get user profile by user login", nameof(UserService), nameof(GetUserProfileByIdAsync));
+
+            return userProfileModel;
         }
     }
 }
