@@ -7,6 +7,9 @@ using TaskManager.Dto.Users.Response;
 
 namespace TaskManager.Mappers
 {
+    /// <summary>
+    /// Registration mappers bettwen presentation layer and business for applicationUser and UserProfile entities
+    /// </summary>
     public class UserDtoProfile : Profile
     {
         public UserDtoProfile()
@@ -14,6 +17,8 @@ namespace TaskManager.Mappers
             CreateMap<UserEnterDto, UserEnterModel>();
 
             CreateMap<UserModel, UserDto>();
+
+            CreateMap<ApplicationUserModel, ApplicationUserDto>();
 
             CreateMap<UserWeatherProfileModel, UserWeatherProfileDto>();
 

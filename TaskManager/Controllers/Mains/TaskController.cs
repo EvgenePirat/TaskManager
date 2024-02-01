@@ -24,7 +24,7 @@ namespace TaskManager.Controllers.Mains
     /// controller for working with task logic
     /// </summary>
     [Route("[controller]")]
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "User, Admin")]
     public class TaskController : Controller
     {
         private readonly ICategoryService _categoryService;

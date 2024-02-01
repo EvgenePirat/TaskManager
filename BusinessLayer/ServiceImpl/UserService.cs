@@ -276,5 +276,16 @@ namespace BusinessLayer.ServiceImpl
                 throw new UserArgumentException("User for delete by id not found!");
             }   
         }
+
+        public List<ApplicationUserModel> GetAllApplicationUsers()
+        {
+            _logger.LogInformation("{service}.{method} - start, get all application user in service layer", nameof(UserService), nameof(DeleteUserById));
+
+            var allUsers = _signInManager.UserManager.Users.ToList();
+
+            _logger.LogInformation("{service}.{method} - finish, get all application user in service layer", nameof(UserService), nameof(DeleteUserById));
+
+            return _mapper.Map<List<ApplicationUserModel>>(allUsers);
+        }
     }
 }

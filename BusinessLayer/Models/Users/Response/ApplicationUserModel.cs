@@ -1,19 +1,16 @@
 ﻿namespace BusinessLayer.Models.Users.Response
 {
     /// <summary>
-    /// Model for response user entity
+    /// Model class for hold part information about user for output on screen
     /// </summary>
-    public class UserModel
+    public class ApplicationUserModel
     {
         public Guid Id { get; set; }
-
-        public string? Name { get; set; }
 
         public string? UserName { get; set; }
 
         public string? Email { get; set; }
 
-        public int Age { get; set; }
-
+        public DateTime DateOfBirth { get; set; }
     }
 }

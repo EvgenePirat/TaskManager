@@ -11,7 +11,7 @@ namespace TaskManager.Controllers.Mains
     /// Class for working with feedback about application from client
     /// </summary>
     [Route("[controller]")]
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "User, Admin")]
     public class ContactController : Controller
     {
         private readonly ILogger<ContactController> _logger;

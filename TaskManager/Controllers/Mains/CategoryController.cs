@@ -13,7 +13,7 @@ namespace TaskManager.Controllers.Mains
     /// Controller with methods for working with category
     /// </summary>
     [Route("[controller]")]
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "User, Admin")]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;

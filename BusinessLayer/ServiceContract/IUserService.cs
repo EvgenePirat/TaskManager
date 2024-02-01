@@ -54,5 +54,12 @@ namespace BusinessLayer.ServiceContract
         /// <param name="id">guid id for search and delete user</param>
         public Task<bool> DeleteUserById(Guid id);
 
+
+        /// <summary>
+        /// Method for get all users in application
+        /// </summary>
+        /// <returns>returned list application users</returns>
+        public List<ApplicationUserModel> GetAllApplicationUsers();
+
     }
 }

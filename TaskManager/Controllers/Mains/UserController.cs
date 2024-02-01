@@ -16,7 +16,7 @@ namespace TaskManager.Controllers.Mains
     /// controller for working with user application
     /// </summary>
     [Microsoft.AspNetCore.Mvc.Route("[controller]")]
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "User, Admin")]
     public class UserController : Controller
     {
         private readonly IUserService _userService;
@@ -91,18 +91,40 @@ namespace TaskManager.Controllers.Mains
         }
 
         /// <summary>
-        /// 
+        /// Method for get all users in application
         /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
+        /// <returns>returned page with all users for role admin</returns>
         [HttpGet("[action]")]
-        public async Task<IActionResult> DeleteUserById(Guid userId)
+        [Authorize(Roles = "Admin")]
+        public IActionResult GetAllUsers()
+        {
+            _logger.LogInformation("{controller}.{method} - get page with all users, start", nameof(UserController), nameof(GetAllUsers));
+
+            var listModels = _userService.GetAllApplicationUsers();
+
+            var mappedResult = _mapper.Map<List<ApplicationUserDto>>(listModels).Where(temp => temp.UserName != User.Identity.Name);
+
+            _logger.LogInformation("{controller}.{method} - get page with all users, finish", nameof(UserController), nameof(GetAllUsers));
+
+            return View("Users", mappedResult);
+        }
+
+        /// <summary>
+        /// Method for delete user by id
+        /// </summary>
+        /// <param name="userId">guid user id for find</param>
+        /// <returns>returned page without user</returns>
+        [HttpGet("[action]")]
+        public async Task<IActionResult> DeleteUserById(Guid userId, string? typeOperation = "userDelete")
         {
             _logger.LogInformation("{controller}.{method} -  delete user by id, start", nameof(UserController), nameof(UserProfileSetting));
 
             await _userService.DeleteUserById(userId);
 
             _logger.LogInformation("{controller}.{method} -  delete user by id, start", nameof(UserController), nameof(UserProfileSetting));
+
+            if (typeOperation == "adminDelete")
+                return RedirectToAction("GetAllUsers", "User");
 
             return RedirectToAction("Logout", "Account");
         }
