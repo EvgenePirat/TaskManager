@@ -2,7 +2,12 @@
     ViewBag.Title = "Error";
 }
 
-<div class="text-center">
-    <h1>Error</h1>
-    <h2 style="color:red">@ViewBag.ErrorMessage</h2>
+<link href="~/CSS/StyleTaskDetails.css" rel="stylesheet" />
+
+<div id="bgi-error"></div>
+<div class="task-details-container">
+    <div class="task-details">
+        <h2>Error</h2>
+        <p class="color-red"><em><strong class="color-black">Problem: </strong> @ViewBag.ErrorMessage</em></p>
+    </div>
 </div>

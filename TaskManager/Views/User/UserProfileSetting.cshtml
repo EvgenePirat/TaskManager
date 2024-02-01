@@ -65,6 +65,11 @@
                                     <input class="form-check-input ml-3" type="checkbox" asp-for="IsShowWeather" >
                                 </div>
                             </div>
+
+                            @if (ViewBag.Type == "Manager admin")
+                            {
+                                <input type="hidden" name="typeOperation" value="adminType">
+                            }
                         </div>
                         <div>
                             @if (ViewBag.Errors != null)
@@ -80,7 +85,12 @@
                             }
                         </div>
                         <div class="d-flex flex-row justify-content-center mt-3 mb-n2">
-                            <div class="ml-2"><button class="btn btn-danger mr-5" type="button">Delete Profile</button></div>
+                            @if (ViewBag.Type != "Manager admin")
+                            {
+                                <a asp-action="DeleteUserById" asp-controller="User" asp-route-userId="@Model.Id"><button class="btn btn-danger mr-5" type="button">Delete Profile</button></a>
+                                
+                                <div class="ml-2"></div>
+                            } 
                             <div class="mr-2"><button class="btn btn-success" type="submit">Save Profile</button></div>
                         </div>
                     </div>

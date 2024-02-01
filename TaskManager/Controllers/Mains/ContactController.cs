@@ -11,7 +11,7 @@ namespace TaskManager.Controllers.Mains
     /// Class for working with feedback about application from client
     /// </summary>
     [Route("[controller]")]
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "User, Admin")]
     public class ContactController : Controller
     {
         private readonly ILogger<ContactController> _logger;
@@ -65,6 +65,16 @@ namespace TaskManager.Controllers.Mains
             _logger.LogInformation("{controller}.{method} - finish, post message on email from client", nameof(ContactController), nameof(FeedbackPost));
 
             return View("Feedback");
+        }
+
+        /// <summary>
+        /// Method for get page about application
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public IActionResult AboutApplication()
+        {
+            return View("About");
         }
     }
 }

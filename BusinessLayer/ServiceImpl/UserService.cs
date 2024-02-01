@@ -134,12 +134,15 @@ namespace BusinessLayer.ServiceImpl
             }
         }
 
-        public async Task<UserProfileModel> GetUserProfileAsync(string? userLogin)
+        public async Task<UserProfileModel> GetUserProfileByLoginAsync(string? userLogin)
         {
-            _logger.LogInformation("{service}.{method} - start, get user profile by user login", nameof(UserService), nameof(GetUserProfileAsync));
+            _logger.LogInformation("{service}.{method} - start, get user profile by user login", nameof(UserService), nameof(GetUserProfileByLoginAsync));
 
             if (userLogin == null)
+            {
+                _logger.LogError("{service}.{method} - You need authorization in application", nameof(UserService), nameof(UpdateUserProfileAsync));
                 throw new AuthorizationArgumentException("You need authorization in application");
+            }
 
             var userApplication = await _signInManager.UserManager.FindByNameAsync(userLogin) ?? throw new AuthorizationArgumentException("You need authorization in application"); ;
             var userProfile = await _userProfileRepository.GetUserProfileByIdAsync(userApplication.Id) ?? throw new AuthorizationArgumentException("You need authorization in application"); ;  
@@ -159,7 +162,7 @@ namespace BusinessLayer.ServiceImpl
                 IsShowWeather = userProfile.IsShowWeather ?? false,  
             };
 
-            _logger.LogInformation("{service}.{method} - finish, get user profile by user login", nameof(UserService), nameof(GetUserProfileAsync));
+            _logger.LogInformation("{service}.{method} - finish, get user profile by user login", nameof(UserService), nameof(GetUserProfileByLoginAsync));
 
             return userProfileModel;
         }
@@ -210,7 +213,11 @@ namespace BusinessLayer.ServiceImpl
             _logger.LogInformation("{service}.{method} - start, check field isShowWeather for user", nameof(UserService), nameof(GetUserWeatherProfileAsync));
 
             if (userLogin == null)
+            {
+                _logger.LogError("{service}.{method} - You need authorization in application", nameof(UserService), nameof(UpdateUserProfileAsync));
                 throw new AuthorizationArgumentException("You need authorization in application");
+            }
+                
 
             var applicationUser = await _signInManager.UserManager.FindByNameAsync(userLogin);
 
@@ -236,6 +243,76 @@ namespace BusinessLayer.ServiceImpl
             await _signInManager.SignOutAsync();
 
             _logger.LogInformation("{service}.{method} - finish, logout from system in service layer", nameof(UserService), nameof(LogoutFromSystemAsync));
+        }
+
+        public async Task<bool> DeleteUserById(Guid id)
+        {
+            _logger.LogInformation("{service}.{method} - start, delete application user in service layer", nameof(UserService), nameof(DeleteUserById));
+
+            var userToDelete = await _signInManager.UserManager.FindByIdAsync(id.ToString());
+
+            if (userToDelete != null)
+            {
+                var result = await _signInManager.UserManager.DeleteAsync(userToDelete);
+
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("{service}.{method} - finish, delete application user in service layer", nameof(UserService), nameof(DeleteUserById));
+
+                    return true;
+                }
+                else
+                {
+                    var errors = string.Join(", ", result.Errors.Select(error => error.Description));
+
+                    _logger.LogError($"{nameof(UserService)}.{nameof(UpdateUserProfileAsync)} - {errors}");
+
+                    throw new UserArgumentException(errors);
+                }
+            }
+            else
+            {
+                _logger.LogError("{service}.{method} - User for delete by id not found!", nameof(UserService), nameof(UpdateUserProfileAsync));
+                throw new UserArgumentException("User for delete by id not found!");
+            }   
+        }
+
+        public List<ApplicationUserModel> GetAllApplicationUsers()
+        {
+            _logger.LogInformation("{service}.{method} - start, get all application user in service layer", nameof(UserService), nameof(DeleteUserById));
+
+            var allUsers = _signInManager.UserManager.Users.ToList();
+
+            _logger.LogInformation("{service}.{method} - finish, get all application user in service layer", nameof(UserService), nameof(DeleteUserById));
+
+            return _mapper.Map<List<ApplicationUserModel>>(allUsers);
+        }
+
+        public async Task<UserProfileModel> GetUserProfileByIdAsync(Guid userId)
+        {
+            _logger.LogInformation("{service}.{method} - start, get user profile by id", nameof(UserService), nameof(GetUserProfileByIdAsync));
+
+            var userApplication = await _signInManager.UserManager.FindByIdAsync(userId.ToString()) ?? throw new AuthorizationArgumentException("You need authorization in application");
+            var userProfile = await _userProfileRepository.GetUserProfileByIdAsync(userId) ?? throw new AuthorizationArgumentException("You need authorization in application");
+
+            var userProfileModel = new UserProfileModel()
+            {
+                Age = userProfile.Age,
+                City = userProfile.City,
+                Country = userProfile.Country,
+                DateOfBirth = userApplication.DateOfBirth,
+                Email = userApplication.Email,
+                Id = userApplication.Id,
+                UserName = userApplication.UserName,
+                FirstName = userProfile.FirstName,
+                LastName = userProfile.LastName,
+                NumberPhone = userProfile.NumberPhone,
+                IsShowWeather = userProfile.IsShowWeather ?? false,
+            };
+
+            _logger.LogInformation("{service}.{method} - finish, get user profile by user login", nameof(UserService), nameof(GetUserProfileByIdAsync));
+
+            return userProfileModel;
         }
     }
 }

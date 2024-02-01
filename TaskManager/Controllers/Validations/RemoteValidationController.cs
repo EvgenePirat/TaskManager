@@ -8,7 +8,7 @@ namespace TaskManager.Controllers.Validations
     /// Controller for remote validation any data in application
     /// </summary>
     [Route("[controller]/[action]")]
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "User, Admin")]
     public class RemoteValidationController : Controller
     {
         private readonly ILogger<RemoteValidationController> _logger;

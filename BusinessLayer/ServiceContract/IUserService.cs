@@ -23,11 +23,18 @@ namespace BusinessLayer.ServiceContract
         public Task<UserModel> EnterInSystemAsync(UserEnterModel userEnterRequest);
 
         /// <summary>
-        /// Method for get full profile for user
+        /// Method for get full profile for user by login
         /// </summary>
-        /// <param name="userLogin">user login for search user</param>
+        /// <param name="userLogin">string login for search user</param>
         /// <returns>returned user profile model with all information about user</returns>
-        public Task<UserProfileModel> GetUserProfileAsync(string? userLogin);
+        public Task<UserProfileModel> GetUserProfileByLoginAsync(string? userLogin);
+
+        /// <summary>
+        /// Method for get full profile for user by id
+        /// </summary>
+        /// <param name="userLogin">guid id for search user</param>
+        /// <returns>returned user profile model with all information about user</returns>
+        public Task<UserProfileModel> GetUserProfileByIdAsync(Guid userId);
 
         /// <summary>
         /// Method for update user profile and user application
@@ -47,6 +54,19 @@ namespace BusinessLayer.ServiceContract
         /// Method for logout from system for user
         /// </summary>
         public Task LogoutFromSystemAsync();
+
+        /// <summary>
+        /// Method for delete application user
+        /// </summary>
+        /// <param name="id">guid id for search and delete user</param>
+        public Task<bool> DeleteUserById(Guid id);
+
+
+        /// <summary>
+        /// Method for get all users in application
+        /// </summary>
+        /// <returns>returned list application users</returns>
+        public List<ApplicationUserModel> GetAllApplicationUsers();
 
     }
 }

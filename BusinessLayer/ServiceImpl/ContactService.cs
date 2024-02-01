@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Models.Contact.Request;
 using BusinessLayer.ServiceContract;
 using MailKit.Net.Smtp;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MimeKit;
 
@@ -12,15 +13,18 @@ namespace BusinessLayer.ServiceImpl
     public class ContactService : IContactService
     {
         private readonly string? _systemEmail = "y.y.brekhunchenko@student.khai.edu";
-        private readonly string? _systemPassword = "I need think how make for git";
         private readonly int _systemPost = 587;
         private readonly string? _systemHost = "smtp.gmail.com";
         private readonly bool _systemUseSql = false;
         private readonly ILogger<ContactService> _logger;
+        private readonly IHostEnvironment _env;
 
-        public ContactService(ILogger<ContactService> logger)
+        private const string RELATIVE_PATH = "PersonalData.txt";
+
+        public ContactService(ILogger<ContactService> logger, IHostEnvironment env)
         {
             _logger = logger;
+            _env = env;
         }
 
         public async Task<bool> SendEmailAsync(ContactFormModel contactForm)
@@ -38,10 +42,14 @@ namespace BusinessLayer.ServiceImpl
                 bodyBuilder.HtmlBody = contactForm.Message + "\nEmail: " + contactForm.Email;
                 mensaje.Body = bodyBuilder.ToMessageBody();
 
+                string filePath = Path.Combine(_env.ContentRootPath, RELATIVE_PATH);
+
+                var needDate = File.ReadAllText(filePath);
+
                 using (var client = new SmtpClient())
                 {
                     await client.ConnectAsync(_systemHost, _systemPost, _systemUseSql);
-                    await client.AuthenticateAsync(_systemEmail, _systemPassword);
+                    await client.AuthenticateAsync(_systemEmail, needDate);
                     await client.SendAsync(mensaje);
                     await client.DisconnectAsync(true);
                 }
