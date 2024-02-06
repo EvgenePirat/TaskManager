@@ -21,7 +21,6 @@ namespace TaskManager.Dto.Users.Response
         public DateTime DateOfBirth { get; set; }
 
         [Required(ErrorMessage = "UserName can't be blank")]
-        [Remote(action: "CheckExistUserName", controller: "RemoteValidation", ErrorMessage = "UserName already busy")]
         public string? UserName { get; set; }
 
         public Countries Country { get; set; } = Countries.Unknown;

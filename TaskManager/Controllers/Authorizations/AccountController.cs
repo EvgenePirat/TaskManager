@@ -119,6 +119,7 @@ namespace TaskManager.Controllers.Authorization
         /// Method for logout user from system
         /// </summary>
         /// <returns>redirect to page login</returns>
+        [HttpGet("[action]")]
         public async Task<IActionResult> Logout()
         {
             _logger.LogInformation("{controller}.{method} - start, logout user from system", nameof(AccountController), nameof(Logout));
@@ -130,6 +131,35 @@ namespace TaskManager.Controllers.Authorization
             _logger.LogInformation("{controller}.{method} - finish, logout user from system", nameof(AccountController), nameof(Logout));
 
             return RedirectToAction("Enter", "Account");
+        }
+
+        /// <summary>
+        /// Method for get page for restore password
+        /// </summary>
+        /// <returns>returned page for reset password</returns>
+        [HttpGet("[action]")]
+        public IActionResult RestorePassword()
+        {
+            _logger.LogInformation("{controller}.{method} - get page for restore password", nameof(AccountController), nameof(RestorePassword));
+
+            return View();
+        }
+
+
+        /// <summary>
+        /// Method for post new password on email
+        /// </summary>
+        /// <returns>returned good message if </returns>
+        [HttpPost("[action]")]
+        public IActionResult RestorePasswordPost(UserRestoreDto userRestore)
+        {
+            _logger.LogInformation("{controller}.{method} - start, restore password for user", nameof(AccountController), nameof(RestorePassword));
+            
+
+            
+            _logger.LogInformation("{controller}.{method} - finish, restore password for user", nameof(AccountController), nameof(RestorePassword));
+
+            return View("RestorePassword");
         }
     }
 }

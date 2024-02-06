@@ -314,5 +314,10 @@ namespace BusinessLayer.ServiceImpl
 
             return userProfileModel;
         }
+
+        public Task<bool> RestorePasswordForUser(UserRestoreModel userRestore)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -68,5 +68,12 @@ namespace BusinessLayer.ServiceContract
         /// <returns>returned list application users</returns>
         public List<ApplicationUserModel> GetAllApplicationUsers();
 
+        /// <summary>
+        /// Method for post new password on email
+        /// </summary>
+        /// <param name="userRestore">object for search user and post new password on email</param>
+        /// <returns>returned true if all updated or false if not post</returns>
+        public Task<bool> RestorePasswordForUser(UserRestoreModel userRestore);
+
     }
 }
